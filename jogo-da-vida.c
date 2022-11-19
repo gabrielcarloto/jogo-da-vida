@@ -110,7 +110,7 @@ void menuInicJogo(char **mat, int nL, int nC)
     break;
   }
 
-  imprimeMatriz(mat, nL, nC); // TO DO
+  imprimeMatriz(mat, nL, nC);
 
   printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
   while (getchar() != '\n')
@@ -129,24 +129,23 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 
   // imprimindo na tela a matriz inicial
   system("cls");
-  imprimeMatriz(mAtual, nL, nC); // TO DO
+  imprimeMatriz(mAtual, nL, nC);
   // getchar();
   Sleep(100);
 
-  mAnt = alocaMatriz(nL, nC); // TO DO
+  mAnt = alocaMatriz(nL, nC);
 
   for (c = 1; c <= nCiclos; c++)
   {
-    copiaMatriz(mAnt, mAtual, nL, nC); // TO DO implemente a fun��o que copia uma matriz na outra, equivalendo a mAnt = mAtual;
+    copiaMatriz(mAnt, mAtual, nL, nC);
 
-    atualizaMat(mAtual, mAnt, nL, nC); // TO DO implemente nesta fun��o as regras que atualizam a matriz mAtual conforme o jogo da vida
-                                       // lembre de usar os dados de mAnt como a matriz do jogo no ciclo anterior para atualizar mAtual
+    atualizaMat(mAtual, mAnt, nL, nC);
     system("cls");
-    imprimeMatriz(mAtual, nL, nC); // TO DO
+    imprimeMatriz(mAtual, nL, nC);
     // getchar();
     Sleep(100);
   }
-  desalocaMatriz(mAnt, nL); // TO DO
+  desalocaMatriz(mAnt, nL);
 }
 
 int main()
@@ -156,16 +155,12 @@ int main()
 
   int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
 
-  mat = alocaMatriz(nL, nC); // TO DO
+  mat = alocaMatriz(nL, nC);
 
-  // TODO la�o INdeterminado que repete enquanto o usuario quiser continuar jogando:
-  // cada jogo equivale a nCiclos de um padr�o de inicializacao
-  // por exemplo o usuario pode escolher jogar nCiclos do padr�o Sapo
-  //  quando terminar jogar mais nCiclos do padr�o Blinker
-  //  depois encerrar o programa
+  // inicio laço indeterminado
   menuInicJogo(mat, nL, nC);
-  jogaJogoVida(mat, nL, nC, nCiclos); // TO DO complete essa fun��o
+  jogaJogoVida(mat, nL, nC, nCiclos);
   // fim do laco indeterminado
 
-  desalocaMatriz(mat, nL); // TO DO
+  desalocaMatriz(mat, nL);
 }
