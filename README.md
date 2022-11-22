@@ -1,7 +1,5 @@
 # Jogo da Vida
 
-## Tabela de Conteúdos
-
 ## Como funciona o jogo
 
 ### O que é?
