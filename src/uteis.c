@@ -35,3 +35,19 @@ char **alocaMatriz(int nl, int nc)
 
   return m;
 }
+
+/**
+ * Libera memória alocada pela função alocaMatriz
+ *
+ * @param matriz matriz a ser liberada
+ * @param nl número de linhas
+ */
+void desalocaMatriz(char **matriz, int nl)
+{
+  int i;
+
+  for (i = 0; i < nl; i++)
+    free(matriz[i]);
+
+  free(matriz);
+}
