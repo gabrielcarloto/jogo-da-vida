@@ -4,9 +4,12 @@ Estou deixando esse arquivo como uma referência rápida para os comandos do git
 
 ## Tabela de Conteúdos
 
-1. [Resumo](#resumo)
-2. [Primeiros passos](#primeiros-passos)
-3. [Tarefas](#tarefas)
+- [Guia de Contribuição](#guia-de-contribuição)
+  - [Tabela de Conteúdos](#tabela-de-conteúdos)
+  - [Resumo](#resumo)
+  - [Primeiros passos](#primeiros-passos)
+  - [Modificando arquivos](#modificando-arquivos)
+  - [Tarefas](#tarefas)
 
 ## Resumo
 
