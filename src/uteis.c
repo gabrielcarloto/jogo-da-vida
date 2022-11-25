@@ -11,11 +11,11 @@
 char **alocaMatriz(int nl, int nc)
 {
   int i;
-  char **m;
+  char **matriz;
 
-  m = (char **)malloc(nl * sizeof(char *));
+  matriz = (char **)malloc(nl * sizeof(char *));
 
-  if (m == NULL)
+  if (matriz == NULL)
   {
     fprintf(stderr, "Erro ao alocar matriz.\n");
     exit(1);
@@ -23,9 +23,9 @@ char **alocaMatriz(int nl, int nc)
 
   for (i = 0; i < nl; i++)
   {
-    m[i] = (char *)malloc(nl * sizeof(char));
+    matriz[i] = (char *)malloc(nl * sizeof(char));
 
-    if (m[i] == NULL)
+    if (matriz[i] == NULL)
     {
 
       fprintf(stderr, "Erro ao alocar matriz.\n");
@@ -33,7 +33,7 @@ char **alocaMatriz(int nl, int nc)
     }
   }
 
-  return m;
+  return matriz;
 }
 
 /**
@@ -52,13 +52,13 @@ void desalocaMatriz(char **matriz, int nl)
   free(matriz);
 }
 
-/* Limpa a matriz, dado um valor (char) para ser colocado em todos os espaços. */
-void limpaMatriz(char **m, char valor, int nl, int nc)
+/* Limpa a matriz, dado um caractere para ser colocado em todos os espaços. */
+void limpaMatriz(char **matriz, char caractere, int nl, int nc)
 {
   int i, j;
   for (i = 0; i < nl; i++)
     for (j = 0; j < nc; j++)
-      m[i][j] = valor;
+      matriz[i][j] = caractere;
 }
 
 /**
