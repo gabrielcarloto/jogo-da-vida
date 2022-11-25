@@ -3,8 +3,6 @@
 #include <windows.h>
 #include "uteis.c"
 
-#define ORG 'X'
-#define VAZ '.'
 #define TAM 101
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);

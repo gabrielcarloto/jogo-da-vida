@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ORG 'X'
+#define VAZ '.'
+
 /**
  * Aloca uma matriz de nl linhas e nc colunas.
  *
