@@ -3,6 +3,16 @@
 #include <windows.h>
 #include "uteis.c"
 
+#define CIRCULO "·"
+#define QUADRADO "\u25A0"
+
+#define COR_AZUL "\033[34m"
+#define COR_VERDE "\033[92m"
+#define COR_CINZA "\033[90m"
+#define COR_AMARELO "\033[93m"
+#define COR_VERMELHO "\033[31m"
+#define COR_PADRAO COR_VERDE
+
 #define TAM 101
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
@@ -60,7 +70,10 @@ void imprimeMatriz(char **matriz, int nl, int nc)
   for (i = 0; i < nl; i++)
   {
     for (j = 0; j < nc; j++)
-      printf("%c\t", matriz[i][j]);
+      if (matriz[i][j] == ORG)
+        printf("%s%s ", COR_PADRAO, QUADRADO);
+      else
+        printf("%s%s ", COR_CINZA, CIRCULO);
 
     printf("\n");
   }
