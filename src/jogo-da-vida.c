@@ -52,6 +52,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   desalocaMatriz(mAnt, nL);
 }
 
+/* A função ainda é bem simples, por enquanto está aqui apenas para testarmos o resto */
 void imprimeMatriz(char **matriz, int nl, int nc)
 {
   int i, j;
