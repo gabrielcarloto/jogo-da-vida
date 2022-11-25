@@ -95,7 +95,7 @@ void inicBlinker(char **m, int nL, int nC)
   char padrao[1][3] = {{ORG, ORG, ORG}};
   int i, j, xInic = nL / 2, yInic = nC / 2;
 
-  limpaMatriz(m, VAZ, nL, nC);
+  limpaMatriz(m, nL, nC);
 
   for (i = 0; i < 1; i++)
     for (j = 0; j < 3; j++)
@@ -107,7 +107,7 @@ void inicBloco(char **m, int nL, int nC)
   char padrao[2][2] = {{ORG, ORG}, {ORG, ORG}};
   int i, j, xInic = nL / 2, yInic = nC / 2;
 
-  limpaMatriz(m, VAZ, nL, nC);
+  limpaMatriz(m, nL, nC);
 
   for (i = 0; i < 2; i++)
     for (j = 0; j < 2; j++)
@@ -120,7 +120,7 @@ void inicSapo(char **m, int nL, int nC)
   char padrao[2][4] = {{VAZ, ORG, ORG, ORG}, {ORG, ORG, ORG, VAZ}};
   int i, j, xInic = nL / 2, yInic = nC / 2;
 
-  limpaMatriz(m, VAZ, nL, nC);
+  limpaMatriz(m, nL, nC);
 
   for (i = 0; i < 2; i++)
     for (j = 0; j < 4; j++)
@@ -132,7 +132,7 @@ void inicGlider(char **m, int nL, int nC)
   char padrao[3][3] = {{ORG, ORG, ORG}, {ORG, VAZ, VAZ}, {VAZ, ORG, VAZ}};
   int i, j, xInic, yInic;
 
-  limpaMatriz(m, VAZ, nL, nC);
+  limpaMatriz(m, nL, nC);
 
   xInic = nL - 4;
   yInic = nC - 4;
@@ -147,7 +147,7 @@ void inicLWSS(char **m, int nL, int nC)
   char padrao[4][5] = {{VAZ, ORG, VAZ, VAZ, ORG}, {ORG, VAZ, VAZ, VAZ, VAZ}, {ORG, VAZ, VAZ, VAZ, ORG}, {ORG, ORG, ORG, ORG, VAZ}};
   int i, j, xInic, yInic;
 
-  limpaMatriz(m, VAZ, nL, nC);
+  limpaMatriz(m, nL, nC);
 
   xInic = nL - 5;
   yInic = nC - 6;

@@ -6,7 +6,7 @@
 #define VAZ '.'
 
 /**
- * Aloca uma matriz de nl linhas e nc colunas.
+ * Aloca uma matriz de nl linhas e nc colunas
  *
  * @param nl Número de linhas
  * @param nc Número de colunas
@@ -55,13 +55,13 @@ void desalocaMatriz(char **matriz, int nl)
   free(matriz);
 }
 
-/* Limpa a matriz, dado um caractere para ser colocado em todos os espaços. */
-void limpaMatriz(char **matriz, char caractere, int nl, int nc)
+/* Preenche a matriz com o valor de VAZ */
+void limpaMatriz(char **matriz, int nl, int nc)
 {
   int i, j;
   for (i = 0; i < nl; i++)
     for (j = 0; j < nc; j++)
-      matriz[i][j] = caractere;
+      matriz[i][j] = VAZ;
 }
 
 /**
