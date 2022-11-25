@@ -55,9 +55,6 @@ void desalocaMatriz(char **matriz, int nl)
 /**
  * Copia a matriz anterior para matriz atual (assumindo que ambas terão o mesmo tamanho)
  *
- * @param matriz matriz a ser liberada
- * @param nl número de linhas
- * @param nc número de colunas
  */
 void copiaMatriz(char **mAnt, char **mAtual, int nl, int nc)
 {
