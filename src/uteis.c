@@ -52,16 +52,12 @@ void desalocaMatriz(char **matriz, int nl)
   free(matriz);
 }
 
-/**
- * Copia a matriz anterior para matriz atual (assumindo que ambas terão o mesmo tamanho)
- *
- */
+/* Copia a matriz anterior para matriz atual (assumindo que ambas terão o mesmo tamanho) */
 void copiaMatriz(char **mAnt, char **mAtual, int nl, int nc)
 {
-    int i, j;
+  int i, j;
 
-    for(i = 0; i < nl; i++)
-        for(j = 0; j < nc; j++)
-            mAtual[i][j] = mAnt[i][j];
-
+  for (i = 0; i < nl; i++)
+    for (j = 0; j < nc; j++)
+      mAtual[i][j] = mAnt[i][j];
 }
