@@ -5,8 +5,8 @@
 /**
  * Aloca uma matriz de nl linhas e nc colunas.
  *
- * @param nl número de linhas
- * @param nc número de colunas
+ * @param nl Número de linhas
+ * @param nc Número de colunas
  */
 char **alocaMatriz(int nl, int nc)
 {
@@ -39,8 +39,8 @@ char **alocaMatriz(int nl, int nc)
 /**
  * Libera memória alocada pela função alocaMatriz
  *
- * @param matriz matriz a ser liberada
- * @param nl número de linhas
+ * @param matriz Matriz a ser liberada
+ * @param nl Número de linhas
  */
 void desalocaMatriz(char **matriz, int nl)
 {
