@@ -1,89 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include "uteis.c"
 
 #define ORG 'X'
 #define VAZ '.'
 #define TAM 101
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
+void menuInicJogo(char **mat, int nL, int nC);
 
-void limpaMatriz(char **m, int nL, int nC)
-{
-  int i, j;
-  for (i = 0; i < nL; i++)
-    for (j = 0; j < nC; j++)
-      m[i][j] = VAZ;
-}
-
-void inicBlinker(char **m, int nL, int nC)
-{
-  char padrao[1][3] = {{ORG, ORG, ORG}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
-
-  limpaMatriz(m, nL, nC);
-
-  for (i = 0; i < 1; i++)
-    for (j = 0; j < 3; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
-
-void inicBloco(char **m, int nL, int nC)
-{
-  char padrao[2][2] = {{ORG, ORG}, {ORG, ORG}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
-
-  limpaMatriz(m, nL, nC);
-
-  for (i = 0; i < 2; i++)
-    for (j = 0; j < 2; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
-
-void inicSapo(char **m, int nL, int nC)
+int main()
 {
 
-  char padrao[2][4] = {{VAZ, ORG, ORG, ORG}, {ORG, ORG, ORG, VAZ}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
+  char **mat;
 
-  limpaMatriz(m, nL, nC);
+  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
 
-  for (i = 0; i < 2; i++)
-    for (j = 0; j < 4; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
+  mat = alocaMatriz(nL, nC);
+
+  // inicio laço indeterminado
+  menuInicJogo(mat, nL, nC);
+  jogaJogoVida(mat, nL, nC, nCiclos);
+  // fim do laco indeterminado
+
+  desalocaMatriz(mat, nL);
 }
 
-void inicGlider(char **m, int nL, int nC)
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 {
-  char padrao[3][3] = {{ORG, ORG, ORG}, {ORG, VAZ, VAZ}, {VAZ, ORG, VAZ}};
-  int i, j, xInic, yInic;
+  char **mAnt;
+  int c;
 
-  limpaMatriz(m, nL, nC);
+  // imprimindo na tela a matriz inicial
+  system("cls");
+  imprimeMatriz(mAtual, nL, nC);
+  // getchar();
+  Sleep(100);
 
-  xInic = nL - 4;
-  yInic = nC - 4;
+  mAnt = alocaMatriz(nL, nC);
 
-  for (i = 0; i < 3; i++)
-    for (j = 0; j < 3; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
+  for (c = 1; c <= nCiclos; c++)
+  {
+    copiaMatriz(mAnt, mAtual, nL, nC);
+
+    atualizaMat(mAtual, mAnt, nL, nC);
+    system("cls");
+    imprimeMatriz(mAtual, nL, nC);
+    // getchar();
+    Sleep(100);
+  }
+  desalocaMatriz(mAnt, nL);
 }
 
-void inicLWSS(char **m, int nL, int nC)
-{
-  char padrao[4][5] = {{VAZ, ORG, VAZ, VAZ, ORG}, {ORG, VAZ, VAZ, VAZ, VAZ}, {ORG, VAZ, VAZ, VAZ, ORG}, {ORG, ORG, ORG, ORG, VAZ}};
-  int i, j, xInic, yInic;
-
-  limpaMatriz(m, nL, nC);
-
-  xInic = nL - 5;
-  yInic = nC - 6;
-
-  for (i = 0; i < 4; i++)
-    for (j = 0; j < 5; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
+void inicBlinker(char **m, int nL, int nC);
+void inicBloco(char **m, int nL, int nC);
+void inicSapo(char **m, int nL, int nC);
+void inicGlider(char **m, int nL, int nC);
+void inicLWSS(char **m, int nL, int nC);
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
@@ -118,49 +92,69 @@ void menuInicJogo(char **mat, int nL, int nC)
   getchar();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////// Parte a ser completada //////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
+void inicBlinker(char **m, int nL, int nC)
 {
-  char **mAnt;
-  int c;
+  char padrao[1][3] = {{ORG, ORG, ORG}};
+  int i, j, xInic = nL / 2, yInic = nC / 2;
 
-  // imprimindo na tela a matriz inicial
-  system("cls");
-  imprimeMatriz(mAtual, nL, nC);
-  // getchar();
-  Sleep(100);
+  limpaMatriz(m, VAZ, nL, nC);
 
-  mAnt = alocaMatriz(nL, nC);
-
-  for (c = 1; c <= nCiclos; c++)
-  {
-    copiaMatriz(mAnt, mAtual, nL, nC);
-
-    atualizaMat(mAtual, mAnt, nL, nC);
-    system("cls");
-    imprimeMatriz(mAtual, nL, nC);
-    // getchar();
-    Sleep(100);
-  }
-  desalocaMatriz(mAnt, nL);
+  for (i = 0; i < 1; i++)
+    for (j = 0; j < 3; j++)
+      m[xInic + i][yInic + j] = padrao[i][j];
 }
 
-int main()
+void inicBloco(char **m, int nL, int nC)
+{
+  char padrao[2][2] = {{ORG, ORG}, {ORG, ORG}};
+  int i, j, xInic = nL / 2, yInic = nC / 2;
+
+  limpaMatriz(m, VAZ, nL, nC);
+
+  for (i = 0; i < 2; i++)
+    for (j = 0; j < 2; j++)
+      m[xInic + i][yInic + j] = padrao[i][j];
+}
+
+void inicSapo(char **m, int nL, int nC)
 {
 
-  char **mat;
+  char padrao[2][4] = {{VAZ, ORG, ORG, ORG}, {ORG, ORG, ORG, VAZ}};
+  int i, j, xInic = nL / 2, yInic = nC / 2;
 
-  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
+  limpaMatriz(m, VAZ, nL, nC);
 
-  mat = alocaMatriz(nL, nC);
+  for (i = 0; i < 2; i++)
+    for (j = 0; j < 4; j++)
+      m[xInic + i][yInic + j] = padrao[i][j];
+}
 
-  // inicio laço indeterminado
-  menuInicJogo(mat, nL, nC);
-  jogaJogoVida(mat, nL, nC, nCiclos);
-  // fim do laco indeterminado
+void inicGlider(char **m, int nL, int nC)
+{
+  char padrao[3][3] = {{ORG, ORG, ORG}, {ORG, VAZ, VAZ}, {VAZ, ORG, VAZ}};
+  int i, j, xInic, yInic;
 
-  desalocaMatriz(mat, nL);
+  limpaMatriz(m, VAZ, nL, nC);
+
+  xInic = nL - 4;
+  yInic = nC - 4;
+
+  for (i = 0; i < 3; i++)
+    for (j = 0; j < 3; j++)
+      m[xInic + i][yInic + j] = padrao[i][j];
+}
+
+void inicLWSS(char **m, int nL, int nC)
+{
+  char padrao[4][5] = {{VAZ, ORG, VAZ, VAZ, ORG}, {ORG, VAZ, VAZ, VAZ, VAZ}, {ORG, VAZ, VAZ, VAZ, ORG}, {ORG, ORG, ORG, ORG, VAZ}};
+  int i, j, xInic, yInic;
+
+  limpaMatriz(m, VAZ, nL, nC);
+
+  xInic = nL - 5;
+  yInic = nC - 6;
+
+  for (i = 0; i < 4; i++)
+    for (j = 0; j < 5; j++)
+      m[xInic + i][yInic + j] = padrao[i][j];
 }

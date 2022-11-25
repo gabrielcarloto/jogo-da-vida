@@ -52,6 +52,15 @@ void desalocaMatriz(char **matriz, int nl)
   free(matriz);
 }
 
+/* Limpa a matriz, dado um valor (char) para ser colocado em todos os espaços. */
+void limpaMatriz(char **m, char valor, int nl, int nc)
+{
+  int i, j;
+  for (i = 0; i < nl; i++)
+    for (j = 0; j < nc; j++)
+      m[i][j] = valor;
+}
+
 /* Copia a matriz anterior para matriz atual (assumindo que ambas terão o mesmo tamanho) */
 void copiaMatriz(char **mAnt, char **mAtual, int nl, int nc)
 {
