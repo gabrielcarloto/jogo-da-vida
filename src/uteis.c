@@ -5,6 +5,24 @@
 #define ORG 'X'
 #define VAZ '.'
 
+#define TAM_LINHA 1024
+
+/* Aloca memória para um vetor de char */
+char *alocaVetor(int tam)
+{
+  char *v;
+
+  v = (char *)malloc(tam * sizeof(char));
+
+  if (v == NULL)
+  {
+    fprintf(stderr, "Erro ao alocar vetor.\n");
+    exit(1);
+  }
+
+  return v;
+}
+
 /**
  * Aloca uma matriz de nl linhas e nc colunas
  *
@@ -79,4 +97,35 @@ void copiaMatriz(char **matrizOriginal, char **novaMatriz, int nl, int nc)
   for (i = 0; i < nl; i++)
     for (j = 0; j < nc; j++)
       novaMatriz[i][j] = matrizOriginal[i][j];
+}
+
+/**
+ * Separa uma string em um vetor de strings (na verdade é uma matriz, mas lide como se fosse um vetor)
+ *
+ * Ex.: uma string "Olá, meu nome é Pedro!" separada por " " retornará `{"Olá,", "meu", "nome", "é", "Pedro"}`
+ *
+ * @param str String a ser separada
+ * @param separador O que vai separar a string
+ * @param contPalavras Ponteiro para um int, que receberá o número de palavras (strings) contidas no retorno
+ */
+char **split(char *str, char *separador, int *contPalavras)
+{
+  char **palavras, *palavra;
+  int i, linhas = TAM_LINHA;
+
+  palavras = alocaMatriz(linhas, TAM_LINHA);
+  palavra = strtok(str, separador);
+
+  for (i = 0; i < linhas && palavra != NULL; i++)
+  {
+    strcpy(palavras[i], palavra);
+    palavra = strtok(NULL, separador);
+  }
+
+  if (i < linhas)
+    palavras = realloc(palavras, i * sizeof(char **));
+
+  *contPalavras = i;
+
+  return palavras;
 }
