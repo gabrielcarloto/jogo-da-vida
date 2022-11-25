@@ -7,9 +7,51 @@
 #define VAZ '.'
 #define TAM 101
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
+void menuInicJogo(char **mat, int nL, int nC);
+
+int main()
+{
+
+  char **mat;
+
+  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
+
+  mat = alocaMatriz(nL, nC);
+
+  // inicio laço indeterminado
+  menuInicJogo(mat, nL, nC);
+  jogaJogoVida(mat, nL, nC, nCiclos);
+  // fim do laco indeterminado
+
+  desalocaMatriz(mat, nL);
+}
+
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
+{
+  char **mAnt;
+  int c;
+
+  // imprimindo na tela a matriz inicial
+  system("cls");
+  imprimeMatriz(mAtual, nL, nC);
+  // getchar();
+  Sleep(100);
+
+  mAnt = alocaMatriz(nL, nC);
+
+  for (c = 1; c <= nCiclos; c++)
+  {
+    copiaMatriz(mAnt, mAtual, nL, nC);
+
+    atualizaMat(mAtual, mAnt, nL, nC);
+    system("cls");
+    imprimeMatriz(mAtual, nL, nC);
+    // getchar();
+    Sleep(100);
+  }
+  desalocaMatriz(mAnt, nL);
+}
 
 void inicBlinker(char **m, int nL, int nC)
 {
@@ -109,51 +151,4 @@ void menuInicJogo(char **mat, int nL, int nC)
   while (getchar() != '\n')
     ;
   getchar();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////// Parte a ser completada //////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
-{
-  char **mAnt;
-  int c;
-
-  // imprimindo na tela a matriz inicial
-  system("cls");
-  imprimeMatriz(mAtual, nL, nC);
-  // getchar();
-  Sleep(100);
-
-  mAnt = alocaMatriz(nL, nC);
-
-  for (c = 1; c <= nCiclos; c++)
-  {
-    copiaMatriz(mAnt, mAtual, nL, nC);
-
-    atualizaMat(mAtual, mAnt, nL, nC);
-    system("cls");
-    imprimeMatriz(mAtual, nL, nC);
-    // getchar();
-    Sleep(100);
-  }
-  desalocaMatriz(mAnt, nL);
-}
-
-int main()
-{
-
-  char **mat;
-
-  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
-
-  mat = alocaMatriz(nL, nC);
-
-  // inicio laço indeterminado
-  menuInicJogo(mat, nL, nC);
-  jogaJogoVida(mat, nL, nC, nCiclos);
-  // fim do laco indeterminado
-
-  desalocaMatriz(mat, nL);
 }
