@@ -1,11 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 #define ORG 'X'
 #define VAZ '.'
 
 #define TAM_LINHA 1024
+
+typedef struct
+{
+  int width;
+  int height;
+} Terminal_Size;
 
 /**
  * Aloca uma matriz de nl linhas e nc colunas
@@ -112,4 +119,19 @@ char **split(char *str, char *separador, int *contPalavras)
   *contPalavras = i;
 
   return palavras;
+}
+
+/**
+ * Mede a largura e a altura (em número de caracteres disponíveis) do terminal rodando o programa
+ *
+ * @param tsize Ponteiro para uma variável do tipo Terminal_Size
+ */
+void tamanhoTerminal(Terminal_Size *tsize)
+{
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+  // https://stackoverflow.com/a/12642749
+  GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+  tsize->width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+  tsize->height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
