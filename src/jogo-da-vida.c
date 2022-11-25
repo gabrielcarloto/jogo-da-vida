@@ -15,14 +15,18 @@ int main()
 
   char **mat;
 
-  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
+  int nL = 20, nC = 20, nCiclos = 50, jogando = 1; // ou fornecidos pelo usuario
 
   mat = alocaMatriz(nL, nC);
 
-  // inicio laço indeterminado
-  menuInicJogo(mat, nL, nC);
-  jogaJogoVida(mat, nL, nC, nCiclos);
-  // fim do laco indeterminado
+  while (jogando)
+  {
+    menuInicJogo(mat, nL, nC);
+    jogaJogoVida(mat, nL, nC, nCiclos);
+    // fim do jogo
+    printf("Digite 1 para jogar novamente, 0 para parar: ");
+    scanf("%d", &jogando); // depois eu penso numa UI melhor pra isso
+  }
 
   desalocaMatriz(mat, nL);
 }
