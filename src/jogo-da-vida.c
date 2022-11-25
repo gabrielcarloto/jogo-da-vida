@@ -53,6 +53,45 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   desalocaMatriz(mAnt, nL);
 }
 
+void inicBlinker(char **m, int nL, int nC);
+void inicBloco(char **m, int nL, int nC);
+void inicSapo(char **m, int nL, int nC);
+void inicGlider(char **m, int nL, int nC);
+void inicLWSS(char **m, int nL, int nC);
+
+void menuInicJogo(char **mat, int nL, int nC)
+{
+  int opcao;
+
+  printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
+  scanf("%d", &opcao);
+  switch (opcao)
+  {
+  case 1:
+    inicBloco(mat, nL, nC);
+    break;
+  case 2:
+    inicBlinker(mat, nL, nC);
+    break;
+  case 3:
+    inicSapo(mat, nL, nC);
+    break;
+  case 4:
+    inicGlider(mat, nL, nC);
+    break;
+  case 5:
+    inicLWSS(mat, nL, nC);
+    break;
+  }
+
+  imprimeMatriz(mat, nL, nC);
+
+  printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
+  while (getchar() != '\n')
+    ;
+  getchar();
+}
+
 void inicBlinker(char **m, int nL, int nC)
 {
   char padrao[1][3] = {{ORG, ORG, ORG}};
@@ -118,37 +157,4 @@ void inicLWSS(char **m, int nL, int nC)
   for (i = 0; i < 4; i++)
     for (j = 0; j < 5; j++)
       m[xInic + i][yInic + j] = padrao[i][j];
-}
-
-void menuInicJogo(char **mat, int nL, int nC)
-{
-  int opcao;
-
-  printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
-  scanf("%d", &opcao);
-  switch (opcao)
-  {
-  case 1:
-    inicBloco(mat, nL, nC);
-    break;
-  case 2:
-    inicBlinker(mat, nL, nC);
-    break;
-  case 3:
-    inicSapo(mat, nL, nC);
-    break;
-  case 4:
-    inicGlider(mat, nL, nC);
-    break;
-  case 5:
-    inicLWSS(mat, nL, nC);
-    break;
-  }
-
-  imprimeMatriz(mat, nL, nC);
-
-  printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
-  while (getchar() != '\n')
-    ;
-  getchar();
 }
