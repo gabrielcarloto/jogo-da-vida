@@ -7,22 +7,6 @@
 
 #define TAM_LINHA 1024
 
-/* Aloca memória para um vetor de char */
-char *alocaVetor(int tam)
-{
-  char *v;
-
-  v = (char *)malloc(tam * sizeof(char));
-
-  if (v == NULL)
-  {
-    fprintf(stderr, "Erro ao alocar vetor.\n");
-    exit(1);
-  }
-
-  return v;
-}
-
 /**
  * Aloca uma matriz de nl linhas e nc colunas
  *
