@@ -61,12 +61,19 @@ void limpaMatriz(char **m, char valor, int nl, int nc)
       m[i][j] = valor;
 }
 
-/* Copia a matriz anterior para matriz atual (assumindo que ambas terão o mesmo tamanho) */
-void copiaMatriz(char **mAnt, char **mAtual, int nl, int nc)
+/**
+ * Copia a matriz original para nova matriz (assumindo que ambas terão o mesmo tamanho)
+ *
+ * @param matrizOriginal Matriz que será copiada
+ * @param novaMatriz Matriz que receberá os valores da matrizOriginal
+ * @param nl Número de linhas
+ * @param nc Número de colunas
+ */
+void copiaMatriz(char **matrizOriginal, char **novaMatriz, int nl, int nc)
 {
   int i, j;
 
   for (i = 0; i < nl; i++)
     for (j = 0; j < nc; j++)
-      mAtual[i][j] = mAnt[i][j];
+      novaMatriz[i][j] = matrizOriginal[i][j];
 }
