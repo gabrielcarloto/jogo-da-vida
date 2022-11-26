@@ -109,24 +109,45 @@ void copiaMatriz(char **matrizOriginal, char **novaMatriz, int nl, int nc)
  */
 char **split(char *str, char *separador, int *contPalavras)
 {
-  char **palavras, *palavra;
-  int i, linhas = TAM_LINHA;
+  char **retorno;
+  int i, linhas;
 
-  palavras = alocaMatriz(linhas, TAM_LINHA);
-  palavra = strtok(str, separador);
-
-  for (i = 0; i < linhas && palavra != NULL; i++)
+  if (separador == "")
   {
-    strcpy(palavras[i], palavra);
-    palavra = strtok(NULL, separador);
+    linhas = strlen(str);
+
+    char **letras = alocaMatriz(linhas, 2);
+
+    for (i = 0; i < linhas; i++)
+    {
+      letras[i][0] = str[i];
+      letras[i][1] = '\0';
+    }
+
+    retorno = letras;
+    *contPalavras = linhas;
+  }
+  else
+  {
+    linhas = TAM_LINHA;
+
+    char **palavras = alocaMatriz(linhas, TAM_LINHA);
+    char *palavra = strtok(str, separador);
+
+    for (i = 0; i < linhas && palavra != NULL; i++)
+    {
+      strcpy(palavras[i], palavra);
+      palavra = strtok(NULL, separador);
+    }
+
+    if (i < linhas)
+      palavras = realloc(palavras, i * sizeof(char **));
+
+    retorno = palavras;
+    *contPalavras = i;
   }
 
-  if (i < linhas)
-    palavras = realloc(palavras, i * sizeof(char **));
-
-  *contPalavras = i;
-
-  return palavras;
+  return retorno;
 }
 
 /**
