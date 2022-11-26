@@ -243,7 +243,10 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
       else
       {
         if (alignment != CENTER)
-          printf("= %*s%s%*s =\n", (alignment == RIGHT) * (signLen - strlen(str)), "", str, (alignment == LEFT) * (signLen - strlen(str)), "");
+        {
+          int availableSpace = signLen - strlen(str);
+          printf("= %*s%s%*s =\n", (alignment == RIGHT) * availableSpace, "", str, (alignment == LEFT) * availableSpace, "");
+        }
         else
         {
           int centerAlignSpaces = (signLen - strlen(str)) / 2;
