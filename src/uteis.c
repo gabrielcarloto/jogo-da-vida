@@ -169,7 +169,8 @@ void tamanhoTerminal(Terminal_Size *tsize)
 int contStr(const char *firstArg, va_list args);
 
 /**
- * Imprime uma "placa", ocupando todo o espaço disponível no terminal
+ * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
+ * É necessário inserir um NULL ao final para não criar um loop infinito.
  *
  * @param alignment Alinhamento das strings (LEFT, CENTER ou RIGHT)
  * @param str Strings a serem impressas
