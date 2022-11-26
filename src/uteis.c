@@ -23,6 +23,11 @@ typedef enum
   RIGHT
 } Sign_Alignment;
 
+typedef struct
+{
+  Sign_Alignment alignment;
+} Sign_Settings;
+
 /**
  * Aloca uma matriz de nl linhas e nc colunas
  *
@@ -172,18 +177,18 @@ int contStr(const char *firstArg, va_list args);
  * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
  * É necessário inserir um NULL ao final para não criar um loop infinito.
  *
- * @param alignment Alinhamento das strings (LEFT, CENTER ou RIGHT)
- * @param str Strings a serem impressas
+ * @param settings Configurações de exibição
+ * @param str Strings a serem impressas. A primeira é o título.
  */
-void printSign(Sign_Alignment alignment, const char *str, ...)
+void printSign(Sign_Settings settings, const char *str, ...)
 {
-  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines;
+  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines, halfTitleSize;
   Terminal_Size tsize;
   va_list list, list2;
 
-  if (alignment < 0 || alignment > 2)
+  if (settings.alignment < 0 || settings.alignment > 2)
   {
-    fprintf(stderr, "O alinhamento escolhido (%d) não existe.\n", alignment);
+    fprintf(stderr, "O alinhamento escolhido (%d) não existe.\n", settings.alignment);
     exit(1);
   }
 
@@ -194,7 +199,7 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
   va_start(list, str);
   va_copy(list2, list);
 
-  strLines = contStr(str, list);
+  strLines = contStr(str, list) - 1;
   totalLines = strLines > (tsize.height - 4) ? strLines + tsize.height : tsize.height;
   verticalAlignLines = (totalLines - strLines) - 2;
   halfVerticalLines = verticalAlignLines / 2;
@@ -203,13 +208,25 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
 
   signLen = tsize.width - 4;
 
-  for (i = 0; i < tsize.width; i++)
+  // TITULO
+  halfTitleSize = (tsize.width - strlen(str) - 2) / 2;
+
+  for (i = 0; i < halfTitleSize; i++)
+    printf("=");
+
+  printf(" %s ", str);
+
+  for (i = 0; i < halfTitleSize + (strlen(str) % 2); i++)
     printf("=");
 
   printf("\n");
 
+  // ESPAÇO EM BRANCO
   for (i = 0; i < halfVerticalLines; i++)
     printf("= %*s =\n", signLen, "");
+
+  // CONTEÚDO
+  str = va_arg(list, char *);
 
   for (i = 0; i < totalLines - halfVerticalLines - 2; i++)
   {
@@ -234,19 +251,19 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
           letters -= signLen;
           end = letters < 0 ? strlen(str) : signLen * (j + 1);
 
-          printf("= %*s", (alignment == RIGHT) * (signLen - (end - start)), "");
+          printf("= %*s", (settings.alignment == RIGHT) * (signLen - (end - start)), "");
           for (k = start; k < end; k++)
             printf("%s", splittedString[k]);
 
-          printf("%*s =", (alignment == LEFT || alignment == CENTER) * (signLen - (end - start)), "");
+          printf("%*s =", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
         }
       }
       else
       {
-        if (alignment != CENTER)
+        if (settings.alignment != CENTER)
         {
           int availableSpace = signLen - strlen(str);
-          printf("= %*s%s%*s =\n", (alignment == RIGHT) * availableSpace, "", str, (alignment == LEFT) * availableSpace, "");
+          printf("= %*s%s%*s =\n", (settings.alignment == RIGHT) * availableSpace, "", str, (settings.alignment == LEFT) * availableSpace, "");
         }
         else
         {
@@ -258,6 +275,7 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
 
       str = va_arg(list, char *);
     }
+    // ESPAÇO EM BRANCO
     else
       printf("= %*s =\n", signLen, "");
   }
