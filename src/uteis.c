@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <windows.h>
 
 #define ORG 'X'
@@ -13,6 +14,13 @@ typedef struct
   int width;
   int height;
 } Terminal_Size;
+
+typedef enum
+{
+  LEFT,
+  CENTER,
+  RIGHT
+} Sign_Alignment;
 
 /**
  * Aloca uma matriz de nl linhas e nc colunas
@@ -135,3 +143,98 @@ void tamanhoTerminal(Terminal_Size *tsize)
   tsize->width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
   tsize->height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
+
+int contStr(const char *firstArg, va_list args);
+
+/**
+ * Imprime uma "placa", ocupando todo o espaço disponível no terminal
+ *
+ * @param alignment Alinhamento das strings (LEFT, CENTER ou RIGHT)
+ * @param str Strings a serem impressas
+ */
+void printSign(Sign_Alignment alignment, const char *str, ...)
+{
+  int i, len, tableLen, centerAlignSpaces, strLines, totalLines, verticalAlignLines, halfVerticalLines;
+  Terminal_Size tsize;
+  va_list list, list2;
+
+  if (alignment < 0 || alignment > 2)
+  {
+    fprintf(stderr, "O alinhamento escolhido (%d) não existe.\n", alignment);
+    exit(1);
+  }
+
+  system("cls");
+
+  tamanhoTerminal(&tsize);
+
+  va_start(list, str);
+  va_copy(list2, list);
+
+  strLines = contStr(str, list);
+  totalLines = strLines > (tsize.height - 4) ? strLines + tsize.height : tsize.height;
+  verticalAlignLines = (totalLines - strLines) - 2;
+  halfVerticalLines = verticalAlignLines / 2;
+
+  va_end(list);
+
+  tableLen = tsize.width - 4;
+
+  for (i = 0; i < tsize.width; i++)
+    printf("=");
+
+  printf("\n");
+
+  for (i = 0; i < halfVerticalLines; i++)
+    printf("= %*s =\n", tableLen, "");
+
+  for (i = 0; i < totalLines - halfVerticalLines - 2; i++)
+  {
+    if (str)
+    {
+      if (alignment == LEFT)
+        printf("= %s%*s =\n", str, tableLen - strlen(str), "");
+      else if (alignment == CENTER)
+      {
+        centerAlignSpaces = (tableLen - strlen(str)) / 2;
+        printf("= %*s%s%*s =\n", centerAlignSpaces, "", str, centerAlignSpaces * 2 + strlen(str) == tableLen ? centerAlignSpaces : centerAlignSpaces + 1, "");
+      }
+      else if (alignment == RIGHT)
+        printf("= %*s%s =\n", tableLen - strlen(str), "", str);
+
+      str = va_arg(list, char *);
+    }
+    else
+    {
+      printf("= %*s =\n", tableLen, "");
+    }
+  }
+
+  va_end(list2);
+
+  // for (i = 0; i < (verticalAlignLines - halfVerticalLines); i++)
+  //   printf("= %*s =\n", tableLen, "");
+
+  for (i = 0; i < tsize.width; i++)
+    printf("=");
+
+  printf("\n");
+}
+
+/* Conta o número de strings em uma va_list */
+int contStr(const char *firstArg, va_list args)
+{
+  int cont = 0;
+  char *arg = firstArg;
+
+  while (arg)
+  {
+    cont++;
+    arg = va_arg(args, char *);
+  }
+
+  return cont;
+}
+
+// essa função não deve estar disponível em outros arquivos
+#define contStr NULL
