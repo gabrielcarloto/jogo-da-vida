@@ -176,7 +176,7 @@ int contStr(const char *firstArg, va_list args);
  */
 void printSign(Sign_Alignment alignment, const char *str, ...)
 {
-  int i, j, k, len, tableLen, strLines, totalLines, verticalAlignLines, halfVerticalLines;
+  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines;
   Terminal_Size tsize;
   va_list list, list2;
 
@@ -200,7 +200,7 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
 
   va_end(list);
 
-  tableLen = tsize.width - 4;
+  signLen = tsize.width - 4;
 
   for (i = 0; i < tsize.width; i++)
     printf("=");
@@ -208,7 +208,7 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
   printf("\n");
 
   for (i = 0; i < halfVerticalLines; i++)
-    printf("= %*s =\n", tableLen, "");
+    printf("= %*s =\n", signLen, "");
 
   for (i = 0; i < totalLines - halfVerticalLines - 2; i++)
   {
@@ -219,7 +219,7 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
        * ele acaba criando um loop infinito. Essa variável calcula o número de linhas necessárias para
        * imprimir a string.
        */
-      int dividedStrLines = ceil(strlen(str) / (float)tableLen);
+      int dividedStrLines = ceil(strlen(str) / (float)signLen);
 
       if (dividedStrLines > 1)
       {
@@ -228,36 +228,36 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
         totalLines -= dividedStrLines - 1;
         for (j = 0; j < dividedStrLines; j++)
         {
-          int start = tableLen * j, end;
+          int start = signLen * j, end;
 
-          letters -= tableLen;
-          end = letters < 0 ? strlen(str) : tableLen * (j + 1);
+          letters -= signLen;
+          end = letters < 0 ? strlen(str) : signLen * (j + 1);
 
-          printf("= %*s", (alignment == RIGHT) * (tableLen - (end - start)), "");
+          printf("= %*s", (alignment == RIGHT) * (signLen - (end - start)), "");
           for (k = start; k < end; k++)
             printf("%s", splittedString[k]);
 
-          printf("%*s =", (alignment == LEFT || alignment == CENTER) * (tableLen - (end - start)), "");
+          printf("%*s =", (alignment == LEFT || alignment == CENTER) * (signLen - (end - start)), "");
         }
       }
       else
       {
         if (alignment == LEFT)
-          printf("= %s%*s =\n", str, tableLen - strlen(str), "");
+          printf("= %s%*s =\n", str, signLen - strlen(str), "");
         else if (alignment == CENTER)
         {
-          int centerAlignSpaces = (tableLen - strlen(str)) / 2;
-          int leftSpace = centerAlignSpaces * 2 + strlen(str) == tableLen ? centerAlignSpaces : centerAlignSpaces + 1;
+          int centerAlignSpaces = (signLen - strlen(str)) / 2;
+          int leftSpace = centerAlignSpaces * 2 + strlen(str) == signLen ? centerAlignSpaces : centerAlignSpaces + 1;
           printf("= %*s%s%*s =\n", centerAlignSpaces, "", str, leftSpace, "");
         }
         else if (alignment == RIGHT)
-          printf("= %*s%s =\n", tableLen - strlen(str), "", str);
+          printf("= %*s%s =\n", signLen - strlen(str), "", str);
       }
 
       str = va_arg(list, char *);
     }
     else
-      printf("= %*s =\n", tableLen, "");
+      printf("= %*s =\n", signLen, "");
   }
 
   va_end(list2);
