@@ -242,16 +242,14 @@ void printSign(Sign_Alignment alignment, const char *str, ...)
       }
       else
       {
-        if (alignment == LEFT)
-          printf("= %s%*s =\n", str, signLen - strlen(str), "");
-        else if (alignment == CENTER)
+        if (alignment != CENTER)
+          printf("= %*s%s%*s =\n", (alignment == RIGHT) * (signLen - strlen(str)), "", str, (alignment == LEFT) * (signLen - strlen(str)), "");
+        else
         {
           int centerAlignSpaces = (signLen - strlen(str)) / 2;
           int leftSpace = centerAlignSpaces * 2 + strlen(str) == signLen ? centerAlignSpaces : centerAlignSpaces + 1;
           printf("= %*s%s%*s =\n", centerAlignSpaces, "", str, leftSpace, "");
         }
-        else if (alignment == RIGHT)
-          printf("= %*s%s =\n", signLen - strlen(str), "", str);
       }
 
       str = va_arg(list, char *);
