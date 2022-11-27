@@ -60,7 +60,7 @@ void imprimeMatriz(char **matriz, int nl, int nc)
   for (i = 0; i < nl; i++)
   {
     for (j = 0; j < nc; j++)
-      printf("%c\t", matriz[i][j]);
+      printf("%c ", matriz[i][j]);
 
     printf("\n");
   }
