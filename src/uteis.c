@@ -115,7 +115,7 @@ char **split(char *str, char *separador, int *contPalavras)
 }
 
 /* Retorna 0 se a célula está morta e 1 caso esteja viva */
-int verificaCelula(char celula)
+int verificaCelula(const char celula)
 {
   if (celula == ORG)
     return 1;
@@ -132,7 +132,7 @@ int verificaCelula(char celula)
  * @param nl Número de linhas da matriz
  * @param nc Número de colunas da matriz
  */
-int verificaVizinhas(char **ciclo, int linha, int coluna, int nl, int nc)
+int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc)
 {
   int i, j, vizinhasVivas = 0;
 
