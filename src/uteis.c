@@ -114,6 +114,14 @@ char **split(char *str, char *separador, int *contPalavras)
   return palavras;
 }
 
+/**
+ * Inicia um dos padrões disponíveis
+ *
+ * @param padrao Pode ser um número entre 1 e NUM_PADROES, ou o nome do padrão
+ * @param ciclo A matriz que receberá o padrão
+ * @param nl Número de linhas da matriz
+ * @param nc Número de colunas da matriz
+ */
 void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc)
 {
   assert(padrao >= 1 && padrao <= NUM_PADROES);
