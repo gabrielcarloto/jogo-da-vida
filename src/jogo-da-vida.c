@@ -43,7 +43,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   {
     copiaMatriz(mAtual, mAnt, nL, nC);
 
-    atualizaMat(mAtual, mAnt, nL, nC);
+    atualizaMat(mAnt, mAtual, nL, nC);
     system("cls");
     imprimeMatriz(mAtual, nL, nC);
     // getchar();
