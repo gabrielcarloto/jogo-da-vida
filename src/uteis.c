@@ -124,6 +124,33 @@ int verificaCelula(char *celula)
 }
 
 /**
+ * Conta o número de células vizinhas vivas
+ *
+ * @param ciclo Matriz a se comparar as vizinhas
+ * @param linha Linha da célula
+ * @param coluna Coluna da célula
+ * @param nl Número de linhas da matriz
+ * @param nc Número de colunas da matriz
+ */
+int verificaVizinhas(char **ciclo, int linha, int coluna, int nl, int nc)
+{
+  int i, j, vizinhasVivas = 0;
+
+  for (i = linha - 1; i <= linha + 1; i++)
+    for (j = coluna - 1; j <= coluna + 1; j++)
+    {
+      if (i == linha && j == coluna ||
+          i < 0 || i >= nl ||
+          j < 0 || j >= nc)
+        continue;
+
+      vizinhasVivas += verificaCelula(ciclo[i][j]);
+    }
+
+  return vizinhasVivas;
+}
+
+/**
  * Atualiza a matriz atual com base nos dados da matriz anterior
  *
  * A matriz anterior funciona é imutável e funciona como base para as comparações
