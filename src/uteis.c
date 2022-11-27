@@ -114,6 +114,15 @@ char **split(char *str, char *separador, int *contPalavras)
   return palavras;
 }
 
+/* Retorna 0 se a célula está morta e 1 caso esteja viva */
+int verificaCelula(char *celula)
+{
+  if (celula == ORG)
+    return 1;
+
+  return 0;
+}
+
 /**
  * Atualiza a matriz atual com base nos dados da matriz anterior
  *
