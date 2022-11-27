@@ -6,6 +6,7 @@
 #define TAM 101
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
+void imprimeMatriz(char **matriz, int nl, int nc);
 void menuInicJogo(char **mat, int nL, int nC);
 
 int main()
@@ -49,6 +50,20 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     Sleep(100);
   }
   desalocaMatriz(mAnt, nL);
+}
+
+/* A função ainda é bem simples, por enquanto está aqui apenas para testarmos o resto */
+void imprimeMatriz(char **matriz, int nl, int nc)
+{
+  int i, j;
+
+  for (i = 0; i < nl; i++)
+  {
+    for (j = 0; j < nc; j++)
+      printf("%c\t", matriz[i][j]);
+
+    printf("\n");
+  }
 }
 
 void inicBlinker(char **m, int nL, int nC);
