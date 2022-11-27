@@ -4,7 +4,6 @@
 #include <windows.h>
 #include "shared.c"
 #include "uteis.c"
-#include "padroes.c"
 
 #define TAM 101
 
@@ -14,10 +13,10 @@ void menuInicJogo(char **mat, int nL, int nC);
 
 int main()
 {
-
+  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
   char **mat;
 
-  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
+  srand(time(NULL));
 
   mat = alocaMatriz(nL, nC);
 

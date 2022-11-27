@@ -1,9 +1,9 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define ORG 'X'
-#define VAZ '.'
+#include "shared.c"
+#include "padroes.c"
 
 #define TAM_LINHA 1024
 
@@ -151,6 +151,57 @@ int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc)
 }
 
 /**
+ * Possivelmente adicionará invasores em um ciclo. Se for adicionar, há 50%
+ * de chance de inserir um padrão aleatório e 50% de chance de adicionar células
+ * em lugares aleatórios.
+ *
+ * @param chance De 0 a 100, a chance de aparecer um invasor no ciclo atual
+ * @param maxInvasores Caso insira células em lugares aleatórios, esse será o máximo possível
+ * @param cicloAtual O ciclo a ser alterado
+ * @param nl Número de linhas na matriz do ciclo
+ * @param nc Número de colunas na matriz do ciclo
+ */
+void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtual, int nl, int nc)
+{
+  int i, numInvasores, padrao;
+  const int dado = 1 + rand() % 100;
+
+  assert(chance > 0 && chance <= 100);
+
+  if (dado > 100 - chance)
+    if (rand() % 2)
+    {
+      padrao = 1 + rand() % 5;
+
+      switch (padrao)
+      {
+      case 1:
+        inicBloco(cicloAtual, nl, nc);
+        break;
+      case 2:
+        inicBlinker(cicloAtual, nl, nc);
+        break;
+      case 3:
+        inicSapo(cicloAtual, nl, nc);
+        break;
+      case 4:
+        inicGlider(cicloAtual, nl, nc);
+        break;
+      case 5:
+        inicLWSS(cicloAtual, nl, nc);
+        break;
+      }
+    }
+    else
+    {
+      numInvasores = 1 + rand() % maxInvasores;
+
+      for (i = 0; i < numInvasores; i++)
+        cicloAtual[rand() % nl][rand() % nc] = ORG;
+    }
+}
+
+/**
  * Atualiza o ciclo atual com base nos dados do ciclo anterior
  *
  * @param cicloAnt Matriz do ciclo anterior
@@ -177,4 +228,6 @@ void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc)
       else if (vizinhasVivas == 3)
         cicloAtual[i][j] = ORG;
     }
+
+  adicionaInvasores(15, 10, cicloAtual, nl, nc);
 }
