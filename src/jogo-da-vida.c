@@ -75,6 +75,9 @@ void menuInicJogo(char **mat, int nL, int nC)
 
   printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
   scanf("%d", &opcao);
+
+  limpaMatriz(mat, nL, nC);
+
   switch (opcao)
   {
   case 1:
