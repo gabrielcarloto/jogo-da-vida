@@ -115,7 +115,7 @@ char **split(char *str, char *separador, int *contPalavras)
 }
 
 /* Retorna 0 se a célula está morta e 1 caso esteja viva */
-int verificaCelula(char *celula)
+int verificaCelula(char celula)
 {
   if (celula == ORG)
     return 1;
