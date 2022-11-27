@@ -171,11 +171,9 @@ void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc)
       // Issue #4
       if (estaViva)
       {
-        if (vizinhasVivas < 2)
+        if (vizinhasVivas < 2 || vizinhasVivas > 3)
           cicloAtual[i][j] = VAZ;
-        else if (vizinhasVivas > 3)
-          cicloAtual[i][j] = VAZ;
-        else if (vizinhasVivas == 2 || vizinhasVivas == 3)
+        else
           cicloAtual[i][j] = ORG;
       }
       else if (vizinhasVivas == 3)
