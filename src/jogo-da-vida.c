@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "shared.c"
 #include "uteis.c"
+#include "ciclos.c"
 
 #define TAM 101
 
