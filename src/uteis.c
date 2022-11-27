@@ -135,27 +135,27 @@ void atualizaMat(char **cicloAnt, char **cicloAtual, int nl, int nc)
   {
     if (i == 0) // canto superior
     {
-      if (cicloAnt[0][1] == 'ORG')
+      if (cicloAnt[0][1] == ORG)
         vizinhas++;
-      if (cicloAnt[1][1] == 'ORG')
+      if (cicloAnt[1][1] == ORG)
         vizinhas++;
-      if (cicloAnt[1][0] == 'ORG')
+      if (cicloAnt[1][0] == ORG)
         vizinhas++;
     }
     else // canto inferior
     {
-      if (cicloAnt[nl - 1][1] == 'ORG')
+      if (cicloAnt[nl - 1][1] == ORG)
         vizinhas++;
-      if (cicloAnt[nl - 2][1] == 'ORG')
+      if (cicloAnt[nl - 2][1] == ORG)
         vizinhas++;
-      if (cicloAnt[nl - 2][0] == 'ORG')
+      if (cicloAnt[nl - 2][0] == ORG)
         vizinhas++;
     }
 
-    if (cicloAnt[coordenada_fixa][0] == 'VAZ' && vizinhas == 3)
-      cicloAtual[coordenada_fixa][0] = 'ORG';
-    else if (cicloAnt[coordenada_fixa][0] == 'ORG' && vizinhas < 2)
-      cicloAtual[coordenada_fixa][0] = 'VAZ';
+    if (cicloAnt[coordenada_fixa][0] == VAZ && vizinhas == 3)
+      cicloAtual[coordenada_fixa][0] = ORG;
+    else if (cicloAnt[coordenada_fixa][0] == ORG && vizinhas < 2)
+      cicloAtual[coordenada_fixa][0] = VAZ;
 
     vizinhas = 0; // resetando contador
 
@@ -169,27 +169,27 @@ void atualizaMat(char **cicloAnt, char **cicloAtual, int nl, int nc)
   {
     if (i == 0) // canto superior
     {
-      if (cicloAnt[0][nc - 2] == 'ORG')
+      if (cicloAnt[0][nc - 2] == ORG)
         vizinhas++;
-      if (cicloAnt[1][nc - 2] == 'ORG')
+      if (cicloAnt[1][nc - 2] == ORG)
         vizinhas++;
-      if (cicloAnt[1][nc - 1] == 'ORG')
+      if (cicloAnt[1][nc - 1] == ORG)
         vizinhas++;
     }
     else // canto inferior
     {
-      if (cicloAnt[nl - 1][nc - 2] == 'ORG')
+      if (cicloAnt[nl - 1][nc - 2] == ORG)
         vizinhas++;
-      if (cicloAnt[nl - 2][nc - 2] == 'ORG')
+      if (cicloAnt[nl - 2][nc - 2] == ORG)
         vizinhas++;
-      if (cicloAnt[nl - 2][nc - 1] == 'ORG')
+      if (cicloAnt[nl - 2][nc - 1] == ORG)
         vizinhas++;
     }
 
-    if (cicloAnt[coordenada_fixa][nc - 1] == 'VAZ' && vizinhas == 3)
-      cicloAtual[coordenada_fixa][nc - 1] = 'ORG';
-    else if (cicloAnt[coordenada_fixa][nc - 1] == 'ORG' && vizinhas < 2)
-      cicloAtual[coordenada_fixa][nc - 1] = 'VAZ';
+    if (cicloAnt[coordenada_fixa][nc - 1] == VAZ && vizinhas == 3)
+      cicloAtual[coordenada_fixa][nc - 1] = ORG;
+    else if (cicloAnt[coordenada_fixa][nc - 1] == ORG && vizinhas < 2)
+      cicloAtual[coordenada_fixa][nc - 1] = VAZ;
 
     vizinhas = 0; // resetando contador
 
@@ -206,42 +206,42 @@ void atualizaMat(char **cicloAnt, char **cicloAtual, int nl, int nc)
     if (i == 0)                    // borda superior
       for (j = 1; j < nc - 1; j++) // vai da segunda posição até a penúltima posição da linha
       {
-        if (cicloAnt[coordenada_fixa][j - 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa][j - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa + 1][j - 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa + 1][j - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa + 1][j] == 'ORG')
+        if (cicloAnt[coordenada_fixa + 1][j] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa + 1][j + 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa + 1][j + 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa][j + 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa][j + 1] == ORG)
           vizinhas++;
 
-        if (cicloAnt[coordenada_fixa][j] == 'VAZ' && vizinhas == 3)
-          cicloAtual[coordenada_fixa][j] = 'ORG';
-        else if ((cicloAnt[coordenada_fixa][j] == 'ORG' && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == 'ORG' && vizinhas > 3))
-          cicloAtual[coordenada_fixa][j] = 'VAZ';
+        if (cicloAnt[coordenada_fixa][j] == VAZ && vizinhas == 3)
+          cicloAtual[coordenada_fixa][j] = ORG;
+        else if ((cicloAnt[coordenada_fixa][j] == ORG && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == ORG && vizinhas > 3))
+          cicloAtual[coordenada_fixa][j] = VAZ;
 
         vizinhas = 0; // resetando contador
       }
     else // borda inferior
       for (j = 1; j < nc - 1; j++)
       {
-        if (cicloAnt[coordenada_fixa][j - 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa][j - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa - 1][j - 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa - 1][j - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa - 1][j] == 'ORG')
+        if (cicloAnt[coordenada_fixa - 1][j] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa - 1][j + 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa - 1][j + 1] == ORG)
           vizinhas++;
-        if (cicloAnt[coordenada_fixa][j + 1] == 'ORG')
+        if (cicloAnt[coordenada_fixa][j + 1] == ORG)
           vizinhas++;
 
-        if (cicloAnt[coordenada_fixa][j] == 'VAZ' && vizinhas == 3)
-          cicloAtual[coordenada_fixa][j] = 'ORG';
-        else if ((cicloAnt[coordenada_fixa][j] == 'ORG' && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == 'ORG' && vizinhas > 3))
-          cicloAtual[coordenada_fixa][j] = 'VAZ';
+        if (cicloAnt[coordenada_fixa][j] == VAZ && vizinhas == 3)
+          cicloAtual[coordenada_fixa][j] = ORG;
+        else if ((cicloAnt[coordenada_fixa][j] == ORG && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == ORG && vizinhas > 3))
+          cicloAtual[coordenada_fixa][j] = VAZ;
 
         vizinhas = 0; // resetando contador
       }
@@ -257,42 +257,42 @@ void atualizaMat(char **cicloAnt, char **cicloAtual, int nl, int nc)
     if (i == 0)                    // borda da esquerda
       for (j = 1; j < nl - 1; j++) // vai da segunda posição até a penúltima posição da coluna
       {
-        if (cicloAnt[j - 1][coordenada_fixa] == 'ORG')
+        if (cicloAnt[j - 1][coordenada_fixa] == ORG)
           vizinhas++;
-        if (cicloAnt[j - 1][coordenada_fixa + 1] == 'ORG')
+        if (cicloAnt[j - 1][coordenada_fixa + 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j][coordenada_fixa + 1] == 'ORG')
+        if (cicloAnt[j][coordenada_fixa + 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j + 1][coordenada_fixa + 1] == 'ORG')
+        if (cicloAnt[j + 1][coordenada_fixa + 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j + 1][coordenada_fixa] == 'ORG')
+        if (cicloAnt[j + 1][coordenada_fixa] == ORG)
           vizinhas++;
 
-        if (cicloAnt[j][coordenada_fixa] == 'VAZ' && vizinhas == 3)
-          cicloAtual[j][coordenada_fixa] = 'ORG';
-        else if ((cicloAnt[j][coordenada_fixa] == 'ORG' && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == 'ORG' && vizinhas > 3))
-          cicloAtual[j][coordenada_fixa] = 'VAZ';
+        if (cicloAnt[j][coordenada_fixa] == VAZ && vizinhas == 3)
+          cicloAtual[j][coordenada_fixa] = ORG;
+        else if ((cicloAnt[j][coordenada_fixa] == ORG && vizinhas < 2) || (cicloAnt[coordenada_fixa][j] == ORG && vizinhas > 3))
+          cicloAtual[j][coordenada_fixa] = VAZ;
 
         vizinhas = 0; // resetando contador
       }
     else // borda da direita
       for (j = 1; j < nl - 1; j++)
       {
-        if (cicloAnt[j - 1][coordenada_fixa] == 'ORG')
+        if (cicloAnt[j - 1][coordenada_fixa] == ORG)
           vizinhas++;
-        if (cicloAnt[j - 1][coordenada_fixa - 1] == 'ORG')
+        if (cicloAnt[j - 1][coordenada_fixa - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j][coordenada_fixa - 1] == 'ORG')
+        if (cicloAnt[j][coordenada_fixa - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j + 1][coordenada_fixa - 1] == 'ORG')
+        if (cicloAnt[j + 1][coordenada_fixa - 1] == ORG)
           vizinhas++;
-        if (cicloAnt[j + 1][coordenada_fixa] == 'ORG')
+        if (cicloAnt[j + 1][coordenada_fixa] == ORG)
           vizinhas++;
 
-        if (cicloAnt[j][coordenada_fixa] == 'VAZ' && vizinhas == 3)
-          cicloAtual[j][coordenada_fixa] = 'ORG';
-        else if ((cicloAnt[j][coordenada_fixa] == 'ORG' && vizinhas < 2) || (cicloAnt[j][coordenada_fixa] == 'ORG' && vizinhas > 3))
-          cicloAtual[j][coordenada_fixa] = 'VAZ';
+        if (cicloAnt[j][coordenada_fixa] == VAZ && vizinhas == 3)
+          cicloAtual[j][coordenada_fixa] = ORG;
+        else if ((cicloAnt[j][coordenada_fixa] == ORG && vizinhas < 2) || (cicloAnt[j][coordenada_fixa] == ORG && vizinhas > 3))
+          cicloAtual[j][coordenada_fixa] = VAZ;
 
         vizinhas = 0; // resetando contador
       }
@@ -306,27 +306,27 @@ void atualizaMat(char **cicloAnt, char **cicloAtual, int nl, int nc)
   {
     for (j = 1; j < nc - 1; j++) // vai da segunda a penúltima coluna
     {
-      if (cicloAnt[i - 1][j - 1] == 'ORG')
+      if (cicloAnt[i - 1][j - 1] == ORG)
         vizinhas++;
-      if (cicloAnt[i - 1][j] == 'ORG')
+      if (cicloAnt[i - 1][j] == ORG)
         vizinhas++;
-      if (cicloAnt[i - 1][j + 1] == 'ORG')
+      if (cicloAnt[i - 1][j + 1] == ORG)
         vizinhas++;
-      if (cicloAnt[i][j - 1] == 'ORG')
+      if (cicloAnt[i][j - 1] == ORG)
         vizinhas++;
-      if (cicloAnt[i][j + 1] == 'ORG')
+      if (cicloAnt[i][j + 1] == ORG)
         vizinhas++;
-      if (cicloAnt[i + 1][j - 1] == 'ORG')
+      if (cicloAnt[i + 1][j - 1] == ORG)
         vizinhas++;
-      if (cicloAnt[i + 1][j] == 'ORG')
+      if (cicloAnt[i + 1][j] == ORG)
         vizinhas++;
-      if (cicloAnt[i + 1][j + 1] == 'ORG')
+      if (cicloAnt[i + 1][j + 1] == ORG)
         vizinhas++;
 
-      if (cicloAnt[i][j] == 'VAZ' && vizinhas == 3)
-        cicloAtual[i][j] = 'ORG';
-      else if ((cicloAnt[i][j] == 'ORG' && vizinhas < 2) || (cicloAnt[i][j] == 'ORG' && vizinhas > 3))
-        cicloAtual[i][j] = 'VAZ';
+      if (cicloAnt[i][j] == VAZ && vizinhas == 3)
+        cicloAtual[i][j] = ORG;
+      else if ((cicloAnt[i][j] == ORG && vizinhas < 2) || (cicloAnt[i][j] == ORG && vizinhas > 3))
+        cicloAtual[i][j] = VAZ;
 
       vizinhas = 0; // resetando contador
     }
