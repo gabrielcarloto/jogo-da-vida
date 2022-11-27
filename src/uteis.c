@@ -114,6 +114,28 @@ char **split(char *str, char *separador, int *contPalavras)
   return palavras;
 }
 
+void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc)
+{
+  switch (padrao)
+  {
+  case 1:
+    inicBloco(ciclo, nl, nc);
+    break;
+  case 2:
+    inicBlinker(ciclo, nl, nc);
+    break;
+  case 3:
+    inicSapo(ciclo, nl, nc);
+    break;
+  case 4:
+    inicGlider(ciclo, nl, nc);
+    break;
+  case 5:
+    inicLWSS(ciclo, nl, nc);
+    break;
+  }
+}
+
 /* Retorna 0 se a célula está morta e 1 caso esteja viva */
 int verificaCelula(const char celula)
 {
@@ -171,26 +193,8 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
   if (dado > 100 - chance)
     if (rand() % 2)
     {
-      padrao = 1 + rand() % 5;
-
-      switch (padrao)
-      {
-      case 1:
-        inicBloco(cicloAtual, nl, nc);
-        break;
-      case 2:
-        inicBlinker(cicloAtual, nl, nc);
-        break;
-      case 3:
-        inicSapo(cicloAtual, nl, nc);
-        break;
-      case 4:
-        inicGlider(cicloAtual, nl, nc);
-        break;
-      case 5:
-        inicLWSS(cicloAtual, nl, nc);
-        break;
-      }
+      padrao = 1 + rand() % NUM_PADROES;
+      iniciaPadrao(padrao, cicloAtual, nl, nc);
     }
     else
     {

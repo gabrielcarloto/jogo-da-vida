@@ -1,5 +1,16 @@
 #include "shared.c"
 
+#define NUM_PADROES 5
+
+typedef enum
+{
+  BLOCO = 1,
+  BLINKER = 2,
+  SAPO = 3,
+  GLIDER = 4,
+  LWSS = 5,
+} Padroes;
+
 void inicBlinker(char **m, int nL, int nC)
 {
   char padrao[1][3] = {{ORG, ORG, ORG}};

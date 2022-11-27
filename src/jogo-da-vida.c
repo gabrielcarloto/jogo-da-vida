@@ -76,26 +76,7 @@ void menuInicJogo(char **mat, int nL, int nC)
   scanf("%d", &opcao);
 
   limpaMatriz(mat, nL, nC);
-
-  switch (opcao)
-  {
-  case 1:
-    inicBloco(mat, nL, nC);
-    break;
-  case 2:
-    inicBlinker(mat, nL, nC);
-    break;
-  case 3:
-    inicSapo(mat, nL, nC);
-    break;
-  case 4:
-    inicGlider(mat, nL, nC);
-    break;
-  case 5:
-    inicLWSS(mat, nL, nC);
-    break;
-  }
-
+  iniciaPadrao(opcao, mat, nL, nC);
   imprimeMatriz(mat, nL, nC);
 
   printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
