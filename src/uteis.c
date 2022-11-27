@@ -116,6 +116,8 @@ char **split(char *str, char *separador, int *contPalavras)
 
 void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc)
 {
+  assert(padrao >= 1 && padrao <= NUM_PADROES);
+
   switch (padrao)
   {
   case 1:
