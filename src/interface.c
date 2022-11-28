@@ -129,7 +129,8 @@ void printSign(Sign_Settings settings, const char *str, ...)
         if (settings.alignment != CENTER)
         {
           int availableSpace = signLen - strlen(str);
-          printf("= %*s%s%*s =\n", (settings.alignment == RIGHT) * availableSpace, "", str, (settings.alignment == LEFT) * availableSpace, "");
+          int isLeftAlign = (settings.alignment == LEFT);
+          printf("= %*s%s%*s =\n", !isLeftAlign * availableSpace, "", str, isLeftAlign * availableSpace, "");
         }
         else
         {
