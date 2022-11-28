@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include "uteis.c"
 
 typedef struct
 {
@@ -123,6 +124,8 @@ void printSign(Sign_Settings settings, const char *str, ...)
 
           printf("%*s =", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
         }
+
+        desalocaMatriz(splittedString, letters);
       }
       else
       {
