@@ -6,9 +6,10 @@
 #include "uteis.c"
 #include "ciclos.c"
 
-#define CIRCULO "·"
-#define QUADRADO "\u25A0"
+#define CHAR_CELULA_MORTA '.'
+#define CHAR_CELULA_VIVA 'O'
 
+#define RESET "\033[0m"
 #define COR_AZUL "\033[34m"
 #define COR_VERDE "\033[92m"
 #define COR_CINZA "\033[90m"
@@ -74,9 +75,9 @@ void imprimeMatriz(char **matriz, int nl, int nc)
   {
     for (j = 0; j < nc; j++)
       if (matriz[i][j] == ORG)
-        printf("%s%s ", COR_PADRAO, QUADRADO);
+        printf("%s%c ", COR_PADRAO, CHAR_CELULA_VIVA);
       else
-        printf("%s%s ", COR_CINZA, CIRCULO);
+        printf("%s%c ", COR_CINZA, CHAR_CELULA_MORTA);
 
     printf("\n");
   }
@@ -93,7 +94,7 @@ void menuInicJogo(char **mat, int nL, int nC)
   iniciaPadrao(opcao, mat, nL, nC);
   imprimeMatriz(mat, nL, nC);
 
-  printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
+  printf("%sSe inicializacao correta digite qualquer tecla para iniciar o jogo...", RESET);
   while (getchar() != '\n')
     ;
   getchar();
