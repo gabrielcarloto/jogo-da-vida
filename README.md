@@ -25,7 +25,3 @@
 - Uma célula viva sobrevive se tiver duas ou três vizinhas vivas.
 - Uma célula morta ganha vida se tiver exatamente três vizinhas vivas.
 - São consideradas vizinhas células na horizontal, vertical e diagonal.
-
-## Contribuição
-
-Para detalhes sobre nosso fluxo de trabalho, acesse o arquivo [CONTRIBUTING](CONTRIBUTING.md).

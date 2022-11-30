@@ -1,8 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
+#include "shared.c"
 
 #define ORG 'X'
 #define VAZ '.'
