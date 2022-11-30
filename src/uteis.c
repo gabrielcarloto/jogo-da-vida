@@ -1,21 +1,25 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include "shared.c"
+
+#define TAM_LINHA 1024
 
 /**
- * Aloca uma matriz de nl linhas e nc colunas.
+ * Aloca uma matriz de nl linhas e nc colunas
  *
- * @param nl número de linhas
- * @param nc número de colunas
+ * @param nl Número de linhas
+ * @param nc Número de colunas
  */
 char **alocaMatriz(int nl, int nc)
 {
   int i;
-  char **m;
+  char **matriz;
 
-  m = (char **)malloc(nl * sizeof(char *));
+  matriz = (char **)malloc(nl * sizeof(char *));
 
-  if (m == NULL)
+  if (matriz == NULL)
   {
     fprintf(stderr, "Erro ao alocar matriz.\n");
     exit(1);
@@ -23,9 +27,9 @@ char **alocaMatriz(int nl, int nc)
 
   for (i = 0; i < nl; i++)
   {
-    m[i] = (char *)malloc(nl * sizeof(char));
+    matriz[i] = (char *)malloc(nl * sizeof(char));
 
-    if (m[i] == NULL)
+    if (matriz[i] == NULL)
     {
 
       fprintf(stderr, "Erro ao alocar matriz.\n");
@@ -33,14 +37,14 @@ char **alocaMatriz(int nl, int nc)
     }
   }
 
-  return m;
+  return matriz;
 }
 
 /**
  * Libera memória alocada pela função alocaMatriz
  *
- * @param matriz matriz a ser liberada
- * @param nl número de linhas
+ * @param matriz Matriz a ser liberada
+ * @param nl Número de linhas
  */
 void desalocaMatriz(char **matriz, int nl)
 {
@@ -52,11 +56,59 @@ void desalocaMatriz(char **matriz, int nl)
   free(matriz);
 }
 
-/* Limpa a matriz, dado um valor (char) para ser colocado em todos os espaços. */
-void limpaMatriz(char **m, char valor, int nl, int nc)
+/* Preenche a matriz com o valor de VAZ */
+void limpaMatriz(char **matriz, int nl, int nc)
 {
   int i, j;
   for (i = 0; i < nl; i++)
     for (j = 0; j < nc; j++)
-      m[i][j] = valor;
+      matriz[i][j] = VAZ;
+}
+
+/**
+ * Copia a matriz original para nova matriz (assumindo que ambas terão o mesmo tamanho)
+ *
+ * @param matrizOriginal Matriz que será copiada
+ * @param novaMatriz Matriz que receberá os valores da matrizOriginal
+ * @param nl Número de linhas
+ * @param nc Número de colunas
+ */
+void copiaMatriz(char **matrizOriginal, char **novaMatriz, int nl, int nc)
+{
+  int i, j;
+
+  for (i = 0; i < nl; i++)
+    for (j = 0; j < nc; j++)
+      novaMatriz[i][j] = matrizOriginal[i][j];
+}
+
+/**
+ * Separa uma string em um vetor de strings (na verdade é uma matriz, mas lide como se fosse um vetor)
+ *
+ * Ex.: uma string "Olá, meu nome é Pedro!" separada por " " retornará `{"Olá,", "meu", "nome", "é", "Pedro"}`
+ *
+ * @param str String a ser separada
+ * @param separador O que vai separar a string
+ * @param contPalavras Ponteiro para um int, que receberá o número de palavras (strings) contidas no retorno
+ */
+char **split(char *str, char *separador, int *contPalavras)
+{
+  char **palavras, *palavra;
+  int i, linhas = TAM_LINHA;
+
+  palavras = alocaMatriz(linhas, TAM_LINHA);
+  palavra = strtok(str, separador);
+
+  for (i = 0; i < linhas && palavra != NULL; i++)
+  {
+    strcpy(palavras[i], palavra);
+    palavra = strtok(NULL, separador);
+  }
+
+  if (i < linhas)
+    palavras = realloc(palavras, i * sizeof(char **));
+
+  *contPalavras = i;
+
+  return palavras;
 }
