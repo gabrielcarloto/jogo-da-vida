@@ -10,6 +10,8 @@
 #define CHAR_CELULA_MORTA '.'
 #define CHAR_CELULA_VIVA 'O'
 
+#define MOSTRA_CURSOR "\e[?25l"
+#define ESCONDE_CURSOR "\e[?25h"
 #define RESET "\033[0m"
 #define COR_AZUL "\033[34m"
 #define COR_VERDE "\033[92m"
@@ -47,6 +49,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   int c;
 
   // imprimindo na tela a matriz inicial
+  printf("%s", ESCONDE_CURSOR);
   system("cls");
   imprimeMatriz(mAtual, nL, nC);
   // getchar();
@@ -64,6 +67,8 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     // getchar();
     Sleep(100);
   }
+
+  printf("%s", MOSTRA_CURSOR);
   desalocaMatriz(mAnt, nL);
 }
 
