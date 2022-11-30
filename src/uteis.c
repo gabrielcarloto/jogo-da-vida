@@ -1,9 +1,8 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define ORG 'X'
-#define VAZ '.'
+#include "shared.c"
 
 #define TAM_LINHA 1024
 
