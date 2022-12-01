@@ -75,15 +75,6 @@ void imprimeMatriz(char **matriz, int nl, int nc)
   }
 }
 
-void hidecursor()
-{
-  HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-  CONSOLE_CURSOR_INFO info;
-  info.dwSize = 100;
-  info.bVisible = FALSE;
-  SetConsoleCursorInfo(consoleHandle, &info);
-}
-
 /**
  * @brief Esconde/mostra o cursor no console. Adaptado de:
  * https://www.autoscripts.net/c-hide-cursor/
