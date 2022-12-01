@@ -111,15 +111,14 @@ void tamanhoTerminal(Terminal_Size *tsize)
   tsize->height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-static HANDLE stdoutHandle;
-static DWORD outModeInit;
-
 /**
  * @brief Configura o terminal para aceitar escapes. Fonte:
  * https://solarianprogrammer.com/2019/04/08/c-programming-ansi-escape-codes-windows-macos-linux-terminals/
  */
 void setupConsole()
 {
+  HANDLE stdoutHandle;
+  DWORD outModeInit;
   DWORD outMode = 0;
   stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
