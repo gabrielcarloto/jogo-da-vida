@@ -38,7 +38,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   int c;
 
   // imprimindo na tela a matriz inicial
-  apagaTela(nL);
+  apagaTela(0);
   imprimeMatriz(mAtual, nL, nC);
   // getchar();
   Sleep(100);

@@ -32,12 +32,23 @@ typedef struct
   Sign_Alignment alignment;
 } Sign_Settings;
 
+/**
+ * @brief Apaga a terminal
+ *
+ * @param nl Número de linhas. Caso não o número de linhas seja desconhecido,
+ * o valor 0 apaga todo o terminal.
+ */
 void apagaTela(int nl)
 {
   int i;
 
-  for (i = 0; i < nl; i++)
-    printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
+  assert(nl >= 0);
+
+  if (nl == 0)
+    system("cls");
+  else
+    for (i = 0; i < nl; i++)
+      printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
 }
 
 /**
