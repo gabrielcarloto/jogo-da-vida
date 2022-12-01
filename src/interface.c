@@ -157,7 +157,7 @@ void printSign(Sign_Settings settings, const char *str, ...)
     exit(1);
   }
 
-  system("cls");
+  apagaTela(tsize.height);
 
   tamanhoTerminal(&tsize);
 
