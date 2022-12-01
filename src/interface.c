@@ -188,8 +188,8 @@ void printSign(Sign_Settings settings, const char *str[])
 /**
  * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
  *
- * @param settings Configurações de exibição
- * @param str Strings a serem impressas. A primeira é o título
+ * @param config Configurações de exibição
+ * @param str Strings a serem impressas (a primeira é o título)
  */
 #define imprimePlaca(config, ...) printSign((Sign_Settings)config, (const char *[]){__VA_ARGS__, NULL})
 
