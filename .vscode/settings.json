@@ -1,6 +1,9 @@
 {
   "files.associations": {
     "string.h": "c",
-    "windows.h": "c"
+    "windows.h": "c",
+    "stdio.h": "c",
+    "cstdio": "c",
+    "_mingw.h": "c"
   }
 }

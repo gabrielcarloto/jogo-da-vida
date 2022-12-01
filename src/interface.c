@@ -96,8 +96,7 @@ void printSign(Sign_Settings settings, const char *str, ...)
     exit(1);
   }
 
-  apagaTela(tsize.height);
-
+  apagaTela(0);
   tamanhoTerminal(&tsize);
 
   va_start(list, str);
