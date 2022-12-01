@@ -103,7 +103,10 @@ void printSign(Sign_Settings settings, const char *str[])
   strLines = contStr(str) - 1;
 
   if (settings.maxWidth > 0)
+  {
+    assert(settings.maxWidth > strMax / 2);
     usedWidth = tsize.width > settings.maxWidth ? settings.maxWidth : tsize.width;
+  }
   else
     usedWidth = tsize.width;
 
