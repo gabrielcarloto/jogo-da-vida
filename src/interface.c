@@ -75,20 +75,19 @@ void imprimeMatriz(char **matriz, int nl, int nc)
   }
 }
 
-int contStr(const char *firstArg, va_list args);
+int contStr(const char *str[]);
 
 /**
  * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
  * É necessário inserir um NULL ao final para não criar um loop infinito.
  *
  * @param settings Configurações de exibição
- * @param str Strings a serem impressas. A primeira é o título.
+ * @param str Strings a serem impressas. A primeira é o título
  */
-void printSign(Sign_Settings settings, const char *str, ...)
+void printSign(Sign_Settings settings, const char *str[])
 {
-  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines, halfTitleSize;
+  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines, halfTitleSize, lastHalfLines;
   Terminal_Size tsize;
-  va_list list, list2;
 
   if (settings.alignment < 0 || settings.alignment > 2)
   {
@@ -99,27 +98,22 @@ void printSign(Sign_Settings settings, const char *str, ...)
   apagaTela(0);
   tamanhoTerminal(&tsize);
 
-  va_start(list, str);
-  va_copy(list2, list);
-
-  strLines = contStr(str, list) - 1;
+  strLines = contStr(str) - 1;
   totalLines = strLines > (tsize.height - 4) ? strLines + tsize.height : tsize.height;
   verticalAlignLines = (totalLines - strLines) - 2;
   halfVerticalLines = verticalAlignLines / 2;
 
-  va_end(list);
-
   signLen = tsize.width - 4;
 
   // TITULO
-  halfTitleSize = (tsize.width - strlen(str) - 2) / 2;
+  halfTitleSize = (tsize.width - strlen(*str) - 2) / 2;
 
   for (i = 0; i < halfTitleSize; i++)
     printf("=");
 
-  printf(" %s ", str);
+  printf(" %s ", *str);
 
-  for (i = 0; i < halfTitleSize + (strlen(str) % 2); i++)
+  for (i = 0; i < halfTitleSize + (strlen(*str) % 2); i++)
     printf("=");
 
   printf("\n");
@@ -128,65 +122,62 @@ void printSign(Sign_Settings settings, const char *str, ...)
   for (i = 0; i < halfVerticalLines; i++)
     printf("= %*s =\n", signLen, "");
 
+  *str++;
+
+  lastHalfLines = halfVerticalLines + (strLines % 2);
+
   // CONTEÚDO
-  str = va_arg(list, char *);
-
-  for (i = 0; i < totalLines - halfVerticalLines - 2; i++)
+  while (*str)
   {
-    if (str)
+    /**
+     * Se o número de caracteres na string for maior que a largura disponível na linha do terminal,
+     * ele acaba criando um loop infinito. Essa variável calcula o número de linhas necessárias para
+     * imprimir a string.
+     */
+    int dividedStrLines = ceil(strlen(*str) / (float)signLen);
+
+    if (dividedStrLines > 1)
     {
-      /**
-       * Se o número de caracteres na string for maior que a largura disponível na linha do terminal,
-       * ele acaba criando um loop infinito. Essa variável calcula o número de linhas necessárias para
-       * imprimir a string.
-       */
-      int dividedStrLines = ceil(strlen(str) / (float)signLen);
-
-      if (dividedStrLines > 1)
+      int letters;
+      char **splittedString = split(*str, "", &letters);
+      for (j = 0; j < dividedStrLines; j++)
       {
-        int letters;
-        char **splittedString = split(str, "", &letters);
-        totalLines -= dividedStrLines - 1;
-        for (j = 0; j < dividedStrLines; j++)
-        {
-          int start = signLen * j, end;
+        int start = signLen * j, end;
 
-          letters -= signLen;
-          end = letters < 0 ? strlen(str) : signLen * (j + 1);
+        letters -= signLen;
+        end = letters < 0 ? strlen(*str) : signLen * (j + 1);
 
-          printf("= %*s", (settings.alignment == RIGHT) * (signLen - (end - start)), "");
-          for (k = start; k < end; k++)
-            printf("%s", splittedString[k]);
+        if (j > 0)
+          lastHalfLines -= 1;
 
-          printf("%*s =", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
-        }
+        printf("= %*s", (settings.alignment == RIGHT) * (signLen - (end - start)), "");
+        for (k = start; k < end; k++)
+          printf("%s", splittedString[k]);
 
-        desalocaMatriz(splittedString, letters);
-      }
-      else
-      {
-        if (settings.alignment != CENTER)
-        {
-          int availableSpace = signLen - strlen(str);
-          int isLeftAlign = (settings.alignment == LEFT);
-          printf("= %*s%s%*s =\n", !isLeftAlign * availableSpace, "", str, isLeftAlign * availableSpace, "");
-        }
-        else
-        {
-          int centerAlignSpaces = (signLen - strlen(str)) / 2;
-          int leftSpace = centerAlignSpaces * 2 + strlen(str) == signLen ? centerAlignSpaces : centerAlignSpaces + 1;
-          printf("= %*s%s%*s =\n", centerAlignSpaces, "", str, leftSpace, "");
-        }
+        printf("%*s =", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
       }
 
-      str = va_arg(list, char *);
+      desalocaMatriz(splittedString, letters);
     }
-    // ESPAÇO EM BRANCO
+    else if (settings.alignment != CENTER)
+    {
+      int availableSpace = signLen - strlen(*str);
+      int isLeftAlign = (settings.alignment == LEFT);
+      printf("= %*s%s%*s =\n", !isLeftAlign * availableSpace, "", *str, isLeftAlign * availableSpace, "");
+    }
     else
-      printf("= %*s =\n", signLen, "");
+    {
+      int centerAlignSpaces = (signLen - strlen(*str)) / 2;
+      int leftSpace = centerAlignSpaces * 2 + strlen(*str) == signLen ? centerAlignSpaces : centerAlignSpaces + 1;
+      printf("= %*s%s%*s =\n", centerAlignSpaces, "", *str, leftSpace, "");
+    }
+
+    *str++;
   }
 
-  va_end(list2);
+  // ESPAÇO EM BRANCO
+  for (i = 0; i < lastHalfLines; i++)
+    printf("= %*s =\n", signLen, "");
 
   for (i = 0; i < tsize.width; i++)
     printf("=");
@@ -194,16 +185,23 @@ void printSign(Sign_Settings settings, const char *str, ...)
   printf("\n");
 }
 
-/* Conta o número de strings em uma va_list */
-int contStr(const char *firstArg, va_list args)
+/**
+ * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
+ *
+ * @param settings Configurações de exibição
+ * @param str Strings a serem impressas. A primeira é o título
+ */
+#define imprimePlaca(config, ...) printSign((Sign_Settings)config, (const char *[]){__VA_ARGS__, NULL})
+
+/* Conta o número de strings em uma matriz que termina com NULL */
+int contStr(const char *str[])
 {
   int cont = 0;
-  char *arg = firstArg;
 
-  while (arg)
+  while (*str)
   {
     cont++;
-    arg = va_arg(args, char *);
+    *str++;
   }
 
   return cont;
