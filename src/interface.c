@@ -89,7 +89,7 @@ int maiorStr(const char *str[]);
  */
 void printSign(Sign_Settings settings, const char *str[])
 {
-  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleSize, lastHalfLines;
+  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines;
   Terminal_Size tsize;
 
   assert(settings.alignment >= 0 && settings.alignment <= 2);
@@ -122,14 +122,14 @@ void printSign(Sign_Settings settings, const char *str[])
   signLen = usedWidth - 4;
 
   // TITULO
-  halfTitleSize = (usedWidth - strlen(*str) - 2) / 2;
+  halfTitleWidth = (usedWidth - strlen(*str) - 2) / 2;
 
-  for (i = 0; i < halfTitleSize; i++)
+  for (i = 0; i < halfTitleWidth; i++)
     printf("=");
 
   printf(" %s ", *str);
 
-  for (i = 0; i < halfTitleSize + (strlen(*str) % 2); i++)
+  for (i = 0; i < halfTitleWidth + (halfTitleWidth % 2); i++)
     printf("=");
 
   printf("\n");
