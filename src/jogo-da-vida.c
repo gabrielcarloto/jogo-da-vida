@@ -10,6 +10,8 @@
 #define CHAR_CELULA_MORTA '.'
 #define CHAR_CELULA_VIVA 'O'
 
+#define APAGA_LINHA "\x1b[2K"
+#define COMECO_LINHA_ANT "\x1b[1F"
 #define MOSTRA_CURSOR "\e[?25l"
 #define ESCONDE_CURSOR "\e[?25h"
 #define RESET "\033[0m"
@@ -43,6 +45,14 @@ int main()
   desalocaMatriz(mat, nL);
 }
 
+void apagaTela(int nl)
+{
+  int i;
+
+  for (i = 0; i < nl; i++)
+    printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
+}
+
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 {
   char **mAnt;
@@ -62,7 +72,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     copiaMatriz(mAtual, mAnt, nL, nC);
 
     atualizaMat(mAnt, mAtual, nL, nC);
-    system("cls");
+    apagaTela(nL);
     imprimeMatriz(mAtual, nL, nC);
     // getchar();
     Sleep(100);
