@@ -36,7 +36,7 @@ void toggleCursor(int show)
 
 /**
  * Mede a largura e a altura (em número de caracteres disponíveis) do terminal rodando o programa.
- * Adaptado de: // https://stackoverflow.com/a/12642749
+ * Adaptado de: https://stackoverflow.com/a/12642749
  *
  * @param tsize Ponteiro para uma variável do tipo Terminal_Size
  */
