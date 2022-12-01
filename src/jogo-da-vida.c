@@ -4,23 +4,8 @@
 #include <windows.h>
 
 #include "shared.c"
-#include "uteis.c"
 #include "ciclos.c"
-
-#define CHAR_CELULA_MORTA '.'
-#define CHAR_CELULA_VIVA 'O'
-
-#define APAGA_LINHA "\x1b[2K"
-#define COMECO_LINHA_ANT "\x1b[1F"
-#define MOSTRA_CURSOR "\e[?25l"
-#define ESCONDE_CURSOR "\e[?25h"
-#define RESET "\033[0m"
-#define COR_AZUL "\033[34m"
-#define COR_VERDE "\033[92m"
-#define COR_CINZA "\033[90m"
-#define COR_AMARELO "\033[93m"
-#define COR_VERMELHO "\033[31m"
-#define COR_PADRAO COR_VERDE
+#include "interface.c"
 
 #define TAM 101
 
@@ -33,6 +18,7 @@ int main()
   int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
   char **mat;
 
+  setupConsole();
   srand(time(NULL));
 
   mat = alocaMatriz(nL, nC);
