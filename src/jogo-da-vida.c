@@ -52,7 +52,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     apagaTela(nL);
     imprimeMatriz(mAtual, nL, nC);
     // getchar();
-    Sleep(100);
+    Sleep(150);
   }
 
   toggleCursor(1);
