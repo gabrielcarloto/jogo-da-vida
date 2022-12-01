@@ -51,6 +51,30 @@ void apagaTela(int nl)
     printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
 }
 
+/**
+ * @brief Imprime o ciclo representando células mortas como um ponto cinza
+ * e células vivas como um "O" verde
+ *
+ * @param matriz Matriz do ciclo a ser impresso na tela
+ * @param nl Número de linhas da matriz
+ * @param nc Número de colunas da matriz
+ */
+void imprimeMatriz(char **matriz, int nl, int nc)
+{
+  int i, j;
+
+  for (i = 0; i < nl; i++)
+  {
+    for (j = 0; j < nc; j++)
+      if (matriz[i][j] == ORG)
+        printf("%s%c ", COR_PADRAO, CHAR_CELULA_VIVA);
+      else
+        printf("%s%c ", COR_CINZA, CHAR_CELULA_MORTA);
+
+    printf("\n");
+  }
+}
+
 void hidecursor()
 {
   HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);

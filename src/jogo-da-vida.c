@@ -10,7 +10,6 @@
 #define TAM 101
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
-void imprimeMatriz(char **matriz, int nl, int nc);
 void menuInicJogo(char **mat, int nL, int nC);
 
 int main()
@@ -58,23 +57,6 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   }
 
   desalocaMatriz(mAnt, nL);
-}
-
-/* A função ainda é bem simples, por enquanto está aqui apenas para testarmos o resto */
-void imprimeMatriz(char **matriz, int nl, int nc)
-{
-  int i, j;
-
-  for (i = 0; i < nl; i++)
-  {
-    for (j = 0; j < nc; j++)
-      if (matriz[i][j] == ORG)
-        printf("%s%c ", COR_PADRAO, CHAR_CELULA_VIVA);
-      else
-        printf("%s%c ", COR_CINZA, CHAR_CELULA_MORTA);
-
-    printf("\n");
-  }
 }
 
 void menuInicJogo(char **mat, int nL, int nC)
