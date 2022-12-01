@@ -51,6 +51,36 @@ void apagaTela(int nl)
     printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
 }
 
+void hidecursor()
+{
+  HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_CURSOR_INFO info;
+  info.dwSize = 100;
+  info.bVisible = FALSE;
+  SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+/**
+ * @brief Esconde/mostra o cursor no console. Adaptado de:
+ * https://www.autoscripts.net/c-hide-cursor/
+ *
+ * @param show Se verdadeiro, mostra, do contrário esconde.
+ */
+void toggleCursor(int show)
+{
+  assert(show == 0 || show == 1);
+
+#ifdef _WIN32
+  HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_CURSOR_INFO cci;
+  GetConsoleCursorInfo(handle, &cci);
+  cci.bVisible = show;
+  SetConsoleCursorInfo(handle, &cci);
+#elif __linux__
+  printf("%s", show ? MOSTRA_CURSOR : ESCONDE_CURSOR);
+#endif // Windows/Linux
+}
+
 /**
  * Mede a largura e a altura (em número de caracteres disponíveis) do terminal rodando o programa
  *

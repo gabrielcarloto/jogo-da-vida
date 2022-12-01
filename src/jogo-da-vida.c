@@ -25,7 +25,9 @@ int main()
 
   // inicio laço indeterminado
   menuInicJogo(mat, nL, nC);
+  toggleCursor(0);
   jogaJogoVida(mat, nL, nC, nCiclos);
+  toggleCursor(1);
   // fim do laco indeterminado
 
   desalocaMatriz(mat, nL);
@@ -37,8 +39,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   int c;
 
   // imprimindo na tela a matriz inicial
-  printf("%s", ESCONDE_CURSOR);
-  system("cls");
+  apagaTela(nL);
   imprimeMatriz(mAtual, nL, nC);
   // getchar();
   Sleep(100);
@@ -56,7 +57,6 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     Sleep(100);
   }
 
-  printf("%s", MOSTRA_CURSOR);
   desalocaMatriz(mAnt, nL);
 }
 
