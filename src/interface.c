@@ -30,6 +30,8 @@ typedef enum
 typedef struct
 {
   Sign_Alignment alignment;
+  int maxWidth;
+  int maxHeight;
 } Sign_Settings;
 
 /**
@@ -76,6 +78,7 @@ void imprimeMatriz(char **matriz, int nl, int nc)
 }
 
 int contStr(const char *str[]);
+int maiorStr(const char *str[]);
 
 /**
  * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
@@ -86,27 +89,40 @@ int contStr(const char *str[]);
  */
 void printSign(Sign_Settings settings, const char *str[])
 {
-  int i, j, k, len, signLen, strLines, totalLines, verticalAlignLines, halfVerticalLines, halfTitleSize, lastHalfLines;
+  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleSize, lastHalfLines;
   Terminal_Size tsize;
 
-  if (settings.alignment < 0 || settings.alignment > 2)
-  {
-    fprintf(stderr, "O alinhamento escolhido (%d) não existe.\n", settings.alignment);
-    exit(1);
-  }
+  assert(settings.alignment >= 0 && settings.alignment <= 2);
+  assert(settings.maxWidth >= 0);
+  assert(settings.maxHeight >= 0);
 
   apagaTela(0);
   tamanhoTerminal(&tsize);
 
+  strMax = maiorStr(str);
   strLines = contStr(str) - 1;
-  totalLines = strLines > (tsize.height - 4) ? strLines + tsize.height : tsize.height;
+
+  if (settings.maxWidth > 0)
+    usedWidth = tsize.width > settings.maxWidth ? settings.maxWidth : tsize.width;
+  else
+    usedWidth = tsize.width;
+
+  if (settings.maxHeight > 0)
+  {
+    assert(settings.maxHeight >= strLines);
+    usedLines = tsize.height > settings.maxHeight ? settings.maxHeight : tsize.height;
+  }
+  else
+    usedLines = tsize.height;
+
+  totalLines = strLines > (usedLines - 4) ? strLines + usedLines : usedLines;
   verticalAlignLines = (totalLines - strLines) - 2;
   halfVerticalLines = verticalAlignLines / 2;
 
-  signLen = tsize.width - 4;
+  signLen = usedWidth - 4;
 
   // TITULO
-  halfTitleSize = (tsize.width - strlen(*str) - 2) / 2;
+  halfTitleSize = (usedWidth - strlen(*str) - 2) / 2;
 
   for (i = 0; i < halfTitleSize; i++)
     printf("=");
@@ -154,7 +170,7 @@ void printSign(Sign_Settings settings, const char *str[])
         for (k = start; k < end; k++)
           printf("%s", splittedString[k]);
 
-        printf("%*s =", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
+        printf("%*s =\n", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
       }
 
       desalocaMatriz(splittedString, letters);
@@ -179,7 +195,7 @@ void printSign(Sign_Settings settings, const char *str[])
   for (i = 0; i < lastHalfLines; i++)
     printf("= %*s =\n", signLen, "");
 
-  for (i = 0; i < tsize.width; i++)
+  for (i = 0; i < usedWidth; i++)
     printf("=");
 
   printf("\n");
@@ -207,5 +223,21 @@ int contStr(const char *str[])
   return cont;
 }
 
-// essa função não deve estar disponível em outros arquivos
+/* Retorna o número de caracteres da maior string */
+int maiorStr(const char *str[])
+{
+  int cont = 0;
+
+  while (*str)
+  {
+    if (strlen(*str) > cont)
+      cont = strlen(*str);
+    *str++;
+  }
+
+  return cont;
+}
+
+// essas funções não devem estar disponíveiss em outros arquivos
 #define contStr NULL
+#define maiorStr NULL

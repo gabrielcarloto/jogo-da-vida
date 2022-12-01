@@ -62,7 +62,11 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 void menuInicJogo(char **mat, int nL, int nC)
 {
   int opcao;
-  Sign_Settings set = {LEFT};
+  Sign_Settings set;
+
+  set.alignment = LEFT;
+  set.maxHeight = 20;
+  set.maxWidth = 75;
 
   imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", "1. Bloco", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS");
   // printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
