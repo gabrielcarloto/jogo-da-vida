@@ -63,12 +63,13 @@ void menuInicJogo(char **mat, int nL, int nC)
 {
   int opcao;
   Sign_Settings set;
+  char *opcoes[] = {"1. Bloco", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS"};
 
   set.alignment = LEFT;
   set.maxHeight = 20;
   set.maxWidth = 75;
 
-  imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", "1. Bloco", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS");
+  imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], opcoes[5]);
   // printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
   // scanf("%d", &opcao);
 
