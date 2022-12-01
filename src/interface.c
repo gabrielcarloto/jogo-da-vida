@@ -43,6 +43,14 @@ typedef struct
   Sign_Alignment alignment;
 } Sign_Settings;
 
+void apagaTela(int nl)
+{
+  int i;
+
+  for (i = 0; i < nl; i++)
+    printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
+}
+
 /**
  * Mede a largura e a altura (em número de caracteres disponíveis) do terminal rodando o programa
  *

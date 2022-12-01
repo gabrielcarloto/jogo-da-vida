@@ -31,14 +31,6 @@ int main()
   desalocaMatriz(mat, nL);
 }
 
-void apagaTela(int nl)
-{
-  int i;
-
-  for (i = 0; i < nl; i++)
-    printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
-}
-
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 {
   char **mAnt;
