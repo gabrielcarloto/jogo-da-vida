@@ -1,69 +1,67 @@
 #include "shared.c"
 
-#define NUM_PADROES 5
+/*/função que lê arquivo csv, e bota na matriz
+opcao = opção do menu
+matMain = matriz que será preenchida
+nl = número de linhas
+nc = número de colunas
+xInic = coordenada da linha
+yInic = coordenada da coluna
+/*/
 
-typedef enum
+void lePadrao(int opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
-  BLOCO = 1,
-  BLINKER = 2,
-  SAPO = 3,
-  GLIDER = 4,
-  LWSS = 5,
-} Padroes;
+    FILE* arquivo;
+    char string[50], **padrao, *endereco; //se tiver algum padrão com mais de 50 colunas de largura da ruim
+    int i, j, dy, terms;
 
-void inicBlinker(char **m, int nL, int nC)
-{
-  char padrao[1][3] = {{ORG, ORG, ORG}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
+    for(i = 0; i<nl; i++) //inicialmente preenche a matriz com células mortas
+        for(j = 0; j<nc; j++)
+                matMain[i][j] = '.';
 
-  for (i = 0; i < 1; i++)
-    for (j = 0; j < 3; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
+    i = 0; //resetando o i
 
-void inicBloco(char **m, int nL, int nC)
-{
-  char padrao[2][2] = {{ORG, ORG}, {ORG, ORG}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
+    if(xInic == -1 || yInic == -1)
+    {
+        xInic = (nl/2) - 1;
+        yInic = (nc/2) - 1;
+    }
 
-  for (i = 0; i < 2; i++)
-    for (j = 0; j < 2; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
+    switch (opcao)
+    {
+        case 1:
+            endereco = "padroes/bloco.csv";
+            break;
+        case 2:
+            endereco = "padroes/blinker.csv";
+            break;
+        case 3:
+            endereco = "padroes/sapo.csv";
+            break;
+        case 4:
+            endereco = "padroes/glider.csv";
+            break;
+        case 5:
+            endereco = "padroes/LWSS.csv";
+            break;
+    }
 
-void inicSapo(char **m, int nL, int nC)
-{
+    arquivo = fopen(endereco, "r"); //abre o arquivo em questão
 
-  char padrao[2][4] = {{VAZ, ORG, ORG, ORG}, {ORG, ORG, ORG, VAZ}};
-  int i, j, xInic = nL / 2, yInic = nC / 2;
+    while(fgets(string, 50, arquivo)) //lê linha por linha
+    {
+        padrao = split(string, ",", &terms);
 
-  for (i = 0; i < 2; i++)
-    for (j = 0; j < 4; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
+        for(j=0; j<terms; j++)
+        {
+            dy = atoi(padrao[j]);//converte a palavra para um inteiro
 
-void inicGlider(char **m, int nL, int nC)
-{
-  char padrao[3][3] = {{ORG, ORG, ORG}, {ORG, VAZ, VAZ}, {VAZ, ORG, VAZ}};
-  int i, j, xInic, yInic;
+            if(xInic+i > nl-1 || yInic+dy > nc)//caso ele tente preencher pra fora da matriz
+                continue;
 
-  xInic = nL - 4;
-  yInic = nC - 4;
+            matMain[xInic+i][yInic+dy] = 'X';
+        }
 
-  for (i = 0; i < 3; i++)
-    for (j = 0; j < 3; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
-}
-
-void inicLWSS(char **m, int nL, int nC)
-{
-  char padrao[4][5] = {{VAZ, ORG, VAZ, VAZ, ORG}, {ORG, VAZ, VAZ, VAZ, VAZ}, {ORG, VAZ, VAZ, VAZ, ORG}, {ORG, ORG, ORG, ORG, VAZ}};
-  int i, j, xInic, yInic;
-
-  xInic = nL - 5;
-  yInic = nC - 6;
-
-  for (i = 0; i < 4; i++)
-    for (j = 0; j < 5; j++)
-      m[xInic + i][yInic + j] = padrao[i][j];
+        i++; //incrementa o i a cada iteração
+    }
 }
