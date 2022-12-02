@@ -86,8 +86,9 @@ int maiorStr(const char *str[]);
  *
  * @param settings Configurações de exibição
  * @param str Strings a serem impressas. A primeira é o título
+ * @returns (int) Número de linhas no terminal
  */
-void printSign(Sign_Settings settings, const char *str[])
+int printSign(Sign_Settings settings, const char *str[])
 {
   int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines;
   Terminal_Size tsize;
@@ -202,6 +203,8 @@ void printSign(Sign_Settings settings, const char *str[])
     printf("=");
 
   printf("\n");
+
+  return tsize.height;
 }
 
 /**
@@ -209,6 +212,7 @@ void printSign(Sign_Settings settings, const char *str[])
  *
  * @param config Configurações de exibição
  * @param str Strings a serem impressas (a primeira é o título)
+ * @returns (int) Número de linhas no terminal
  */
 #define imprimePlaca(config, ...) printSign((Sign_Settings)config, (const char *[]){__VA_ARGS__, NULL})
 

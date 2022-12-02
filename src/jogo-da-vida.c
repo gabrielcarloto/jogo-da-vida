@@ -79,7 +79,7 @@ typedef enum
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
-  int opcao = 0, opcaoAnt;
+  int opcao = 0, opcaoAnt, alturaTerminal;
   Sign_Settings set;
   char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Sair do jogo"}, input;
 
@@ -87,7 +87,7 @@ void menuInicJogo(char **mat, int nL, int nC)
   set.maxHeight = 20;
   set.maxWidth = 75;
 
-  imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+  alturaTerminal = imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
 
   input = getch();
 
@@ -106,8 +106,8 @@ void menuInicJogo(char **mat, int nL, int nC)
       snprintf(opcoes[opcao], TAM, "%s <", opcoes[opcao]);
     }
 
-    apagaTela(0);
-    imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+    apagaTela(alturaTerminal);
+    alturaTerminal = imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
     input = getch();
   }
 
