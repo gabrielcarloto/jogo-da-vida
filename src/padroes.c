@@ -19,8 +19,8 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 
   if (xInic == -1 || yInic == -1)
   {
-    xInic = (nl / 2) - 1;
-    yInic = (nc / 2) - 1;
+    xInic = (nc / 2) - 1;
+    yInic = (nl / 2) - 1;
   }
 
   switch (opcao)
@@ -55,11 +55,10 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     for (j = 0; j < terms; j++)
     {
       dy = atoi(padrao[j]);
+      int linha = yInic + i, coluna = xInic + dy;
 
-      if (xInic + i > nl - 1 || yInic + dy > nc) // caso ele tente preencher pra fora da matriz
-        continue;
-
-      ciclo[xInic + i][yInic + dy] = 'X';
+      if (linha < nl && coluna < nc)
+        ciclo[linha][coluna] = ORG;
     }
 
     i++;
