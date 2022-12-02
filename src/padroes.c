@@ -1,4 +1,7 @@
+#include <string.h>
 #include "shared.c"
+
+#define MAX_CHARS 50
 
 /*/função que lê arquivo csv, e bota na matriz
 opcao = opção do menu
@@ -21,7 +24,7 @@ typedef enum
 void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
-  char string[50], **padrao, *endereco; // se tiver algum padrão com mais de 50 colunas de largura da ruim
+  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = "./padroes/"; // se tiver algum padrão com mais de 50 colunas de largura da ruim
   int i, j, dy, terms;
 
   for (i = 0; i < nl; i++) // inicialmente preenche a matriz com células mortas
@@ -39,25 +42,27 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
   switch (opcao)
   {
   case BLOCO:
-    endereco = "padroes/bloco.csv";
+    strcat(endereco, "bloco");
     break;
   case BLINKER:
-    endereco = "padroes/blinker.csv";
+    strcat(endereco, "blinker");
     break;
   case SAPO:
-    endereco = "padroes/sapo.csv";
+    strcat(endereco, "sapo");
     break;
   case GLIDER:
-    endereco = "padroes/glider.csv";
+    strcat(endereco, "glider");
     break;
   case LWSS:
-    endereco = "padroes/LWSS.csv";
+    strcat(endereco, "LWSS");
     break;
   }
 
+  strcat(endereco, ".csv");
+
   arquivo = fopen(endereco, "r"); // abre o arquivo em questão
 
-  while (fgets(string, 50, arquivo)) // lê linha por linha
+  while (fgets(string, MAX_CHARS, arquivo)) // lê linha por linha
   {
     padrao = split(string, ",", &terms);
 
