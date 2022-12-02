@@ -11,57 +11,57 @@ yInic = coordenada da coluna
 
 void lePadrao(int opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
-    FILE* arquivo;
-    char string[50], **padrao, *endereco; //se tiver algum padrão com mais de 50 colunas de largura da ruim
-    int i, j, dy, terms;
+  FILE *arquivo;
+  char string[50], **padrao, *endereco; // se tiver algum padrão com mais de 50 colunas de largura da ruim
+  int i, j, dy, terms;
 
-    for(i = 0; i<nl; i++) //inicialmente preenche a matriz com células mortas
-        for(j = 0; j<nc; j++)
-                matMain[i][j] = '.';
+  for (i = 0; i < nl; i++) // inicialmente preenche a matriz com células mortas
+    for (j = 0; j < nc; j++)
+      matMain[i][j] = '.';
 
-    i = 0; //resetando o i
+  i = 0; // resetando o i
 
-    if(xInic == -1 || yInic == -1)
+  if (xInic == -1 || yInic == -1)
+  {
+    xInic = (nl / 2) - 1;
+    yInic = (nc / 2) - 1;
+  }
+
+  switch (opcao)
+  {
+  case 1:
+    endereco = "padroes/bloco.csv";
+    break;
+  case 2:
+    endereco = "padroes/blinker.csv";
+    break;
+  case 3:
+    endereco = "padroes/sapo.csv";
+    break;
+  case 4:
+    endereco = "padroes/glider.csv";
+    break;
+  case 5:
+    endereco = "padroes/LWSS.csv";
+    break;
+  }
+
+  arquivo = fopen(endereco, "r"); // abre o arquivo em questão
+
+  while (fgets(string, 50, arquivo)) // lê linha por linha
+  {
+    padrao = split(string, ",", &terms);
+
+    for (j = 0; j < terms; j++)
     {
-        xInic = (nl/2) - 1;
-        yInic = (nc/2) - 1;
+      dy = atoi(padrao[j]); // converte a palavra para um inteiro
+
+      if (xInic + i > nl - 1 || yInic + dy > nc) // caso ele tente preencher pra fora da matriz
+        continue;
+
+      matMain[xInic + i][yInic + dy] = 'X';
     }
 
-    switch (opcao)
-    {
-        case 1:
-            endereco = "padroes/bloco.csv";
-            break;
-        case 2:
-            endereco = "padroes/blinker.csv";
-            break;
-        case 3:
-            endereco = "padroes/sapo.csv";
-            break;
-        case 4:
-            endereco = "padroes/glider.csv";
-            break;
-        case 5:
-            endereco = "padroes/LWSS.csv";
-            break;
-    }
-
-    arquivo = fopen(endereco, "r"); //abre o arquivo em questão
-
-    while(fgets(string, 50, arquivo)) //lê linha por linha
-    {
-        padrao = split(string, ",", &terms);
-
-        for(j=0; j<terms; j++)
-        {
-            dy = atoi(padrao[j]);//converte a palavra para um inteiro
-
-            if(xInic+i > nl-1 || yInic+dy > nc)//caso ele tente preencher pra fora da matriz
-                continue;
-
-            matMain[xInic+i][yInic+dy] = 'X';
-        }
-
-        i++; //incrementa o i a cada iteração
-    }
+    i++; // incrementa o i a cada iteração
+  }
 }
