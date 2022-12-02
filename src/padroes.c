@@ -1,4 +1,5 @@
 #include <string.h>
+#include <assert.h>
 #include <stdio.h>
 
 #include "padroes.h"
@@ -12,6 +13,9 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
   FILE *arquivo;
   char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
   int i, j, dy, terms;
+
+  assert(xInic >= -1 && xInic < nc);
+  assert(yInic >= -1 && yInic < nl);
 
   if (xInic == -1 || yInic == -1)
   {
