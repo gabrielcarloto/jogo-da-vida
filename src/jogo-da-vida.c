@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+#include <conio.h>
 
 #include "shared.c"
 #include "ciclos.c"
@@ -59,26 +60,64 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   desalocaMatriz(mAnt, nL);
 }
 
+typedef enum
+{
+  SETA_CIMA = 72,
+  SETA_BAIXO = 80,
+  SETA_ESQUERDA = 75,
+  SETA_DIREITA = 7,
+  TECLA_ENTER = 13,
+  TECLA_W = 119,
+  TECLA_W_CAPS = 87,
+  TECLA_A = 97,
+  TECLA_A_CAPS = 65,
+  TECLA_S = 115,
+  TECLA_S_CAPS = 83,
+  TECLA_D = 100,
+  TECLA_D_CAPS = 68,
+} INPUTS;
+
 void menuInicJogo(char **mat, int nL, int nC)
 {
-  int opcao;
+  int opcao = 0, opcaoAnt;
   Sign_Settings set;
-  char *opcoes[] = {"1. Bloco", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS"};
+  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Sair do jogo"}, input;
 
   set.alignment = LEFT;
   set.maxHeight = 20;
   set.maxWidth = 75;
 
-  imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], opcoes[5]);
-  // printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
-  // scanf("%d", &opcao);
+  imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+
+  input = getch();
+
+  while (input != TECLA_ENTER)
+  {
+    opcaoAnt = opcao;
+
+    if (input == SETA_BAIXO || input == TECLA_S || input == TECLA_S_CAPS)
+      opcao += (opcao < 5);
+    else if (input == SETA_CIMA || input == TECLA_W || input == TECLA_W_CAPS)
+      opcao -= (opcao != 0);
+
+    if (opcao != opcaoAnt)
+    {
+      opcoes[opcaoAnt][strlen(opcoes[opcaoAnt]) - 2] = '\0';
+      snprintf(opcoes[opcao], TAM, "%s <", opcoes[opcao]);
+    }
+
+    apagaTela(0);
+    imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+    input = getch();
+  }
+
+  if (opcao == 5)
+    exit(0);
 
   limpaMatriz(mat, nL, nC);
-  iniciaPadrao(opcao, mat, nL, nC);
+  iniciaPadrao(opcao + 1, mat, nL, nC);
   imprimeMatriz(mat, nL, nC);
 
   printf("%sSe inicializacao correta digite qualquer tecla para iniciar o jogo...", RESET);
-  while (getchar() != '\n')
-    ;
   getchar();
 }

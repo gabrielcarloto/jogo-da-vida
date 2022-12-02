@@ -4,6 +4,7 @@
     "windows.h": "c",
     "stdio.h": "c",
     "cstdio": "c",
-    "_mingw.h": "c"
+    "_mingw.h": "c",
+    "conio.h": "c"
   }
 }
