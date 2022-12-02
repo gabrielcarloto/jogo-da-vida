@@ -104,7 +104,7 @@ void menuInicJogo(char **mat, int nL, int nC)
     if (opcao != opcaoAnt)
     {
       opcoes[opcaoAnt][strlen(opcoes[opcaoAnt]) - 2] = '\0';
-      snprintf(opcoes[opcao], TAM, "%s <", opcoes[opcao]);
+      strcat(opcoes[opcao], " <");
     }
 
     apagaTela(alturaTerminal);
