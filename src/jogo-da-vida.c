@@ -56,8 +56,9 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     Sleep(150);
   }
 
-  toggleCursor(1);
   desalocaMatriz(mAnt, nL);
+  printf("%s", RESET);
+  toggleCursor(1);
 }
 
 typedef enum
