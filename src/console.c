@@ -91,6 +91,8 @@ void setupConsole()
 
   if (!SetConsoleMode(stdoutHandle, outMode))
     exit(GetLastError());
+
+  toggleCursor(0);
 }
 
 void resetaConsole()
