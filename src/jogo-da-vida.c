@@ -84,14 +84,14 @@ int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanh
 {
   int alturaTerminal;
 
-  alturaTerminal = imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 1]);
+  alturaTerminal = imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 2], opcoes[tamanho - 1]);
 
-  return alturaTerminal / 2 - tamanho - 1;
+  return alturaTerminal / 2 - tamanho - (alturaTerminal % 2);
 }
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
-  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Sair do jogo"}, input;
+  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"}, input;
   int opcao = 0, opcaoAnt, inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings set;
 
@@ -108,7 +108,7 @@ void menuInicJogo(char **mat, int nL, int nC)
     opcaoAnt = opcao;
 
     if (input == SETA_BAIXO || input == TECLA_S || input == TECLA_S_CAPS)
-      opcao += (opcao < 5);
+      opcao += (opcao < numOpcoes - 1);
     else if (input == SETA_CIMA || input == TECLA_W || input == TECLA_W_CAPS)
       opcao -= (opcao != 0);
 
@@ -121,16 +121,16 @@ void menuInicJogo(char **mat, int nL, int nC)
       strcat(opcoes[opcao], " <");
     }
 
-    gotoxy(3, inicioOpcoes + (opcaoAnt >= numOpcoes - 1 ? opcaoAnt + 1 : opcaoAnt));
+    gotoxy(3, inicioOpcoes + (opcaoAnt >= numOpcoes - 2 ? opcaoAnt + 1 : opcaoAnt));
     printf("%s  ", opcoes[opcaoAnt]);
 
-    gotoxy(3, inicioOpcoes + (opcao >= numOpcoes - 1 ? opcao + 1 : opcao));
+    gotoxy(3, inicioOpcoes + (opcao >= numOpcoes - 2 ? opcao + 1 : opcao));
     printf("%s", opcoes[opcao]);
 
     input = inputUsuario(numOpcoes);
   }
 
-  if (opcao == 5)
+  if (opcao == 6 || opcao == 5)
     exit(0);
 
   limpaMatriz(mat, nL, nC);
