@@ -19,12 +19,6 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
   char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = "./padroes/"; // se tiver algum padrão com mais de 50 colunas de largura da ruim
   int i, j, dy, terms;
 
-  for (i = 0; i < nl; i++) // inicialmente preenche a matriz com células mortas
-    for (j = 0; j < nc; j++)
-      matMain[i][j] = '.';
-
-  i = 0; // resetando o i
-
   if (xInic == -1 || yInic == -1)
   {
     xInic = (nl / 2) - 1;
@@ -53,6 +47,8 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
   strcat(endereco, ".csv");
 
   arquivo = fopen(endereco, "r"); // abre o arquivo em questão
+
+  i = 0;
 
   while (fgets(string, MAX_CHARS, arquivo)) // lê linha por linha
   {
