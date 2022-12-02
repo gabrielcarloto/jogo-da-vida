@@ -48,17 +48,17 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
 
   strcat(endereco, ".csv");
 
-  arquivo = fopen(endereco, "r"); // abre o arquivo em questão
+  arquivo = fopen(endereco, "r");
 
   i = 0;
 
-  while (fgets(string, MAX_CHARS, arquivo)) // lê linha por linha
+  while (fgets(string, MAX_CHARS, arquivo))
   {
     padrao = split(string, ",", &terms);
 
     for (j = 0; j < terms; j++)
     {
-      dy = atoi(padrao[j]); // converte a palavra para um inteiro
+      dy = atoi(padrao[j]);
 
       if (xInic + i > nl - 1 || yInic + dy > nc) // caso ele tente preencher pra fora da matriz
         continue;
@@ -66,7 +66,7 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
       matMain[xInic + i][yInic + dy] = 'X';
     }
 
-    i++; // incrementa o i a cada iteração
+    i++;
   }
 }
 
