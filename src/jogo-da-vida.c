@@ -18,6 +18,7 @@ int main()
   int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
   char **mat;
 
+  atexit(resetaConsole);
   setupConsole();
   srand(time(NULL));
 
@@ -57,8 +58,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   }
 
   desalocaMatriz(mAnt, nL);
-  printf("%s", RESET);
-  toggleCursor(1);
+  resetaConsole();
 }
 
 typedef enum

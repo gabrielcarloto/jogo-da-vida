@@ -6,6 +6,7 @@
 
 #define MOSTRA_CURSOR "\e[?25l"
 #define ESCONDE_CURSOR "\e[?25h"
+#define RESET "\033[0m"
 
 typedef struct
 {
@@ -72,4 +73,10 @@ void setupConsole()
 
   if (!SetConsoleMode(stdoutHandle, outMode))
     exit(GetLastError());
+}
+
+void resetaConsole()
+{
+  toggleCursor(1);
+  printf("%s", RESET);
 }
