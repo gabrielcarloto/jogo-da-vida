@@ -25,7 +25,7 @@ typedef enum
  * @param xInic Coluna na qual o padrão será inserido (se for -1, será inserido no centro)
  * @param yInic Linha na qual o padrão será inserido (se for -1, será inserido no centro)
  */
-void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic);
+void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic);
 
 /**
  * @deprecated use a função lePadrao
