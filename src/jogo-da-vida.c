@@ -70,6 +70,12 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   resetaConsole();
 }
 
+/**
+ * @brief Coleta a entrada do usuário até que esta seja uma entrada válida
+ *
+ * @param numOpcoes Número de opções, se disponível
+ * @return (int) Número correspondente ao caractere digitado
+ */
 int inputUsuario(int numOpcoes)
 {
   int input = getch();
@@ -80,6 +86,14 @@ int inputUsuario(int numOpcoes)
   return input;
 }
 
+/**
+ * @brief Imprime na tela o menu inicial de opcoes
+ *
+ * @param config Configuracoes do printSign (imprimePlaca)
+ * @param opcoes Lista de opcoes a serem impressas
+ * @param tamanho Tamanho da lista
+ * @return (int) Número da linha no terminal onde as opcoes iniciam
+ */
 int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanho)
 {
   int alturaTerminal;
