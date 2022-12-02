@@ -8,6 +8,23 @@
 #define ESCONDE_CURSOR "\e[?25h"
 #define RESET "\033[0m"
 
+typedef enum
+{
+  SETA_CIMA = 72,
+  SETA_BAIXO = 80,
+  SETA_ESQUERDA = 75,
+  SETA_DIREITA = 7,
+  TECLA_ENTER = 13,
+  TECLA_W = 119,
+  TECLA_W_CAPS = 87,
+  TECLA_A = 97,
+  TECLA_A_CAPS = 65,
+  TECLA_S = 115,
+  TECLA_S_CAPS = 83,
+  TECLA_D = 100,
+  TECLA_D_CAPS = 68,
+} INPUTS;
+
 typedef struct
 {
   int width;

@@ -61,34 +61,22 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   resetaConsole();
 }
 
-typedef enum
+int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanho)
 {
-  SETA_CIMA = 72,
-  SETA_BAIXO = 80,
-  SETA_ESQUERDA = 75,
-  SETA_DIREITA = 7,
-  TECLA_ENTER = 13,
-  TECLA_W = 119,
-  TECLA_W_CAPS = 87,
-  TECLA_A = 97,
-  TECLA_A_CAPS = 65,
-  TECLA_S = 115,
-  TECLA_S_CAPS = 83,
-  TECLA_D = 100,
-  TECLA_D_CAPS = 68,
-} INPUTS;
+  return imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 1]);
+}
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
-  int opcao = 0, opcaoAnt, alturaTerminal;
-  Sign_Settings set;
   char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Sair do jogo"}, input;
+  int opcao = 0, opcaoAnt, alturaTerminal, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  Sign_Settings set;
 
   set.alignment = LEFT;
   set.maxHeight = 20;
   set.maxWidth = 75;
 
-  alturaTerminal = imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+  alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
 
   input = getch();
 
@@ -111,7 +99,7 @@ void menuInicJogo(char **mat, int nL, int nC)
     }
 
     apagaTela(alturaTerminal);
-    alturaTerminal = imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
+    alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
     input = getch();
     while (!verificaInput(input))
       input = getch();
