@@ -15,6 +15,16 @@ typedef enum
   LWSS,
 } Padroes;
 
+/**
+ * @brief Lê o arquivo do padrão escolhido e o insere na matriz do ciclo
+ *
+ * @param opcao Padrão a ser lido
+ * @param ciclo Matriz do ciclo onde o padrão será inserido
+ * @param nl Número de linhas da matriz
+ * @param nc Número de colunas da matriz
+ * @param xInic Coluna na qual o padrão será inserido (se for -1, será inserido no centro)
+ * @param yInic Linha na qual o padrão será inserido (se for -1, será inserido no centro)
+ */
 void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic);
 
 /**

@@ -6,16 +6,7 @@
 
 #define PATH_PADROES "./padroes/"
 
-/*/função que lê arquivo csv, e bota na matriz
-opcao = opção do menu
-matMain = matriz que será preenchida
-nl = número de linhas
-nc = número de colunas
-xInic = coordenada da linha
-yInic = coordenada da coluna
-/*/
-
-void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic)
+void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
   char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
@@ -63,7 +54,7 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
       if (xInic + i > nl - 1 || yInic + dy > nc) // caso ele tente preencher pra fora da matriz
         continue;
 
-      matMain[xInic + i][yInic + dy] = 'X';
+      ciclo[xInic + i][yInic + dy] = 'X';
     }
 
     i++;
