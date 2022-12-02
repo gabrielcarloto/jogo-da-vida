@@ -59,7 +59,8 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     copiaMatriz(mAtual, mAnt, nL, nC);
 
     atualizaMat(mAnt, mAtual, nL, nC);
-    apagaTela(nL);
+    // apagaTela(nL);
+    gotoxy(0, 0);
     imprimeMatriz(mAtual, nL, nC);
     // getchar();
     Sleep(150);
@@ -81,20 +82,24 @@ int inputUsuario(int numOpcoes)
 
 int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanho)
 {
-  return imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 1]);
+  int alturaTerminal;
+
+  alturaTerminal = imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 1]);
+
+  return alturaTerminal / 2 - tamanho - 1;
 }
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
   char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Sair do jogo"}, input;
-  int opcao = 0, opcaoAnt, alturaTerminal, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  int opcao = 0, opcaoAnt, inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings set;
 
   set.alignment = LEFT;
   set.maxHeight = 20;
   set.maxWidth = 75;
 
-  alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
+  inicioOpcoes = imprimeOpcoesMenu(set, opcoes, numOpcoes);
 
   input = inputUsuario(numOpcoes);
 
@@ -116,8 +121,12 @@ void menuInicJogo(char **mat, int nL, int nC)
       strcat(opcoes[opcao], " <");
     }
 
-    apagaTela(alturaTerminal);
-    alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
+    gotoxy(3, inicioOpcoes + (opcaoAnt >= numOpcoes - 1 ? opcaoAnt + 1 : opcaoAnt));
+    printf("%s  ", opcoes[opcaoAnt]);
+
+    gotoxy(3, inicioOpcoes + (opcao >= numOpcoes - 1 ? opcao + 1 : opcao));
+    printf("%s", opcoes[opcao]);
+
     input = inputUsuario(numOpcoes);
   }
 
@@ -126,7 +135,7 @@ void menuInicJogo(char **mat, int nL, int nC)
 
   limpaMatriz(mat, nL, nC);
   iniciaPadrao(opcao + 1, mat, nL, nC);
-  apagaTela(alturaTerminal);
+  apagaTela(0);
   imprimeMatriz(mat, nL, nC);
 
   printf("%sPressione qualquer tecla para iniciar...", RESET);

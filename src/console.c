@@ -8,6 +8,9 @@
 #define ESCONDE_CURSOR "\e[?25h"
 #define RESET "\033[0m"
 
+// https://stackoverflow.com/a/26423946
+#define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
+
 typedef enum
 {
   SETA_CIMA = 72,
