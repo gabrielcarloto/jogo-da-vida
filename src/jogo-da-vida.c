@@ -12,15 +12,24 @@
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
 void menuInicJogo(char **mat, int nL, int nC);
+int inputUsuario(int numOpcoes);
 
 int main()
 {
   int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
   char **mat;
+  Sign_Settings set;
+
+  set.alignment = CENTER;
+  set.maxHeight = 20;
+  set.maxWidth = 75;
 
   atexit(resetaConsole);
   setupConsole();
   srand(time(NULL));
+
+  imprimePlaca(set, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
+  getch();
 
   mat = alocaMatriz(nL, nC);
 
@@ -61,6 +70,16 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
   resetaConsole();
 }
 
+int inputUsuario(int numOpcoes)
+{
+  int input = getch();
+
+  while (!verificaInput(input, numOpcoes))
+    input = getch();
+
+  return input;
+}
+
 int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanho)
 {
   return imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 1]);
@@ -68,7 +87,7 @@ int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanh
 
 void menuInicJogo(char **mat, int nL, int nC)
 {
-  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Sair do jogo"}, input;
+  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Sair do jogo"}, input;
   int opcao = 0, opcaoAnt, alturaTerminal, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings set;
 
@@ -78,10 +97,7 @@ void menuInicJogo(char **mat, int nL, int nC)
 
   alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
 
-  input = getch();
-
-  while (!verificaInput(input))
-    input = getch();
+  input = inputUsuario(numOpcoes);
 
   while (input != TECLA_ENTER)
   {
@@ -92,6 +108,9 @@ void menuInicJogo(char **mat, int nL, int nC)
     else if (input == SETA_CIMA || input == TECLA_W || input == TECLA_W_CAPS)
       opcao -= (opcao != 0);
 
+    if (input - NUM_ZERO > 0 && input - NUM_ZERO <= numOpcoes)
+      opcao = input - NUM_ZERO - 1;
+
     if (opcao != opcaoAnt)
     {
       opcoes[opcaoAnt][strlen(opcoes[opcaoAnt]) - 2] = '\0';
@@ -100,9 +119,7 @@ void menuInicJogo(char **mat, int nL, int nC)
 
     apagaTela(alturaTerminal);
     alturaTerminal = imprimeOpcoesMenu(set, opcoes, numOpcoes);
-    input = getch();
-    while (!verificaInput(input))
-      input = getch();
+    input = inputUsuario(numOpcoes);
   }
 
   if (opcao == 5)
