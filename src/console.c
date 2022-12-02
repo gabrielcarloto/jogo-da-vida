@@ -80,3 +80,14 @@ void resetaConsole()
   toggleCursor(1);
   printf("%s", RESET);
 }
+
+/**
+ * @brief Verifica se o valor input é um dos valores definidos em INPUTS
+ *
+ * @param input Valor coletado através da função getch
+ * @return int
+ */
+int verificaInput(int input)
+{
+  return (input == SETA_CIMA || input == SETA_BAIXO || input == SETA_DIREITA || input == SETA_ESQUERDA || input == TECLA_ENTER || input == TECLA_W || input == TECLA_W_CAPS || input == TECLA_A || input == TECLA_A_CAPS || input == TECLA_S || input == TECLA_S_CAPS || input == TECLA_D || input == TECLA_D_CAPS);
+}

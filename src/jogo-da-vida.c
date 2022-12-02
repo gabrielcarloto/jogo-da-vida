@@ -92,6 +92,9 @@ void menuInicJogo(char **mat, int nL, int nC)
 
   input = getch();
 
+  while (!verificaInput(input))
+    input = getch();
+
   while (input != TECLA_ENTER)
   {
     opcaoAnt = opcao;
@@ -110,6 +113,8 @@ void menuInicJogo(char **mat, int nL, int nC)
     apagaTela(alturaTerminal);
     alturaTerminal = imprimePlaca(set, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[5]);
     input = getch();
+    while (!verificaInput(input))
+      input = getch();
   }
 
   if (opcao == 5)
