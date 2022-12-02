@@ -5,6 +5,7 @@
 #include "uteis.h"
 
 #define PATH_PADROES "./padroes/"
+#define EXT_PADROES ".csv"
 
 void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
@@ -37,7 +38,7 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     break;
   }
 
-  strcat(endereco, ".csv");
+  strcat(endereco, EXT_PADROES);
 
   arquivo = fopen(endereco, "r");
 
