@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "shared.c"
+#include "celulas.h"
 #include "padroes.h"
 
 /**

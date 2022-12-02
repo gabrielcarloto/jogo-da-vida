@@ -1,6 +1,5 @@
 #ifndef _UTEIS_H_
 #define _UTEIS_H_
-#include "shared.c"
 
 #define TAM_LINHA 1024
 

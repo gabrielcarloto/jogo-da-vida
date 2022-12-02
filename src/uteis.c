@@ -2,7 +2,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "uteis.h"
+#include "celulas.h"
 
 char **alocaMatriz(int nl, int nc)
 {

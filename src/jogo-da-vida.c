@@ -6,7 +6,7 @@
 #include "uteis.h"
 #include "padroes.h"
 #include "ciclos.h"
-#include "shared.c"
+#include "celulas.h"
 
 #define TAM 101
 
