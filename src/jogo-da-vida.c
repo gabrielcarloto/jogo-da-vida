@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+
+#include "uteis.h"
+#include "padroes.h"
+#include "ciclos.h"
 #include "shared.c"
-#include "uteis.c"
-#include "padroes.c"
-#include "ciclos.c"
 
 #define TAM 101
 

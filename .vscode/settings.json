@@ -1,0 +1,3 @@
+{
+  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c"
+}

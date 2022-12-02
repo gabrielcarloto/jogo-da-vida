@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "shared.c"
-#include "padroes.c"
+#include "padroes.h"
 
 /**
  * Inicia um dos padrões disponíveis

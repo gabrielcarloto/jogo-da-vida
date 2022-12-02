@@ -1,11 +1,8 @@
-#ifndef _PADROES_C_
-#define _PADROES_C_
-#include <stdio.h>
 #include <string.h>
-#include "shared.c"
+#include <stdio.h>
 
-#define MAX_CHARS 50
-#define NUM_PADROES 5
+#include "padroes.h"
+#include "uteis.h"
 
 /*/função que lê arquivo csv, e bota na matriz
 opcao = opção do menu
@@ -15,15 +12,6 @@ nc = número de colunas
 xInic = coordenada da linha
 yInic = coordenada da coluna
 /*/
-
-typedef enum
-{
-  BLOCO,
-  BLINKER,
-  SAPO,
-  GLIDER,
-  LWSS,
-} Padroes;
 
 void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
@@ -84,9 +72,6 @@ void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yIni
   }
 }
 
-/**
- * @deprecated use a função lePadrao
- */
 void inicBlinker(char **m, int nL, int nC)
 {
   char padrao[1][3] = {{ORG, ORG, ORG}};
@@ -97,9 +82,6 @@ void inicBlinker(char **m, int nL, int nC)
       m[xInic + i][yInic + j] = padrao[i][j];
 }
 
-/**
- * @deprecated use a função lePadrao
- */
 void inicBloco(char **m, int nL, int nC)
 {
   char padrao[2][2] = {{ORG, ORG}, {ORG, ORG}};
@@ -110,9 +92,6 @@ void inicBloco(char **m, int nL, int nC)
       m[xInic + i][yInic + j] = padrao[i][j];
 }
 
-/**
- * @deprecated use a função lePadrao
- */
 void inicSapo(char **m, int nL, int nC)
 {
 
@@ -124,9 +103,6 @@ void inicSapo(char **m, int nL, int nC)
       m[xInic + i][yInic + j] = padrao[i][j];
 }
 
-/**
- * @deprecated use a função lePadrao
- */
 void inicGlider(char **m, int nL, int nC)
 {
   char padrao[3][3] = {{ORG, ORG, ORG}, {ORG, VAZ, VAZ}, {VAZ, ORG, VAZ}};
@@ -140,9 +116,6 @@ void inicGlider(char **m, int nL, int nC)
       m[xInic + i][yInic + j] = padrao[i][j];
 }
 
-/**
- * @deprecated use a função lePadrao
- */
 void inicLWSS(char **m, int nL, int nC)
 {
   char padrao[4][5] = {{VAZ, ORG, VAZ, VAZ, ORG}, {ORG, VAZ, VAZ, VAZ, VAZ}, {ORG, VAZ, VAZ, VAZ, ORG}, {ORG, ORG, ORG, ORG, VAZ}};
@@ -155,4 +128,3 @@ void inicLWSS(char **m, int nL, int nC)
     for (j = 0; j < 5; j++)
       m[xInic + i][yInic + j] = padrao[i][j];
 }
-#endif
