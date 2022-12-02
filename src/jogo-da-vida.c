@@ -118,6 +118,6 @@ void menuInicJogo(char **mat, int nL, int nC)
   iniciaPadrao(opcao + 1, mat, nL, nC);
   imprimeMatriz(mat, nL, nC);
 
-  printf("%sSe inicializacao correta digite qualquer tecla para iniciar o jogo...", RESET);
-  getchar();
+  printf("%sPressione qualquer tecla para iniciar...", RESET);
+  getch();
 }
