@@ -116,6 +116,7 @@ void menuInicJogo(char **mat, int nL, int nC)
 
   limpaMatriz(mat, nL, nC);
   iniciaPadrao(opcao + 1, mat, nL, nC);
+  apagaTela(alturaTerminal);
   imprimeMatriz(mat, nL, nC);
 
   printf("%sPressione qualquer tecla para iniciar...", RESET);
