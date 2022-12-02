@@ -4,6 +4,8 @@
 #include "padroes.h"
 #include "uteis.h"
 
+#define PATH_PADROES "./padroes/"
+
 /*/função que lê arquivo csv, e bota na matriz
 opcao = opção do menu
 matMain = matriz que será preenchida
@@ -16,7 +18,7 @@ yInic = coordenada da coluna
 void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
-  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = "./padroes/"; // se tiver algum padrão com mais de 50 colunas de largura da ruim
+  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
   int i, j, dy, terms;
 
   if (xInic == -1 || yInic == -1)

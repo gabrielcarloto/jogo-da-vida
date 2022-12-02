@@ -1,3 +1,7 @@
 {
-  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c"
+  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c",
+  "files.associations": {
+    "padroes.h": "c",
+    "uteis.h": "c"
+  }
 }
