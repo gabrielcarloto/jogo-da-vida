@@ -9,7 +9,16 @@ xInic = coordenada da linha
 yInic = coordenada da coluna
 /*/
 
-void lePadrao(int opcao, char **matMain, int nl, int nc, int xInic, int yInic)
+typedef enum
+{
+  BLOCO,
+  BLINKER,
+  SAPO,
+  GLIDER,
+  LWSS,
+} Padroes;
+
+void lePadrao(Padroes opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
   char string[50], **padrao, *endereco; // se tiver algum padrão com mais de 50 colunas de largura da ruim
@@ -29,19 +38,19 @@ void lePadrao(int opcao, char **matMain, int nl, int nc, int xInic, int yInic)
 
   switch (opcao)
   {
-  case 1:
+  case BLOCO:
     endereco = "padroes/bloco.csv";
     break;
-  case 2:
+  case BLINKER:
     endereco = "padroes/blinker.csv";
     break;
-  case 3:
+  case SAPO:
     endereco = "padroes/sapo.csv";
     break;
-  case 4:
+  case GLIDER:
     endereco = "padroes/glider.csv";
     break;
-  case 5:
+  case LWSS:
     endereco = "padroes/LWSS.csv";
     break;
   }
