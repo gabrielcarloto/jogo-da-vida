@@ -96,6 +96,7 @@ void setupConsole()
     exit(GetLastError());
 
   system("cls");
+  SetConsoleTitle("Jogo da Vida de Conway");
   toggleCursor(0);
 }
 
