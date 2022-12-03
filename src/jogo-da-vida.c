@@ -12,13 +12,8 @@
 
 typedef enum
 {
-  BLOCO,
-  BLINKER,
-  SAPO,
-  GLIDER,
-  LWSS,
-  CONFIG,
-  SAIR
+  CONFIG = 6,
+  SAIR = 7
 } Opcoes;
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
