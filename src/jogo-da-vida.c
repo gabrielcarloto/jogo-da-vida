@@ -12,8 +12,8 @@
 
 typedef enum
 {
-  CONFIG = 6,
-  SAIR = 7
+  CONFIG = 5,
+  SAIR = 6
 } Opcoes;
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
