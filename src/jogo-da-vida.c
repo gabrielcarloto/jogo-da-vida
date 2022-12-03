@@ -10,8 +10,19 @@
 
 #define TAM 101
 
+typedef enum
+{
+  BLOCO,
+  BLINKER,
+  SAPO,
+  GLIDER,
+  LWSS,
+  CONFIG,
+  SAIR
+} Opcoes;
+
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
-int menuInicial(int *nl, int *nc);
+Opcoes menuInicial(int *nl, int *nc);
 int inputUsuario(int numOpcoes);
 
 int main()
@@ -36,7 +47,7 @@ int main()
 
   mat = alocaMatriz(nL, nC);
   limpaMatriz(mat, nL, nC);
-  iniciaPadrao(opcao, mat, nL, nC);
+  iniciaPadrao(opcao + 1, mat, nL, nC);
   system("cls");
   imprimeMatriz(mat, nL, nC);
 
@@ -94,11 +105,12 @@ int inputUsuario(int numOpcoes)
   return input;
 }
 
-int menuInicial(int *nl, int *nc)
+Opcoes menuInicial(int *nl, int *nc)
 {
   char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"}, input;
-  int opcao = 0, opcaoAnt, inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+  Opcoes opcao = 0, opcaoAnt;
   Sign_Settings set;
 
   set.alignment = LEFT;
@@ -150,8 +162,8 @@ int menuInicial(int *nl, int *nc)
     input = inputUsuario(numOpcoes);
   }
 
-  if (opcao == 6 || opcao == 5)
+  if (opcao == CONFIG || opcao == SAIR)
     exit(0);
 
-  return opcao + 1;
+  return opcao;
 }
