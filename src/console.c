@@ -20,6 +20,7 @@ typedef enum
   SETA_ESQUERDA = 75,
   SETA_DIREITA = 7,
   TECLA_ENTER = 13,
+  TECLA_ESC = 27,
   TECLA_W = 119,
   TECLA_W_CAPS = 87,
   TECLA_A = 97,
@@ -134,7 +135,22 @@ void resetaConsole()
  * @param input Valor coletado através da função getch
  * @return int
  */
-int verificaInput(int input, int numOpcoes)
+int verificaInput(INPUTS input, int numOpcoes)
 {
-  return (input == SETA_CIMA || input == SETA_BAIXO || input == SETA_DIREITA || input == SETA_ESQUERDA || input == TECLA_ENTER || input == TECLA_W || input == TECLA_W_CAPS || input == TECLA_A || input == TECLA_A_CAPS || input == TECLA_S || input == TECLA_S_CAPS || input == TECLA_D || input == TECLA_D_CAPS || input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1);
+  return (
+      input == SETA_CIMA ||
+      input == SETA_BAIXO ||
+      input == SETA_DIREITA ||
+      input == SETA_ESQUERDA ||
+      input == TECLA_ENTER ||
+      input == TECLA_ESC ||
+      input == TECLA_W ||
+      input == TECLA_W_CAPS ||
+      input == TECLA_A ||
+      input == TECLA_A_CAPS ||
+      input == TECLA_S ||
+      input == TECLA_S_CAPS ||
+      input == TECLA_D ||
+      input == TECLA_D_CAPS ||
+      input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1);
 }

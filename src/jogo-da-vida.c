@@ -92,10 +92,13 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
  */
 int inputUsuario(int numOpcoes)
 {
-  int input = getch();
+  INPUTS input = getch();
 
   while (!verificaInput(input, numOpcoes))
     input = getch();
+
+  if (input == TECLA_ESC)
+    exit(0);
 
   return input;
 }
