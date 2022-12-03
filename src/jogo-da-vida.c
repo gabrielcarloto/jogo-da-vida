@@ -9,7 +9,6 @@
 #include "interface.c"
 
 #define TAM 101
-#define TAM_MIN_TELA 15
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
 void menuInicJogo(char **mat, int nL, int nC);
