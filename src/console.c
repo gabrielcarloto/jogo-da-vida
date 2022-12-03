@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <winuser.h>
+#include <assert.h>
 
 #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
@@ -72,7 +74,26 @@ void tamanhoTerminal(Terminal_Size *tsize)
 }
 
 /**
- * @brief Configura o terminal para aceitar escapes. Fonte:
+ * @brief Redimensiona a janela, centralizando-a no processo
+ *
+ * @param width Largura em pixels (se 0, a janela será maximizada)
+ * @param height Altura em pixels (se 0, a janela será maximizada)
+ */
+void resizeWindow(int width, int height)
+{
+  DWORD scrWidth = GetSystemMetrics(SM_CXSCREEN), scrHeight = GetSystemMetrics(SM_CYSCREEN);
+  HWND hWnd = GetConsoleWindow();
+
+  assert(width >= 0 && height >= 0);
+
+  if (width && height)
+    MoveWindow(hWnd, (scrWidth - width) / 2, (scrHeight - height) / 2, width, height, TRUE);
+  else
+    ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+}
+
+/**
+ * @brief Configura o terminal para aceitar escapes. Adaptado de:
  * https://solarianprogrammer.com/2019/04/08/c-programming-ansi-escape-codes-windows-macos-linux-terminals/
  */
 void setupConsole()
@@ -97,6 +118,7 @@ void setupConsole()
 
   system("cls");
   SetConsoleTitle("Jogo da Vida de Conway");
+  resizeWindow(600, 400);
   toggleCursor(0);
 }
 
