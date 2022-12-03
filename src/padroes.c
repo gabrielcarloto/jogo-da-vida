@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "padroes.h"
+#include "celulas.h"
 #include "uteis.h"
 
 #define PATH_PADROES "./padroes/"
@@ -12,7 +13,7 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
   char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
-  int i, j, colCelulaPadrao, numCelulasColuna;
+  int i, j, colCelulaPadrao, celulasNaColuna;
 
   assert(xInic >= -1 && xInic < nc);
   assert(yInic >= -1 && yInic < nl);
@@ -50,9 +51,9 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 
   while (fgets(string, MAX_CHARS, arquivo))
   {
-    padrao = split(string, ",", &numCelulasColuna);
+    padrao = split(string, ",", &celulasNaColuna);
 
-    for (j = 0; j < numCelulasColuna; j++)
+    for (j = 0; j < celulasNaColuna; j++)
     {
       colCelulaPadrao = atoi(padrao[j]);
       int linha = yInic + i, coluna = xInic + colCelulaPadrao;
@@ -62,6 +63,7 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     }
 
     i++;
+    desalocaMatriz(padrao, celulasNaColuna);
   }
 }
 

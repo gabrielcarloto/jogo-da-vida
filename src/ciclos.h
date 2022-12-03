@@ -1,6 +1,5 @@
 #ifndef _CICLOS_H_
 #define _CICLOS_H_
-#include "shared.c"
 #include "padroes.h"
 
 /**

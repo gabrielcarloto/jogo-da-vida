@@ -3,6 +3,7 @@
   "files.associations": {
     "padroes.h": "c",
     "uteis.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "ciclos.h": "c"
   }
 }
