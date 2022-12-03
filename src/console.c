@@ -95,6 +95,7 @@ void setupConsole()
   if (!SetConsoleMode(stdoutHandle, outMode))
     exit(GetLastError());
 
+  system("cls");
   toggleCursor(0);
 }
 

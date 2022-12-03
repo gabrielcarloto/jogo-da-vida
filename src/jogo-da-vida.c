@@ -11,12 +11,12 @@
 #define TAM 101
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
-void menuInicJogo(char **mat, int nL, int nC);
+int menuInicial(int *nl, int *nc);
 int inputUsuario(int numOpcoes);
 
 int main()
 {
-  int nL = 20, nC = 20, nCiclos = 50; // ou fornecidos pelo usuario
+  int nL = 20, nC = 20, nCiclos = 50, opcao; // ou fornecidos pelo usuario
   char **mat;
   Sign_Settings set;
 
@@ -31,10 +31,18 @@ int main()
   imprimePlaca(set, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
   getch();
 
-  mat = alocaMatriz(nL, nC);
-
   // inicio laço indeterminado
-  menuInicJogo(mat, nL, nC);
+  opcao = menuInicial(&nL, &nC);
+
+  mat = alocaMatriz(nL, nC);
+  limpaMatriz(mat, nL, nC);
+  iniciaPadrao(opcao, mat, nL, nC);
+  system("cls");
+  imprimeMatriz(mat, nL, nC);
+
+  printf("%sPressione qualquer tecla para iniciar...", RESET);
+  getch();
+
   jogaJogoVida(mat, nL, nC, nCiclos);
   // fim do laco indeterminado
 
@@ -86,7 +94,7 @@ int inputUsuario(int numOpcoes)
   return input;
 }
 
-void menuInicJogo(char **mat, int nL, int nC)
+int menuInicial(int *nl, int *nc)
 {
   char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"}, input;
   int opcao = 0, opcaoAnt, inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
@@ -145,11 +153,5 @@ void menuInicJogo(char **mat, int nL, int nC)
   if (opcao == 6 || opcao == 5)
     exit(0);
 
-  limpaMatriz(mat, nL, nC);
-  iniciaPadrao(opcao + 1, mat, nL, nC);
-  apagaTela(0);
-  imprimeMatriz(mat, nL, nC);
-
-  printf("%sPressione qualquer tecla para iniciar...", RESET);
-  getch();
+  return opcao + 1;
 }
