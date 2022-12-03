@@ -9,6 +9,7 @@
 #include "interface.c"
 
 #define TAM 101
+#define POS_Y(opcao, numConfig) (inicioOpcoes + (opcao >= numOpcoes - numConfig ? opcao + 1 : opcao) - 1)
 
 typedef enum
 {
@@ -103,35 +104,11 @@ int inputUsuario(int numOpcoes)
   return input;
 }
 
-Opcoes menuInicial(int *nl, int *nc)
+int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numConfig)
 {
-  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"}, input;
-  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
-  HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-  Opcoes opcao = 0, opcaoAnt;
-  Sign_Settings set;
-
-  set.alignment = LEFT;
-  set.maxHeight = 20;
-  set.maxWidth = 75;
-  set.firstOptionIndex = 3;
-
-  inicioOpcoes = imprimePlaca(
-      set,
-      "MENU",
-      "Escolha um dos padroes para iniciar o jogo:",
-      " ",
-      opcoes[0],
-      opcoes[1],
-      opcoes[2],
-      opcoes[3],
-      opcoes[4],
-      " ",
-      opcoes[numOpcoes - 2],
-      opcoes[numOpcoes - 1]);
-
-  // linhaCursor = wherey();
-  input = inputUsuario(numOpcoes);
+  Opcoes opcaoAnt, opcao = 0;
+  INPUTS input = inputUsuario(numOpcoes);
+  HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
   while (input != TECLA_ENTER)
   {
@@ -151,14 +128,45 @@ Opcoes menuInicial(int *nl, int *nc)
       strcat(opcoes[opcao], " <");
     }
 
-    SetConsoleCursorPosition(h, (COORD){2, inicioOpcoes + (opcaoAnt >= numOpcoes - 2 ? opcaoAnt + 1 : opcaoAnt) - 1});
+    SetConsoleCursorPosition(stdoutHandle, (COORD){2, POS_Y(opcaoAnt, 2)});
     printf("%s  ", opcoes[opcaoAnt]);
 
-    SetConsoleCursorPosition(h, (COORD){2, inicioOpcoes + (opcao >= numOpcoes - 2 ? opcao + 1 : opcao) - 1});
+    SetConsoleCursorPosition(stdoutHandle, (COORD){2, POS_Y(opcao, 2)});
     printf("%s", opcoes[opcao]);
 
     input = inputUsuario(numOpcoes);
   }
+
+  return opcao;
+}
+
+Opcoes menuInicial(int *nl, int *nc)
+{
+  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"};
+  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  Sign_Settings signSettings;
+  Opcoes opcao;
+
+  signSettings.alignment = LEFT;
+  signSettings.maxHeight = 20;
+  signSettings.maxWidth = 75;
+  signSettings.firstOptionIndex = 3;
+
+  inicioOpcoes = imprimePlaca(
+      signSettings,
+      "MENU",
+      "Escolha um dos padroes para iniciar o jogo:",
+      " ",
+      opcoes[0],
+      opcoes[1],
+      opcoes[2],
+      opcoes[3],
+      opcoes[4],
+      " ",
+      opcoes[numOpcoes - 2],
+      opcoes[numOpcoes - 1]);
+
+  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2);
 
   if (opcao == CONFIG || opcao == SAIR)
     exit(0);
