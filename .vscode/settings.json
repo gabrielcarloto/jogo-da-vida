@@ -5,6 +5,7 @@
     "stdio.h": "c",
     "cstdio": "c",
     "_mingw.h": "c",
-    "conio.h": "c"
+    "conio.h": "c",
+    "winuser.h": "c"
   }
 }

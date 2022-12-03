@@ -32,6 +32,7 @@ typedef struct
   Sign_Alignment alignment;
   int maxWidth;
   int maxHeight;
+  int firstOptionIndex;
 } Sign_Settings;
 
 /**
@@ -86,11 +87,11 @@ int maiorStr(const char *str[]);
  *
  * @param settings Configurações de exibição
  * @param str Strings a serem impressas. A primeira é o título
- * @returns (int) Número de linhas no terminal
+ * @returns (int) Linha de início das opções
  */
 int printSign(Sign_Settings settings, const char *str[])
 {
-  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines;
+  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines, firstOptionLine = 0;
   Terminal_Size tsize;
 
   assert(settings.alignment >= 0 && settings.alignment <= 2);
@@ -119,6 +120,14 @@ int printSign(Sign_Settings settings, const char *str[])
   else
     usedLines = tsize.height;
 
+  // if (usedLines > settings.maxHeight)
+  // {
+  //   while (*str)
+  //     puts(*str++);
+
+  //   return settings.firstOptionIndex;
+  // }
+
   totalLines = strLines > (usedLines - 4) ? strLines + usedLines : usedLines;
   verticalAlignLines = (totalLines - strLines) - 2;
   halfVerticalLines = verticalAlignLines / 2;
@@ -143,8 +152,9 @@ int printSign(Sign_Settings settings, const char *str[])
     printf("= %*s =\n", signLen, "");
 
   *str++;
-
   lastHalfLines = halfVerticalLines + (strLines % 2);
+  firstOptionLine += settings.firstOptionIndex > 0 ? 1 + i : 0;
+  i = 0;
 
   // CONTEÚDO
   while (*str)
@@ -174,6 +184,9 @@ int printSign(Sign_Settings settings, const char *str[])
         for (k = start; k < end; k++)
           printf("%s", splittedString[k]);
 
+        if (i != settings.firstOptionIndex)
+          i++;
+
         printf("%*s =\n", (settings.alignment == LEFT || settings.alignment == CENTER) * (signLen - (end - start)), "");
       }
 
@@ -181,12 +194,18 @@ int printSign(Sign_Settings settings, const char *str[])
     }
     else if (settings.alignment != CENTER)
     {
+      if (i != settings.firstOptionIndex)
+        i++;
+
       int availableSpace = signLen - strlen(*str);
       int isLeftAlign = (settings.alignment == LEFT);
       printf("= %*s%s%*s =\n", !isLeftAlign * availableSpace, "", *str, isLeftAlign * availableSpace, "");
     }
     else
     {
+      if (i != settings.firstOptionIndex)
+        i++;
+
       int centerAlignSpaces = (signLen - strlen(*str)) / 2;
       int leftSpace = centerAlignSpaces * 2 + strlen(*str) == signLen ? centerAlignSpaces : centerAlignSpaces + 1;
       printf("= %*s%s%*s =\n", centerAlignSpaces, "", *str, leftSpace, "");
@@ -194,6 +213,8 @@ int printSign(Sign_Settings settings, const char *str[])
 
     *str++;
   }
+
+  firstOptionLine += i;
 
   // ESPAÇO EM BRANCO
   for (i = 0; i < lastHalfLines; i++)
@@ -204,7 +225,7 @@ int printSign(Sign_Settings settings, const char *str[])
 
   printf("\n");
 
-  return tsize.height;
+  return firstOptionLine;
 }
 
 /**

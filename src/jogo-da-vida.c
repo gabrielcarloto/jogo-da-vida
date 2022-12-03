@@ -9,6 +9,7 @@
 #include "interface.c"
 
 #define TAM 101
+#define TAM_MIN_TELA 15
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
 void menuInicJogo(char **mat, int nL, int nC);
@@ -43,8 +44,9 @@ int main()
 
 void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 {
-  char **mAnt;
   int c;
+  char **mAnt;
+  HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
   // imprimindo na tela a matriz inicial
   apagaTela(0);
@@ -59,8 +61,7 @@ void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
     copiaMatriz(mAtual, mAnt, nL, nC);
 
     atualizaMat(mAnt, mAtual, nL, nC);
-    // apagaTela(nL);
-    gotoxy(0, 0);
+    SetConsoleCursorPosition(h, (COORD){0, 0});
     imprimeMatriz(mAtual, nL, nC);
     // getchar();
     Sleep(150);
@@ -86,35 +87,33 @@ int inputUsuario(int numOpcoes)
   return input;
 }
 
-/**
- * @brief Imprime na tela o menu inicial de opcoes
- *
- * @param config Configuracoes do printSign (imprimePlaca)
- * @param opcoes Lista de opcoes a serem impressas
- * @param tamanho Tamanho da lista
- * @return (int) Número da linha no terminal onde as opcoes iniciam
- */
-int imprimeOpcoesMenu(Sign_Settings config, const char opcoes[][TAM], int tamanho)
-{
-  int alturaTerminal;
-
-  alturaTerminal = imprimePlaca(config, "MENU", "Escolha um dos padroes para iniciar o jogo:", " ", opcoes[0], opcoes[1], opcoes[2], opcoes[3], opcoes[4], " ", opcoes[tamanho - 2], opcoes[tamanho - 1]);
-
-  return alturaTerminal / 2 - tamanho - (alturaTerminal % 2);
-}
-
 void menuInicJogo(char **mat, int nL, int nC)
 {
   char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"}, input;
   int opcao = 0, opcaoAnt, inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
   Sign_Settings set;
 
   set.alignment = LEFT;
   set.maxHeight = 20;
   set.maxWidth = 75;
+  set.firstOptionIndex = 3;
 
-  inicioOpcoes = imprimeOpcoesMenu(set, opcoes, numOpcoes);
+  inicioOpcoes = imprimePlaca(
+      set,
+      "MENU",
+      "Escolha um dos padroes para iniciar o jogo:",
+      " ",
+      opcoes[0],
+      opcoes[1],
+      opcoes[2],
+      opcoes[3],
+      opcoes[4],
+      " ",
+      opcoes[numOpcoes - 2],
+      opcoes[numOpcoes - 1]);
 
+  // linhaCursor = wherey();
   input = inputUsuario(numOpcoes);
 
   while (input != TECLA_ENTER)
@@ -135,10 +134,10 @@ void menuInicJogo(char **mat, int nL, int nC)
       strcat(opcoes[opcao], " <");
     }
 
-    gotoxy(3, inicioOpcoes + (opcaoAnt >= numOpcoes - 2 ? opcaoAnt + 1 : opcaoAnt));
+    SetConsoleCursorPosition(h, (COORD){2, inicioOpcoes + (opcaoAnt >= numOpcoes - 2 ? opcaoAnt + 1 : opcaoAnt) - 1});
     printf("%s  ", opcoes[opcaoAnt]);
 
-    gotoxy(3, inicioOpcoes + (opcao >= numOpcoes - 2 ? opcao + 1 : opcao));
+    SetConsoleCursorPosition(h, (COORD){2, inicioOpcoes + (opcao >= numOpcoes - 2 ? opcao + 1 : opcao) - 1});
     printf("%s", opcoes[opcao]);
 
     input = inputUsuario(numOpcoes);
