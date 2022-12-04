@@ -83,7 +83,6 @@ void menuInicJogo(char **mat, int nL, int nC)
   scanf("%d", &opcao);
 
   limpaMatriz(mat, nL, nC);
-  // iniciaPadrao(opcao, mat, nL, nC);
   lePadrao(opcao - 1, mat, nL, nC, -1, -1);
   imprimeMatriz(mat, nL, nC);
 

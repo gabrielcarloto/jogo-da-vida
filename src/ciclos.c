@@ -88,7 +88,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
 
   assert(chance >= 0 && chance <= 100);
 
-  if (dado > 100 - chance)
+  if (dado <= chance)
     if (rand() % 2)
     {
       padrao = 1 + rand() % NUM_PADROES;
