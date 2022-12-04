@@ -75,11 +75,11 @@ void menuInicial(Game_Settings *settings)
 {
   typedef enum
   {
-    PADRAO_1,
-    PADRAO_2,
-    PADRAO_3,
-    PADRAO_4,
-    PADRAO_5,
+    BLOCO,
+    BLINKER,
+    SAPO,
+    GLIDER,
+    LWSS,
     CONFIG,
     SAIR
   } Opcoes;
@@ -101,11 +101,11 @@ void menuInicial(Game_Settings *settings)
       "MENU",
       "Escolha um dos padroes para iniciar o jogo:",
       " ",
-      opcoes[PADRAO_1],
-      opcoes[PADRAO_2],
-      opcoes[PADRAO_3],
-      opcoes[PADRAO_4],
-      opcoes[PADRAO_5],
+      opcoes[BLOCO],
+      opcoes[BLINKER],
+      opcoes[SAPO],
+      opcoes[GLIDER],
+      opcoes[LWSS],
       " ",
       opcoes[CONFIG],
       opcoes[SAIR]);
