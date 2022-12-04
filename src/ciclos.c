@@ -91,8 +91,8 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
   if (dado <= chance)
     if (rand() % 2)
     {
-      padrao = 1 + rand() % NUM_PADROES;
-      iniciaPadrao(padrao, cicloAtual, nl, nc);
+      padrao = rand() % NUM_PADROES;
+      lePadrao(padrao, cicloAtual, nl, nc, rand() % nl, rand() % nc);
     }
     else
     {
