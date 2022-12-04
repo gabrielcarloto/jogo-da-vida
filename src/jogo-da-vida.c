@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
-#include "shared.c"
-#include "uteis.c"
-#include "ciclos.c"
+
+#include "uteis.h"
+#include "padroes.h"
+#include "ciclos.h"
+#include "celulas.h"
 
 #define TAM 101
 
@@ -81,7 +83,7 @@ void menuInicJogo(char **mat, int nL, int nC)
   scanf("%d", &opcao);
 
   limpaMatriz(mat, nL, nC);
-  iniciaPadrao(opcao, mat, nL, nC);
+  lePadrao(opcao - 1, mat, nL, nC, -1, -1);
   imprimeMatriz(mat, nL, nC);
 
   printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
