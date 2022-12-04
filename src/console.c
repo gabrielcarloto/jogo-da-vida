@@ -120,7 +120,7 @@ void setupConsole()
   if (!SetConsoleMode(stdoutHandle, outMode))
     exit(GetLastError());
 
-  system("cls");
+  ClearScreen();
   SetConsoleTitle("Jogo da Vida de Conway");
   resizeWindow(MIN_LARGURA_TELA, MIN_ALTURA_TELA);
   toggleCursor(0);

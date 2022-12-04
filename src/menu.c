@@ -148,7 +148,7 @@ void configJogo(Game_Settings *settings)
   signSettings.maxWidth = 75;
   signSettings.firstOptionIndex = 3;
 
-  system("cls");
+  ClearScreen();
 
   inicioOpcoes = imprimePlaca(
       signSettings,
@@ -217,7 +217,7 @@ Cores configCor(Game_Settings *settings)
   signSettings.maxWidth = 75;
   signSettings.firstOptionIndex = 3;
 
-  system("cls");
+  ClearScreen();
 
   inicioOpcoes = imprimePlaca(
       signSettings,
