@@ -1,11 +1,16 @@
 {
+  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c",
   "files.associations": {
+    "padroes.h": "c",
+    "uteis.h": "c",
     "string.h": "c",
+    "ciclos.h": "c",
     "windows.h": "c",
     "stdio.h": "c",
     "cstdio": "c",
     "_mingw.h": "c",
     "conio.h": "c",
-    "winuser.h": "c"
+    "winuser.h": "c",
+    "celulas.h": "c"
   }
 }

@@ -1,6 +1,6 @@
 #include <assert.h>
-#include "shared.c"
-#include "padroes.c"
+#include "celulas.h"
+#include "padroes.h"
 
 /**
  * Inicia um dos padrões disponíveis
@@ -88,11 +88,11 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
 
   assert(chance >= 0 && chance <= 100);
 
-  if (dado > 100 - chance)
+  if (dado <= chance)
     if (rand() % 2)
     {
-      padrao = 1 + rand() % NUM_PADROES;
-      iniciaPadrao(padrao, cicloAtual, nl, nc);
+      padrao = rand() % NUM_PADROES;
+      lePadrao(padrao, cicloAtual, nl, nc, rand() % nl, rand() % nc);
     }
     else
     {

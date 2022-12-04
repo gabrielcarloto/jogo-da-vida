@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "uteis.c"
+#include "uteis.h"
+#include "celulas.h"
 #include "console.c"
 
 #define CHAR_CELULA_MORTA '.'

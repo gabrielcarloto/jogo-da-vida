@@ -4,9 +4,11 @@
 #include <windows.h>
 #include <conio.h>
 
-#include "shared.c"
-#include "ciclos.c"
 #include "interface.c"
+#include "uteis.h"
+#include "padroes.h"
+#include "ciclos.h"
+#include "celulas.h"
 
 #define TAM 101
 #define POS_Y(opcao, numConfig) (inicioOpcoes + (opcao >= numOpcoes - numConfig ? opcao + 1 : opcao) - 1)
@@ -52,12 +54,8 @@ int main()
 
   while (jogando)
   {
+    resizeWindow(600, 400);
     menuInicial(&gameSettings);
-
-    if (gameSettings.linhas < 0)
-      gameSettings.linhas = 20;
-    if (gameSettings.colunas < 0)
-      gameSettings.colunas = 20;
 
     if (!gameSettings.linhas || !gameSettings.colunas)
     {
@@ -73,7 +71,7 @@ int main()
 
     mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
     limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);
-    iniciaPadrao(gameSettings.padrao + 1, mat, gameSettings.linhas, gameSettings.colunas);
+    lePadrao(gameSettings.padrao, mat, gameSettings.linhas, gameSettings.colunas, -1, -1);
     clear();
     imprimeMatriz(mat, gameSettings.linhas, gameSettings.colunas, gameSettings.cor_tema);
 

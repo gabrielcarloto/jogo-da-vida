@@ -1,15 +1,71 @@
-#include "shared.c"
+#include <string.h>
+#include <assert.h>
+#include <stdio.h>
 
-#define NUM_PADROES 5
+#include "padroes.h"
+#include "celulas.h"
+#include "uteis.h"
 
-typedef enum
+#define PATH_PADROES "./padroes/"
+#define EXT_PADROES ".csv"
+
+void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
-  BLOCO = 1,
-  BLINKER = 2,
-  SAPO = 3,
-  GLIDER = 4,
-  LWSS = 5,
-} Padroes;
+  FILE *arquivo;
+  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
+  int i, j, colCelulaPadrao, celulasNaColuna;
+
+  assert(xInic >= -1 && xInic < nc);
+  assert(yInic >= -1 && yInic < nl);
+
+  if (xInic == -1 || yInic == -1)
+  {
+    xInic = (nc / 2) - 1;
+    yInic = (nl / 2) - 1;
+  }
+
+  switch (opcao)
+  {
+  case BLOCO:
+    strcat(endereco, "bloco");
+    break;
+  case BLINKER:
+    strcat(endereco, "blinker");
+    break;
+  case SAPO:
+    strcat(endereco, "sapo");
+    break;
+  case GLIDER:
+    strcat(endereco, "glider");
+    break;
+  case LWSS:
+    strcat(endereco, "LWSS");
+    break;
+  }
+
+  strcat(endereco, EXT_PADROES);
+
+  arquivo = fopen(endereco, "r");
+
+  i = 0;
+
+  while (fgets(string, MAX_CHARS, arquivo))
+  {
+    padrao = split(string, ",", &celulasNaColuna);
+
+    for (j = 0; j < celulasNaColuna; j++)
+    {
+      colCelulaPadrao = atoi(padrao[j]);
+      int linha = yInic + i, coluna = xInic + colCelulaPadrao;
+
+      if (linha < nl && coluna < nc)
+        ciclo[linha][coluna] = ORG;
+    }
+
+    i++;
+    desalocaMatriz(padrao, celulasNaColuna);
+  }
+}
 
 void inicBlinker(char **m, int nL, int nC)
 {
