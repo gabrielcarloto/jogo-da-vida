@@ -9,14 +9,6 @@
 #define ESCONDE_CURSOR "\e[?25h"
 #define RESET "\033[0m"
 
-/**
- * @brief Move o cursor para a posição (x, y) do console. Fonte:
- * https://stackoverflow.com/a/26423946
- *
- * @deprecated Use a função SetConsoleCursorPosition
- */
-#define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
-
 typedef struct
 {
   int width;
