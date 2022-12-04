@@ -16,10 +16,11 @@
  * @param maxChars Número máximo de caracteres que o usuário pode digitar durante a configuração
  * @param indiceOpcao Índice da opção escolhida pelo usuário
  * @param inicioOpcoes Número da linha onde as opções começam no console
+ * @param configAnterior Configuração anterior à do usuário
  * @param stdoutHandle Handle para o console
  * @return (int) Configuração digitada pelo usuário convertida pra números
  */
-int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, HANDLE stdoutHandle);
+int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle);
 
 /**
  * @brief Lida com a navegação e escolha de opções em um menu
@@ -169,15 +170,15 @@ void configJogo(Game_Settings *settings)
   {
   case ATUALIZACAO:
     snprintf(placeholder, TAM, "%dms", settings->velocidade_atualizacao);
-    settings->velocidade_atualizacao = coletaConfig(opcoes, placeholder, 4, ATUALIZACAO, inicioOpcoes, stdoutHandle);
+    settings->velocidade_atualizacao = coletaConfig(opcoes, placeholder, 4, ATUALIZACAO, inicioOpcoes, settings->velocidade_atualizacao, stdoutHandle);
     break;
   case CICLOS:
     snprintf(placeholder, TAM, "%d", settings->ciclos);
-    settings->ciclos = coletaConfig(opcoes, placeholder, 4, CICLOS, inicioOpcoes, stdoutHandle);
+    settings->ciclos = coletaConfig(opcoes, placeholder, 4, CICLOS, inicioOpcoes, settings->ciclos, stdoutHandle);
     break;
   case LINHAS:
     snprintf(placeholder, TAM, "%d", settings->linhas);
-    int linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, stdoutHandle);
+    int linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, settings->linhas, stdoutHandle);
     DWORD scrHeight = GetSystemMetrics(SM_CYSCREEN);
 
     linhas = linhas < scrHeight / 18 ? linhas : scrHeight / 18;
@@ -186,7 +187,7 @@ void configJogo(Game_Settings *settings)
     break;
   case COLUNAS:
     snprintf(placeholder, TAM, "%d", settings->colunas);
-    int colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, stdoutHandle);
+    int colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, settings->colunas, stdoutHandle);
     DWORD scrWidth = GetSystemMetrics(SM_CXSCREEN);
 
     colunas = colunas < scrWidth / 17 ? colunas : scrWidth / 17;
@@ -242,7 +243,7 @@ Cores configCor(Game_Settings *settings)
   return opcao;
 }
 
-int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, HANDLE stdoutHandle)
+int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle)
 {
   char input[TAM];
   int i, baseY, baseX, flag = 1;
@@ -269,6 +270,9 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
       SetConsoleCursorPosition(stdoutHandle, (COORD){baseY + i, baseX});
     printf("%c", input[i]);
   }
+
+  if (!(input[0] >= NUM_ZERO && input[0] <= NUM_NOVE) || input[0] == TECLA_ENTER || input[0] == TECLA_ESC)
+    return configAnterior;
 
   return atoi(input);
 }
