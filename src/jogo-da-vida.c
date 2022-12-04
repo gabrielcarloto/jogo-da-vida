@@ -43,7 +43,7 @@ int main()
 
   while (jogando)
   {
-    resizeWindow(600, 400);
+    resizeWindow(MIN_LARGURA_TELA, MIN_ALTURA_TELA);
     menuInicial(&gameSettings);
 
     if (!gameSettings.linhas || !gameSettings.colunas)
@@ -54,9 +54,10 @@ int main()
       gameSettings.linhas = tsize.height - 4;
       gameSettings.colunas = tsize.width / 2;
     }
-
-    if (gameSettings.linhas != tsize.height - 4)
+    else
+    {
       resizeWindow(gameSettings.colunas * 20, gameSettings.linhas * 20);
+    }
 
     mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
     limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);

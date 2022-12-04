@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "console.h"
+#include "interface.h"
 
 void ClearScreen()
 {
@@ -71,7 +72,14 @@ void resizeWindow(int width, int height)
   assert(width >= 0 && height >= 0);
 
   if (width && height)
+  {
+    if (width < MIN_LARGURA_TELA)
+      width = MIN_LARGURA_TELA;
+    if (height < MIN_ALTURA_TELA)
+      height = MIN_ALTURA_TELA;
+
     MoveWindow(hWnd, (scrWidth - width) / 2, (scrHeight - height) / 2, width, height, TRUE);
+  }
   else
     ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 
@@ -100,7 +108,7 @@ void setupConsole()
 
   system("cls");
   SetConsoleTitle("Jogo da Vida de Conway");
-  resizeWindow(600, 400);
+  resizeWindow(MIN_LARGURA_TELA, MIN_ALTURA_TELA);
   toggleCursor(0);
 }
 

@@ -12,6 +12,8 @@
     "conio.h": "c",
     "winuser.h": "c",
     "celulas.h": "c",
-    "interface.h": "c"
+    "interface.h": "c",
+    "menu.h": "c",
+    "console.h": "c"
   }
 }

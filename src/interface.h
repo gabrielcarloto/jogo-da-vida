@@ -13,6 +13,8 @@
 #define COMECO_LINHA_ANT "\x1b[1F"
 
 #define MIN_ESPACO_LATERAL 2
+#define MIN_LARGURA_TELA 600
+#define MIN_ALTURA_TELA 400
 
 typedef enum
 {
