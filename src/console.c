@@ -4,6 +4,7 @@
 
 #include "console.h"
 #include "interface.h"
+#include "uteis.h"
 
 void ClearScreen()
 {
@@ -84,6 +85,10 @@ void resizeWindow(int width, int height)
       if (height < MIN_ALTURA_TELA)
         height = MIN_ALTURA_TELA;
 
+      // Sem esse `ShowWindow`, quando o usuário digitava 1 para continuar jogando
+      // com uma configuração que maximiza a tela, a tela não maximizava.
+      // Provavelmente existe uma forma melhor de corrigir isso, mas essa foi a que encontrei.
+      ShowWindow(hWnd, SW_NORMAL);
       MoveWindow(hWnd, (scrWidth - width) / 2, (scrHeight - height) / 2, width, height, TRUE);
     }
   }
