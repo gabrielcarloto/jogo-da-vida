@@ -20,6 +20,18 @@
 #define COR_VERMELHO "\033[31m"
 #define COR_PADRAO COR_VERDE
 
+#define clear() ClearScreen()
+
+#define MIN_ESPACO_LATERAL 2
+
+typedef enum
+{
+  AZUL,
+  VERDE,
+  AMARELO,
+  VERMELHO
+} Cores;
+
 typedef enum
 {
   LEFT,
@@ -62,15 +74,34 @@ void apagaTela(int nl)
  * @param nl Número de linhas da matriz
  * @param nc Número de colunas da matriz
  */
-void imprimeMatriz(char **matriz, int nl, int nc)
+void imprimeMatriz(char **matriz, int nl, int nc, Cores cor)
 {
   int i, j;
+  char corUsada[10];
+
+  assert(cor >= 0 && cor <= 3);
+
+  switch (cor)
+  {
+  case AZUL:
+    strcpy(corUsada, COR_AZUL);
+    break;
+  case VERDE:
+    strcpy(corUsada, COR_VERDE);
+    break;
+  case AMARELO:
+    strcpy(corUsada, COR_AMARELO);
+    break;
+  case VERMELHO:
+    strcpy(corUsada, COR_VERMELHO);
+    break;
+  }
 
   for (i = 0; i < nl; i++)
   {
     for (j = 0; j < nc; j++)
       if (matriz[i][j] == ORG)
-        printf("%s%c ", COR_PADRAO, CHAR_CELULA_VIVA);
+        printf("%s%c ", corUsada, CHAR_CELULA_VIVA);
       else
         printf("%s%c ", COR_CINZA, CHAR_CELULA_MORTA);
 
