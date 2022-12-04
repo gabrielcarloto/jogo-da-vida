@@ -8,100 +8,77 @@
 #include "ciclos.c"
 #include "interface.c"
 
-#define DURACAO_PADRAO
-
 #define TAM 101
 #define POS_Y(opcao, numConfig) (inicioOpcoes + (opcao >= numOpcoes - numConfig ? opcao + 1 : opcao) - 1)
 
-typedef struct
+typedef enum
 {
-  int ciclos;
-  int linhas;
-  int colunas;
-  int cor_tema;
-  int velocidade_atualizacao;
-  Padroes padrao;
-} Game_Settings;
+  CONFIG = 5,
+  SAIR = 6
+} Opcoes;
 
-void jogaJogoVida(char **mAtual, Game_Settings *settings);
-void menuInicial(Game_Settings *settings);
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
+Opcoes menuInicial(int *nl, int *nc);
 int inputUsuario(int numOpcoes);
 
 int main()
 {
-  Sign_Settings signSettings;
-  Game_Settings gameSettings;
-  Terminal_Size tsize;
+  int nL = 20, nC = 20, nCiclos = 50, opcao; // ou fornecidos pelo usuario
   char **mat;
+  Sign_Settings set;
+
+  set.alignment = CENTER;
+  set.maxHeight = 20;
+  set.maxWidth = 75;
 
   atexit(resetaConsole);
   setupConsole();
   srand(time(NULL));
 
-  gameSettings.velocidade_atualizacao = 150;
-  gameSettings.cor_tema = VERDE;
-  gameSettings.ciclos = 50;
-  gameSettings.linhas = 0;
-  gameSettings.colunas = 0;
-
-  signSettings.alignment = CENTER;
-  signSettings.maxHeight = 20;
-  signSettings.maxWidth = 75;
-
-  imprimePlaca(signSettings, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
+  imprimePlaca(set, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
   getch();
 
   // inicio laço indeterminado
-  menuInicial(&gameSettings);
+  opcao = menuInicial(&nL, &nC);
 
-  if (!gameSettings.linhas || !gameSettings.colunas)
-  {
-    resizeWindow(0, 0);
-    tamanhoTerminal(&tsize);
-
-    gameSettings.linhas = tsize.height - 5;
-    gameSettings.colunas = tsize.width / 2;
-  }
-
-  mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
-  limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);
-  iniciaPadrao(gameSettings.padrao + 1, mat, gameSettings.linhas, gameSettings.colunas);
-  clear();
-  imprimeMatriz(mat, gameSettings.linhas, gameSettings.colunas, gameSettings.cor_tema);
+  mat = alocaMatriz(nL, nC);
+  limpaMatriz(mat, nL, nC);
+  iniciaPadrao(opcao + 1, mat, nL, nC);
+  system("cls");
+  imprimeMatriz(mat, nL, nC);
 
   printf("%sPressione qualquer tecla para iniciar...", RESET);
   getch();
 
-  jogaJogoVida(mat, &gameSettings);
+  jogaJogoVida(mat, nL, nC, nCiclos);
   // fim do laco indeterminado
 
-  desalocaMatriz(mat, gameSettings.linhas);
+  desalocaMatriz(mat, nL);
 }
 
-void jogaJogoVida(char **mAtual, Game_Settings *settings)
+void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
 {
-  int c, nL = settings->linhas, nC = settings->colunas;
+  int c;
   char **mAnt;
   HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
   // imprimindo na tela a matriz inicial
-  clear();
-  imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
+  apagaTela(0);
+  imprimeMatriz(mAtual, nL, nC);
   // getchar();
-  Sleep(settings->velocidade_atualizacao);
+  Sleep(100);
 
   mAnt = alocaMatriz(nL, nC);
-  DEBUG();
 
-  for (c = 1; c <= settings->ciclos; c++)
+  for (c = 1; c <= nCiclos; c++)
   {
     copiaMatriz(mAtual, mAnt, nL, nC);
 
     atualizaMat(mAnt, mAtual, nL, nC);
     SetConsoleCursorPosition(h, (COORD){0, 0});
-    imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
+    imprimeMatriz(mAtual, nL, nC);
     // getchar();
-    Sleep(settings->velocidade_atualizacao);
+    Sleep(150);
   }
 
   desalocaMatriz(mAnt, nL);
@@ -129,7 +106,7 @@ int inputUsuario(int numOpcoes)
 
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numConfig)
 {
-  int opcaoAnt, opcao = 0;
+  Opcoes opcaoAnt, opcao = 0;
   INPUTS input = inputUsuario(numOpcoes);
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -151,10 +128,10 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
       strcat(opcoes[opcao], " <");
     }
 
-    SetConsoleCursorPosition(stdoutHandle, (COORD){MIN_ESPACO_LATERAL, POS_Y(opcaoAnt, numConfig)});
+    SetConsoleCursorPosition(stdoutHandle, (COORD){2, POS_Y(opcaoAnt, 2)});
     printf("%s  ", opcoes[opcaoAnt]);
 
-    SetConsoleCursorPosition(stdoutHandle, (COORD){MIN_ESPACO_LATERAL, POS_Y(opcao, numConfig)});
+    SetConsoleCursorPosition(stdoutHandle, (COORD){2, POS_Y(opcao, 2)});
     printf("%s", opcoes[opcao]);
 
     input = inputUsuario(numOpcoes);
@@ -163,154 +140,8 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
   return opcao;
 }
 
-int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, HANDLE stdoutHandle)
+Opcoes menuInicial(int *nl, int *nc)
 {
-  char input[TAM];
-  int i, baseY, baseX;
-
-  baseX = inicioOpcoes + indiceOpcao - 1;
-  baseY = MIN_ESPACO_LATERAL + strlen(opcoes[indiceOpcao]);
-
-  SetConsoleCursorPosition(stdoutHandle, (COORD){baseY - 2, baseX});
-  printf(": %s%s%s", COR_CINZA, placeholder, RESET);
-
-  for (i = 0; (i < maxChars) && input != TECLA_ENTER && input != TECLA_ESC; i++)
-  {
-    input[i] = getch();
-    if (i == 0)
-    {
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY - 2, baseX});
-      printf(": %*s", maxChars + 2, "");
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY, baseX});
-    }
-    else
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY + i, baseX});
-    printf("%c", input[i]);
-  }
-
-  return atoi(input);
-}
-
-void configJogo(Game_Settings *settings);
-
-Cores configCor(Game_Settings *settings)
-{
-  char opcoes[][TAM] = {"1. Azul <", "2. Verde", "3. Amarelo", "4. Vermelho", "5. Voltar"}, opcao;
-  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
-  Sign_Settings signSettings;
-
-  signSettings.alignment = LEFT;
-  signSettings.maxHeight = 20;
-  signSettings.maxWidth = 75;
-  signSettings.firstOptionIndex = 3;
-
-  system("cls");
-
-  inicioOpcoes = imprimePlaca(
-      signSettings,
-      "CONFIG. > COR",
-      "Selecione a cor desejada",
-      " ",
-      opcoes[AZUL],
-      opcoes[VERDE],
-      opcoes[AMARELO],
-      opcoes[VERMELHO],
-      " ",
-      opcoes[numOpcoes - 1]);
-
-  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1);
-
-  if (opcao == numOpcoes - 1)
-  {
-    configJogo(settings);
-    return VERDE;
-  }
-
-  return opcao;
-}
-
-void configJogo(Game_Settings *settings)
-{
-  typedef enum
-  {
-    ATUALIZACAO,
-    CICLOS,
-    LINHAS,
-    COLUNAS,
-    COR,
-    VOLTAR
-  } Opcoes_Config;
-
-  char opcoes[][TAM] = {"1. Tempo de Atualizacao <", "2. Ciclos", "3. Linhas", "4. Colunas", "5. Cor", "6. Voltar"}, placeholder[TAM];
-  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
-  HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-  Sign_Settings signSettings;
-  Opcoes_Config opcao;
-
-  signSettings.alignment = LEFT;
-  signSettings.maxHeight = 20;
-  signSettings.maxWidth = 75;
-  signSettings.firstOptionIndex = 3;
-
-  system("cls");
-
-  inicioOpcoes = imprimePlaca(
-      signSettings,
-      "CONFIGURACOES",
-      "Selecione o que quiser configurar",
-      " ",
-      opcoes[ATUALIZACAO],
-      opcoes[CICLOS],
-      opcoes[LINHAS],
-      opcoes[COLUNAS],
-      opcoes[COR],
-      " ",
-      opcoes[VOLTAR]);
-
-  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1);
-
-  switch (opcao)
-  {
-  case ATUALIZACAO:
-    snprintf(placeholder, TAM, "%dms", settings->velocidade_atualizacao);
-    settings->velocidade_atualizacao = coletaConfig(opcoes, placeholder, 4, ATUALIZACAO, inicioOpcoes, stdoutHandle);
-    break;
-  case CICLOS:
-    snprintf(placeholder, TAM, "%d", settings->ciclos);
-    settings->ciclos = coletaConfig(opcoes, placeholder, 4, CICLOS, inicioOpcoes, stdoutHandle);
-    break;
-  case LINHAS:
-    snprintf(placeholder, TAM, "%d", settings->linhas);
-    settings->linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, stdoutHandle);
-    break;
-  case COLUNAS:
-    snprintf(placeholder, TAM, "%d", settings->colunas);
-    settings->colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, stdoutHandle);
-    break;
-  case COR:
-    settings->cor_tema = configCor(settings);
-    break;
-  case VOLTAR:
-    menuInicial(settings);
-    return;
-  }
-
-  configJogo(settings);
-}
-
-void menuInicial(Game_Settings *settings)
-{
-  typedef enum
-  {
-    PADRAO_1,
-    PADRAO_2,
-    PADRAO_3,
-    PADRAO_4,
-    PADRAO_5,
-    CONFIG,
-    SAIR
-  } Opcoes;
-
   char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"};
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
@@ -326,24 +157,19 @@ void menuInicial(Game_Settings *settings)
       "MENU",
       "Escolha um dos padroes para iniciar o jogo:",
       " ",
-      opcoes[PADRAO_1],
-      opcoes[PADRAO_2],
-      opcoes[PADRAO_3],
-      opcoes[PADRAO_4],
-      opcoes[PADRAO_5],
+      opcoes[0],
+      opcoes[1],
+      opcoes[2],
+      opcoes[3],
+      opcoes[4],
       " ",
-      opcoes[CONFIG],
-      opcoes[SAIR]);
+      opcoes[numOpcoes - 2],
+      opcoes[numOpcoes - 1]);
 
   opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2);
 
-  if (opcao == CONFIG)
-  {
-    configJogo(settings);
-    return;
-  }
-  else if (opcao == SAIR)
+  if (opcao == CONFIG || opcao == SAIR)
     exit(0);
 
-  settings->padrao = opcao;
+  return opcao;
 }
