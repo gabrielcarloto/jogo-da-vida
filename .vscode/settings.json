@@ -1,5 +1,5 @@
 {
-  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c",
+  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c interface.c console.c menu.c",
   "files.associations": {
     "padroes.h": "c",
     "uteis.h": "c",
@@ -11,6 +11,7 @@
     "_mingw.h": "c",
     "conio.h": "c",
     "winuser.h": "c",
-    "celulas.h": "c"
+    "celulas.h": "c",
+    "interface.h": "c"
   }
 }

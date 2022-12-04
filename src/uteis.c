@@ -84,9 +84,9 @@ char **split(char *str, char *separador, int *contPalavras)
   }
   else
   {
-    linhas = TAM_LINHA;
+    linhas = TAM;
 
-    char **palavras = alocaMatriz(linhas, TAM_LINHA);
+    char **palavras = alocaMatriz(linhas, TAM);
     char *palavra = strtok(str, separador);
 
     for (i = 0; i < linhas && palavra != NULL; i++)

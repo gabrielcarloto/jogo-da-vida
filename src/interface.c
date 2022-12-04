@@ -2,79 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "uteis.h"
 #include "celulas.h"
-#include "console.c"
+#include "console.h"
+#include "interface.h"
 
 #define CHAR_CELULA_MORTA '.'
 #define CHAR_CELULA_VIVA 'O'
 
-#define APAGA_LINHA "\x1b[2K"
-#define COMECO_LINHA_ANT "\x1b[1F"
-
-#define RESET "\033[0m"
-#define COR_AZUL "\033[34m"
-#define COR_VERDE "\033[92m"
-#define COR_CINZA "\033[90m"
-#define COR_AMARELO "\033[93m"
-#define COR_VERMELHO "\033[31m"
-#define COR_PADRAO COR_VERDE
-
-#define clear() ClearScreen()
-
-#define MIN_ESPACO_LATERAL 2
-
-typedef enum
-{
-  AZUL,
-  VERDE,
-  AMARELO,
-  VERMELHO
-} Cores;
-
-typedef enum
-{
-  LEFT,
-  CENTER,
-  RIGHT
-} Sign_Alignment;
-
-typedef struct
-{
-  Sign_Alignment alignment;
-  int maxWidth;
-  int maxHeight;
-  int firstOptionIndex;
-} Sign_Settings;
-
-/**
- * @brief Apaga a terminal
- *
- * @param nl Número de linhas. Caso não o número de linhas seja desconhecido,
- * o valor 0 apaga todo o terminal.
- */
-void apagaTela(int nl)
-{
-  int i;
-
-  assert(nl >= 0);
-
-  if (nl == 0)
-    system("cls");
-  else
-    for (i = 0; i < nl; i++)
-      printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
-}
-
-/**
- * @brief Imprime o ciclo representando células mortas como um ponto cinza
- * e células vivas como um "O" verde
- *
- * @param matriz Matriz do ciclo a ser impresso na tela
- * @param nl Número de linhas da matriz
- * @param nc Número de colunas da matriz
- */
 void imprimeMatriz(char **matriz, int nl, int nc, Cores cor)
 {
   int i, j;
@@ -113,14 +50,6 @@ void imprimeMatriz(char **matriz, int nl, int nc, Cores cor)
 int contStr(const char *str[]);
 int maiorStr(const char *str[]);
 
-/**
- * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
- * É necessário inserir um NULL ao final para não criar um loop infinito.
- *
- * @param settings Configurações de exibição
- * @param str Strings a serem impressas. A primeira é o título
- * @returns (int) Linha de início das opções
- */
 int printSign(Sign_Settings settings, const char *str[])
 {
   int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines, firstOptionLine = 0;
@@ -151,14 +80,6 @@ int printSign(Sign_Settings settings, const char *str[])
   }
   else
     usedLines = tsize.height;
-
-  // if (usedLines > settings.maxHeight)
-  // {
-  //   while (*str)
-  //     puts(*str++);
-
-  //   return settings.firstOptionIndex;
-  // }
 
   totalLines = strLines > (usedLines - 4) ? strLines + usedLines : usedLines;
   verticalAlignLines = (totalLines - strLines) - 2;
@@ -260,15 +181,6 @@ int printSign(Sign_Settings settings, const char *str[])
   return firstOptionLine;
 }
 
-/**
- * Imprime uma "placa", ocupando todo o espaço disponível no terminal.
- *
- * @param config Configurações de exibição
- * @param str Strings a serem impressas (a primeira é o título)
- * @returns (int) Número de linhas no terminal
- */
-#define imprimePlaca(config, ...) printSign((Sign_Settings)config, (const char *[]){__VA_ARGS__, NULL})
-
 /* Conta o número de strings em uma matriz que termina com NULL */
 int contStr(const char *str[])
 {
@@ -298,6 +210,15 @@ int maiorStr(const char *str[])
   return cont;
 }
 
-// essas funções não devem estar disponíveiss em outros arquivos
-#define contStr NULL
-#define maiorStr NULL
+void apagaTela(int nl)
+{
+  int i;
+
+  assert(nl >= 0);
+
+  if (nl == 0)
+    system("cls");
+  else
+    for (i = 0; i < nl; i++)
+      printf("%s%s", APAGA_LINHA, COMECO_LINHA_ANT);
+}

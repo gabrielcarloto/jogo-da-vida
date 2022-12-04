@@ -1,7 +1,7 @@
 #ifndef _UTEIS_H_
 #define _UTEIS_H_
 
-#define TAM_LINHA 1024
+#define TAM 101
 
 #define DEBUG()                                                          \
   printf("Nenhum erro na linha %d do arquivo %s\n", __LINE__, __FILE__); \
