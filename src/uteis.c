@@ -31,7 +31,7 @@ char **alocaMatriz(int nl, int nc)
 
   for (i = 0; i < nl; i++)
   {
-    matriz[i] = (char *)malloc(nl * sizeof(char));
+    matriz[i] = (char *)malloc(nc * sizeof(char));
 
     if (matriz[i] == NULL)
     {
