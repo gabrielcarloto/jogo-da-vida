@@ -33,6 +33,13 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas);
 
 /**
+ * @brief Faz das opções uma lista ordenada (Ex.: ["opcao1", "opcao2"] -> ["1. opcao1", "2. opcao2"])
+ *
+ * @param opcoes Matriz de opcões
+ */
+void ordenaOpcoes(char opcoes[][TAM], int numOpcoes);
+
+/**
  * @brief Coleta a entrada do usuário até que seja uma entrada válida
  *
  * @param numOpcoes Número de opções, se preciso
@@ -77,10 +84,12 @@ void menuInicial(Game_Settings *settings)
     SAIR
   } Opcoes;
 
-  char opcoes[][TAM] = {"1. Bloco <", "2. Blinker", "3. Sapo", "4. Glider", "5. LWSS", "6. Configuracoes", "7. Sair do jogo"};
+  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Configuracoes", "Sair do jogo"};
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
   Opcoes opcao;
+
+  ordenaOpcoes(opcoes, numOpcoes);
 
   signSettings.alignment = LEFT;
   signSettings.maxHeight = 20;
@@ -126,11 +135,13 @@ void configJogo(Game_Settings *settings)
     VOLTAR
   } Opcoes_Config;
 
-  char opcoes[][TAM] = {"1. Tempo de Atualizacao <", "2. Ciclos", "3. Linhas", "4. Colunas", "5. Cor", "6. Voltar"}, placeholder[TAM];
+  char opcoes[][TAM] = {"Tempo de Atualizacao <", "Ciclos", "Linhas", "Colunas", "Cor", "Voltar"}, placeholder[TAM];
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
   Sign_Settings signSettings;
   Opcoes_Config opcao;
+
+  ordenaOpcoes(opcoes, numOpcoes);
 
   signSettings.alignment = LEFT;
   signSettings.maxHeight = 20;
@@ -195,9 +206,11 @@ void configJogo(Game_Settings *settings)
 
 Cores configCor(Game_Settings *settings)
 {
-  char opcoes[][TAM] = {"1. Azul <", "2. Verde", "3. Amarelo", "4. Vermelho", "5. Voltar"}, opcao;
+  char opcoes[][TAM] = {"Azul <", "Verde", "Amarelo", "Vermelho", "Voltar"}, opcao;
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
+
+  ordenaOpcoes(opcoes, numOpcoes);
 
   signSettings.alignment = LEFT;
   signSettings.maxHeight = 20;
@@ -294,6 +307,18 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
   }
 
   return opcao;
+}
+
+void ordenaOpcoes(char opcoes[][TAM], int numOpcoes)
+{
+  int i;
+  char copiaOpcao[TAM];
+
+  for (i = 0; i < numOpcoes; i++)
+  {
+    strcpy(copiaOpcao, opcoes[i]);
+    snprintf(opcoes[i], TAM, "%d. %s", i + 1, copiaOpcao);
+  }
 }
 
 int inputUsuario(int numOpcoes, int saiComEsc)
