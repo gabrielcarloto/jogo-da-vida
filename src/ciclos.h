@@ -9,6 +9,7 @@
  * @param ciclo A matriz que receberá o padrão
  * @param nl Número de linhas da matriz
  * @param nc Número de colunas da matriz
+ * @deprecated Use a função lePadrao
  */
 void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc);
 
