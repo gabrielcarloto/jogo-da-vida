@@ -204,6 +204,7 @@ int verificaInput(INPUTS input, int numOpcoes)
       input == TECLA_D ||
       input == TECLA_D_CAPS ||
       input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1 ||
+      input == NUM_ZERO ||
       input == NUM_UM ||
       input == NUM_DOIS ||
       input == NUM_TRES ||
