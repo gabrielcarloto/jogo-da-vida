@@ -30,6 +30,7 @@ int main()
   Sign_Settings signSettings;
   Game_Settings gameSettings;
   Terminal_Size tsize;
+  int jogando = 1;
   char **mat;
 
   atexit(resetaConsole);
@@ -49,37 +50,40 @@ int main()
   imprimePlaca(signSettings, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
   getch();
 
-  // inicio laço indeterminado
-  menuInicial(&gameSettings);
-
-  if (gameSettings.linhas < 0)
-    gameSettings.linhas = 20;
-  if (gameSettings.colunas < 0)
-    gameSettings.colunas = 20;
-
-  if (!gameSettings.linhas || !gameSettings.colunas)
+  while (jogando)
   {
-    resizeWindow(0, 0);
-    tamanhoTerminal(&tsize);
+    menuInicial(&gameSettings);
 
-    gameSettings.linhas = tsize.height - 4;
-    gameSettings.colunas = tsize.width / 2;
+    if (gameSettings.linhas < 0)
+      gameSettings.linhas = 20;
+    if (gameSettings.colunas < 0)
+      gameSettings.colunas = 20;
+
+    if (!gameSettings.linhas || !gameSettings.colunas)
+    {
+      resizeWindow(0, 0);
+      tamanhoTerminal(&tsize);
+
+      gameSettings.linhas = tsize.height - 4;
+      gameSettings.colunas = tsize.width / 2;
+    }
+
+    if (gameSettings.linhas != tsize.height - 4)
+      resizeWindow(gameSettings.colunas * 20, gameSettings.linhas * 20);
+
+    mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
+    limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);
+    iniciaPadrao(gameSettings.padrao + 1, mat, gameSettings.linhas, gameSettings.colunas);
+    clear();
+    imprimeMatriz(mat, gameSettings.linhas, gameSettings.colunas, gameSettings.cor_tema);
+
+    printf("%sPressione qualquer tecla para iniciar...", RESET);
+    getch();
+
+    jogaJogoVida(mat, &gameSettings);
+    printf("Digite 1 para jogar novamente, 0 para parar: ");
+    scanf("%d", &jogando); // depois eu penso numa UI melhor pra isso
   }
-
-  if (gameSettings.linhas != tsize.height - 4)
-    resizeWindow(gameSettings.colunas * 20, gameSettings.linhas * 20);
-
-  mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
-  limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);
-  iniciaPadrao(gameSettings.padrao + 1, mat, gameSettings.linhas, gameSettings.colunas);
-  clear();
-  imprimeMatriz(mat, gameSettings.linhas, gameSettings.colunas, gameSettings.cor_tema);
-
-  printf("%sPressione qualquer tecla para iniciar...", RESET);
-  getch();
-
-  jogaJogoVida(mat, &gameSettings);
-  // fim do laco indeterminado
 
   desalocaMatriz(mat, gameSettings.linhas);
 }
