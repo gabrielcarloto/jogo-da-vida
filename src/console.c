@@ -73,15 +73,24 @@ void resizeWindow(int width, int height)
 
   if (width && height)
   {
-    if (width < MIN_LARGURA_TELA)
-      width = MIN_LARGURA_TELA;
-    if (height < MIN_ALTURA_TELA)
-      height = MIN_ALTURA_TELA;
+    if (width >= scrWidth - scrWidth / 10 || height >= scrHeight - scrHeight / 10)
+    {
+      ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+    }
+    else
+    {
+      if (width < MIN_LARGURA_TELA)
+        width = MIN_LARGURA_TELA;
+      if (height < MIN_ALTURA_TELA)
+        height = MIN_ALTURA_TELA;
 
-    MoveWindow(hWnd, (scrWidth - width) / 2, (scrHeight - height) / 2, width, height, TRUE);
+      MoveWindow(hWnd, (scrWidth - width) / 2, (scrHeight - height) / 2, width, height, TRUE);
+    }
   }
   else
+  {
     ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+  }
 
   toggleCursor(0);
 }
