@@ -29,7 +29,16 @@ typedef enum
   TECLA_S_CAPS = 83,
   TECLA_D = 100,
   TECLA_D_CAPS = 68,
-  NUM_ZERO = 48
+  NUM_ZERO = 48,
+  NUM_UM,
+  NUM_DOIS,
+  NUM_TRES,
+  NUM_QUATRO,
+  NUM_CINCO,
+  NUM_SEIS,
+  NUM_SETE,
+  NUM_OITO,
+  NUM_NOVE
 } INPUTS;
 
 // https://cplusplus.com/articles/4z18T05o/
@@ -194,5 +203,14 @@ int verificaInput(INPUTS input, int numOpcoes)
       input == TECLA_S_CAPS ||
       input == TECLA_D ||
       input == TECLA_D_CAPS ||
-      input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1);
+      input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1 ||
+      input == NUM_UM ||
+      input == NUM_DOIS ||
+      input == NUM_TRES ||
+      input == NUM_QUATRO ||
+      input == NUM_CINCO ||
+      input == NUM_SEIS ||
+      input == NUM_SETE ||
+      input == NUM_OITO ||
+      input == NUM_NOVE);
 }

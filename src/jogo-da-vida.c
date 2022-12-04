@@ -23,7 +23,7 @@ typedef struct
 
 void jogaJogoVida(char **mAtual, Game_Settings *settings);
 void menuInicial(Game_Settings *settings);
-int inputUsuario(int numOpcoes);
+int inputUsuario(int numOpcoes, int saiComEsc);
 
 int main()
 {
@@ -114,19 +114,20 @@ void jogaJogoVida(char **mAtual, Game_Settings *settings)
 }
 
 /**
- * @brief Coleta a entrada do usuário até que esta seja uma entrada válida
+ * @brief Coleta a entrada do usuário até que seja uma entrada válida
  *
  * @param numOpcoes Número de opções, se disponível
+ * @param saiComEsc Valor booleano, determina se terminará o programa ao pressionar a tecla ESC
  * @return (int) Número correspondente ao caractere digitado
  */
-int inputUsuario(int numOpcoes)
+int inputUsuario(int numOpcoes, int saiComEsc)
 {
   INPUTS input = getch();
 
   while (!verificaInput(input, numOpcoes))
     input = getch();
 
-  if (input == TECLA_ESC)
+  if (saiComEsc && input == TECLA_ESC)
     exit(0);
 
   return input;
@@ -135,7 +136,7 @@ int inputUsuario(int numOpcoes)
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numConfig)
 {
   int opcaoAnt, opcao = 0;
-  INPUTS input = inputUsuario(numOpcoes);
+  INPUTS input = inputUsuario(numOpcoes, 1);
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
   while (input != TECLA_ENTER)
@@ -162,7 +163,7 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
     SetConsoleCursorPosition(stdoutHandle, (COORD){MIN_ESPACO_LATERAL, POS_Y(opcao, numConfig)});
     printf("%s", opcoes[opcao]);
 
-    input = inputUsuario(numOpcoes);
+    input = inputUsuario(numOpcoes, 1);
   }
 
   return opcao;
@@ -181,7 +182,7 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 
   for (i = 0; i < maxChars && flag; i++)
   {
-    input[i] = getch();
+    input[i] = inputUsuario(0, 0);
 
     flag = input[i] != TECLA_ENTER && input[i] != TECLA_ESC;
 
