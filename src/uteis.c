@@ -21,6 +21,7 @@ char **alocaMatriz(int nl, int nc)
   int i;
   char **matriz;
 
+  DEBUG();
   matriz = (char **)malloc(nl * sizeof(char *));
 
   if (matriz == NULL)
