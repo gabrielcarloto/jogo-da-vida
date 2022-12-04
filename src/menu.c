@@ -3,6 +3,7 @@
 
 #include "menu.h"
 #include "uteis.h"
+#include "console.h"
 #include "interface.h"
 
 #define POS_Y(opcao, numConfig) (inicioOpcoes + (opcao >= numOpcoes - numConfig ? opcao + 1 : opcao) - 1)
@@ -165,11 +166,21 @@ void configJogo(Game_Settings *settings)
     break;
   case LINHAS:
     snprintf(placeholder, TAM, "%d", settings->linhas);
-    settings->linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, stdoutHandle);
+    int linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, stdoutHandle);
+    DWORD scrHeight = GetSystemMetrics(SM_CYSCREEN);
+
+    linhas = linhas < scrHeight / 18 ? linhas : scrHeight / 18;
+
+    settings->linhas = linhas;
     break;
   case COLUNAS:
     snprintf(placeholder, TAM, "%d", settings->colunas);
-    settings->colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, stdoutHandle);
+    int colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, stdoutHandle);
+    DWORD scrWidth = GetSystemMetrics(SM_CXSCREEN);
+
+    colunas = colunas < scrWidth / 17 ? colunas : scrWidth / 17;
+
+    settings->colunas = colunas;
     break;
   case COR:
     settings->cor_tema = configCor(settings);
