@@ -134,12 +134,13 @@ void configJogo(Game_Settings *settings)
     CICLOS,
     LINHAS,
     COLUNAS,
-    INVASORES,
+    CHANCE_INVASORES,
+    NUMERO_INVASORES,
     COR,
     VOLTAR
   } Opcoes_Config;
 
-  char opcoes[][TAM] = {"Tempo de Atualizacao <", "Ciclos", "Linhas", "Colunas", "Chance dos Invasores", "Cor", "Voltar"}, placeholder[TAM];
+  char opcoes[][TAM] = {"Tempo de Atualizacao <", "Ciclos", "Linhas", "Colunas", "Chance dos Invasores", "Numero de Invasores", "Cor", "Voltar"}, placeholder[TAM];
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]), indiceSeta;
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
   Sign_Settings signSettings;
@@ -163,7 +164,8 @@ void configJogo(Game_Settings *settings)
       opcoes[CICLOS],
       opcoes[LINHAS],
       opcoes[COLUNAS],
-      opcoes[INVASORES],
+      opcoes[CHANCE_INVASORES],
+      opcoes[NUMERO_INVASORES],
       opcoes[COR],
       " ",
       opcoes[VOLTAR]);
@@ -198,10 +200,14 @@ void configJogo(Game_Settings *settings)
 
     settings->colunas = colunas;
     break;
-  case INVASORES:
+  case CHANCE_INVASORES:
     snprintf(placeholder, TAM, "%d", settings->chance_invasores);
-    int chance = coletaConfig(opcoes, placeholder, 3, INVASORES, indiceSeta, inicioOpcoes, settings->chance_invasores, stdoutHandle);
+    int chance = coletaConfig(opcoes, placeholder, 3, CHANCE_INVASORES, indiceSeta, inicioOpcoes, settings->chance_invasores, stdoutHandle);
     settings->chance_invasores = chance > 100 ? 100 : chance;
+    break;
+  case NUMERO_INVASORES:
+    snprintf(placeholder, TAM, "%d", settings->numero_invasores);
+    settings->chance_invasores = coletaConfig(opcoes, placeholder, 3, NUMERO_INVASORES, indiceSeta, inicioOpcoes, settings->numero_invasores, stdoutHandle);
     break;
   case COR:
     settings->cor_tema = configCor(settings);

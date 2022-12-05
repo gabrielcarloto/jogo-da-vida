@@ -52,7 +52,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
     }
 }
 
-void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int chanceInvasores)
+void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int chanceInvasores, int numInvasores)
 {
   int i, j, vizinhasVivas, estaViva;
 
@@ -72,7 +72,7 @@ void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int c
         cicloAtual[i][j] = ORG;
     }
 
-  adicionaInvasores(chanceInvasores, 10, cicloAtual, nl, nc);
+  adicionaInvasores(chanceInvasores, numInvasores, cicloAtual, nl, nc);
 }
 
 void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc)
