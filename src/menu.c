@@ -155,7 +155,7 @@ void maisPadroes(Game_Settings *settings)
   signSettings.alignment = LEFT;
   signSettings.maxHeight = 20;
   signSettings.maxWidth = 75;
-  signSettings.firstOptionIndex = 3;
+  signSettings.firstOptionIndex = 1;
 
   inicioOpcoes = imprimePlaca(
       signSettings,
