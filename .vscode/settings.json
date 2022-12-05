@@ -1,5 +1,5 @@
 {
-  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c interface.c console.c menu.c",
+  "c-cpp-compile-run.c-flags": "-Wall uteis.c padroes.c ciclos.c interface.c console.c menu.c",
   "files.associations": {
     "padroes.h": "c",
     "uteis.h": "c",

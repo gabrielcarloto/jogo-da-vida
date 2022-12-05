@@ -32,7 +32,7 @@ int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc)
   return vizinhasVivas;
 }
 
-void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtual, int nl, int nc)
+void adicionaInvasores(int chance, int maxInvasores, char **cicloAtual, int nl, int nc)
 {
   int i, numInvasores, padrao;
   const int dado = 1 + rand() % 100;
@@ -40,6 +40,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
   assert(chance >= 0 && chance <= 100);
 
   if (dado <= chance)
+  {
     if (rand() % 2)
     {
       padrao = rand() % NUM_PADROES;
@@ -52,6 +53,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
       for (i = 0; i < numInvasores; i++)
         cicloAtual[rand() % nl][rand() % nc] = ORG;
     }
+  }
 }
 
 void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int chanceInvasores, int numInvasores)

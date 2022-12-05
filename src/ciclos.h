@@ -38,7 +38,7 @@ int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc);
  * @param nl Número de linhas na matriz do ciclo
  * @param nc Número de colunas na matriz do ciclo
  */
-void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtual, int nl, int nc);
+void adicionaInvasores(int chance, int maxInvasores, char **cicloAtual, int nl, int nc);
 
 /**
  * @brief Atualiza o ciclo atual com base nos dados do ciclo anterior

@@ -52,7 +52,7 @@ int maiorStr(const char *str[]);
 
 int printSign(Sign_Settings settings, const char *str[])
 {
-  int i, j, k, len, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines, firstOptionLine = 0;
+  int i, j, k, signLen, strLines, strMax, totalLines, usedLines, usedWidth, verticalAlignLines, halfVerticalLines, halfTitleWidth, lastHalfLines, firstOptionLine = 0;
   Terminal_Size tsize;
 
   assert(settings.alignment >= 0 && settings.alignment <= 2);
