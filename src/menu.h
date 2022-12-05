@@ -38,6 +38,7 @@ typedef struct
   int colunas;
   int cor_tema;
   int velocidade_atualizacao;
+  int chance_invasores;
   Padroes padrao;
 } Game_Settings;
 

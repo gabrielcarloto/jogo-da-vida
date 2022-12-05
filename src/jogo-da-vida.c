@@ -33,6 +33,7 @@ int main()
   gameSettings.ciclos = 50;
   gameSettings.linhas = 20;
   gameSettings.colunas = 20;
+  gameSettings.chance_invasores = 15;
 
   signSettings.alignment = CENTER;
   signSettings.maxHeight = 20;
@@ -94,7 +95,7 @@ void jogaJogoVida(char **mAtual, Game_Settings *settings)
   {
     copiaMatriz(mAtual, mAnt, nL, nC);
 
-    atualizaMat(mAnt, mAtual, nL, nC);
+    atualizaMat(mAnt, mAtual, nL, nC, settings->chance_invasores);
     SetConsoleCursorPosition(h, (COORD){0, 0});
     imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
     // getchar();

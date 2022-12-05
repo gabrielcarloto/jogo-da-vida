@@ -47,6 +47,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
  * @param cicloAtual Matriz (do ciclo atual) que será atualizada
  * @param nl Número de linhas
  * @param nc Número de colunas
+ * @param chanceInvasores Chance dos invasores aparecerem em um ciclo
  */
-void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc);
+void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int chanceInvasores);
 #endif
