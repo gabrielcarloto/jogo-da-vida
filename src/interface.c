@@ -95,7 +95,7 @@ int printSign(Sign_Settings settings, const char *str[])
 
   printf(" %s ", *str);
 
-  for (i = 0; i < halfTitleWidth + (usedWidth % 2); i++)
+  for (i = 0; i < halfTitleWidth + (strlen(*str) % 2); i++)
     printf("=");
 
   printf("\n");
