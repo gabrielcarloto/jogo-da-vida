@@ -13,6 +13,7 @@ typedef enum
   SAPO,
   GLIDER,
   LWSS,
+  FIREWORK
 } Padroes;
 
 /**
