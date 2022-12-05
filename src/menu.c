@@ -50,11 +50,10 @@ void ordenaOpcoes(char opcoes[][TAM], int numOpcoes);
 /**
  * @brief Coleta a entrada do usuário até que seja uma entrada válida
  *
- * @param numOpcoes Número de opções, se preciso
  * @param saiComEsc Valor booleano, determina se terminará o programa ao pressionar a tecla ESC
  * @return (int) Número correspondente ao caractere digitado
  */
-int inputUsuario(int numOpcoes, int saiComEsc);
+int inputUsuario(int saiComEsc);
 
 /**
  * @brief Verifica se o valor input é um dos valores definidos em INPUTS
@@ -330,7 +329,7 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 
   for (i = 0; i < maxChars && flag; i++)
   {
-    input[i] = inputUsuario(0, 0);
+    input[i] = inputUsuario(0);
 
     flag = input[i] != TECLA_ENTER && input[i] != TECLA_ESC;
 
@@ -354,7 +353,7 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas, int *indiceSeta)
 {
   int opcaoAnt, opcao = 0;
-  INPUTS input = inputUsuario(numOpcoes, 1);
+  INPUTS input = inputUsuario(1);
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
   while (input != TECLA_ENTER)
@@ -385,7 +384,7 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
     SetConsoleCursorPosition(stdoutHandle, (COORD){MIN_ESPACO_LATERAL, POS_Y(opcao, numSeparadas)});
     printf("%s", opcoes[opcao]);
 
-    input = inputUsuario(numOpcoes, 1);
+    input = inputUsuario(1);
   }
 
   if (indiceSeta != NULL)
@@ -406,7 +405,7 @@ void ordenaOpcoes(char opcoes[][TAM], int numOpcoes)
   }
 }
 
-int inputUsuario(int numOpcoes, int saiComEsc)
+int inputUsuario(int saiComEsc)
 {
   INPUTS input = getch();
 
