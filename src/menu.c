@@ -426,18 +426,12 @@ int verificaInput(INPUTS input)
   return (
       input == SETA_CIMA ||
       input == SETA_BAIXO ||
-      input == SETA_DIREITA ||
-      input == SETA_ESQUERDA ||
       input == TECLA_ENTER ||
       input == TECLA_ESC ||
       input == TECLA_W ||
       input == TECLA_W_CAPS ||
-      input == TECLA_A ||
-      input == TECLA_A_CAPS ||
       input == TECLA_S ||
       input == TECLA_S_CAPS ||
-      input == TECLA_D ||
-      input == TECLA_D_CAPS ||
       input == NUM_ZERO ||
       input == NUM_UM ||
       input == NUM_DOIS ||
