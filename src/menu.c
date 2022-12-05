@@ -62,7 +62,7 @@ int inputUsuario(int numOpcoes, int saiComEsc);
  * @param input Valor coletado através da função getch
  * @return int
  */
-int verificaInput(INPUTS input, int numOpcoes);
+int verificaInput(INPUTS input);
 
 /**
  * @brief Mostra o menu de configurações do jogo e lida com as entradas do usuário
@@ -410,7 +410,7 @@ int inputUsuario(int numOpcoes, int saiComEsc)
 {
   INPUTS input = getch();
 
-  while (!verificaInput(input, numOpcoes))
+  while (!verificaInput(input))
     input = getch();
 
   if (saiComEsc && input == TECLA_ESC)
@@ -419,7 +419,7 @@ int inputUsuario(int numOpcoes, int saiComEsc)
   return input;
 }
 
-int verificaInput(INPUTS input, int numOpcoes)
+int verificaInput(INPUTS input)
 {
   return (
       input == SETA_CIMA ||
@@ -436,7 +436,6 @@ int verificaInput(INPUTS input, int numOpcoes)
       input == TECLA_S_CAPS ||
       input == TECLA_D ||
       input == TECLA_D_CAPS ||
-      // input > NUM_ZERO && input < numOpcoes + NUM_ZERO + 1 ||
       input == NUM_ZERO ||
       input == NUM_UM ||
       input == NUM_DOIS ||
