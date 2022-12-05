@@ -16,7 +16,8 @@ typedef enum
   PULSAR,
   FIREWORK,
   FIREWORKS,
-  EXPLOSAO
+  EXPLOSAO,
+  CRESCIMENTO_INFINITO
 } Padroes;
 
 /**

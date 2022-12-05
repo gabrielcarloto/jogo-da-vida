@@ -53,6 +53,9 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
   case EXPLOSAO:
     strcat(endereco, "explosao");
     break;
+  case CRESCIMENTO_INFINITO:
+    strcat(endereco, "crescimento_infinito");
+    break;
   }
 
   strcat(endereco, EXT_PADROES);
