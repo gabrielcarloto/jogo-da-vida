@@ -36,6 +36,11 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas, int *indiceSeta);
 
 /**
+ * @brief Mostra um menu com mais opções de padrões
+ */
+void maisPadroes(Game_Settings *settings);
+
+/**
  * @brief Faz das opções uma lista ordenada (Ex.: ["opcao1", "opcao2"] -> ["1. opcao1", "2. opcao2"])
  *
  * @param opcoes Matriz de opcões
@@ -83,15 +88,12 @@ void menuInicial(Game_Settings *settings)
     SAPO,
     GLIDER,
     LWSS,
-    PULSAR,
-    FIREWORK,
-    FIREWORKS,
-    EXPLOSAO,
+    MAIS,
     CONFIG,
     SAIR
   } Opcoes;
 
-  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Pulsar", "Fogo de Artificio", "Fogos de Artificio", "Explosao", "Configuracoes", "Sair do jogo"};
+  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Mais padroes", "Configuracoes", "Sair do jogo"}; // "Pulsar", "Fogo de Artificio", "Fogos de Artificio", "Explosao",
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
   Opcoes opcao;
@@ -113,25 +115,69 @@ void menuInicial(Game_Settings *settings)
       opcoes[SAPO],
       opcoes[GLIDER],
       opcoes[LWSS],
-      opcoes[PULSAR],
-      opcoes[FIREWORK],
-      opcoes[FIREWORKS],
-      opcoes[EXPLOSAO],
+      opcoes[MAIS],
       " ",
       opcoes[CONFIG],
       opcoes[SAIR]);
 
   opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2, NULL);
 
-  if (opcao == CONFIG)
+  if (opcao == MAIS)
+  {
+    return maisPadroes(settings);
+  }
+  else if (opcao == CONFIG)
   {
     configJogo(settings);
     return;
   }
   else if (opcao == SAIR)
+  {
     exit(0);
+  }
 
   settings->padrao = opcao;
+}
+
+void maisPadroes(Game_Settings *settings)
+{
+  typedef enum
+  {
+    PULSAR, // 5
+    FIREWORK,
+    FIREWORKS,
+    EXPLOSAO,
+    VOLTAR
+  } Opcoes;
+
+  char opcoes[][TAM] = {"Pulsar <", "Fogo de Artificio", "Fogos de Artificio", "Explosao", "Voltar"};
+  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  Sign_Settings signSettings;
+  Opcoes opcao;
+
+  ordenaOpcoes(opcoes, numOpcoes);
+
+  signSettings.alignment = LEFT;
+  signSettings.maxHeight = 20;
+  signSettings.maxWidth = 75;
+  signSettings.firstOptionIndex = 3;
+
+  inicioOpcoes = imprimePlaca(
+      signSettings,
+      "MENU > MAIS PADROES",
+      opcoes[PULSAR],
+      opcoes[FIREWORK],
+      opcoes[FIREWORKS],
+      opcoes[EXPLOSAO],
+      " ",
+      opcoes[VOLTAR]);
+
+  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1, NULL);
+
+  if (opcao == VOLTAR)
+    return menuInicial(settings);
+
+  settings->padrao = opcao + 5;
 }
 
 void configJogo(Game_Settings *settings)

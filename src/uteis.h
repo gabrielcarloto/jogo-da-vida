@@ -3,9 +3,18 @@
 
 #define TAM 101
 
-#define DEBUG()                                                          \
-  printf("Nenhum erro na linha %d do arquivo %s\n", __LINE__, __FILE__); \
-  Sleep(2000)
+#define DEBUG(str, ...)                                                    \
+  if (str)                                                                 \
+  {                                                                        \
+    printf("%s\n%s:%d", str, __VA_ARGS__, __FILE__, __LINE__);             \
+    Sleep(2000);                                                           \
+  }                                                                        \
+  else                                                                     \
+  {                                                                        \
+                                                                           \
+    printf("Nenhum erro na linha %d do arquivo %s\n", __LINE__, __FILE__); \
+    Sleep(2000)                                                            \
+  }
 
 /**
  * @brief Aloca uma matriz de nl linhas e nc colunas
