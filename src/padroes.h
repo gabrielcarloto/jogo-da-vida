@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define MAX_CHARS 50
-#define NUM_PADROES 8
+#define NUM_PADROES 9
 
 typedef enum
 {
@@ -13,6 +13,7 @@ typedef enum
   SAPO,
   GLIDER,
   LWSS,
+  PULSAR,
   FIREWORK,
   FIREWORKS,
   EXPLOSAO
