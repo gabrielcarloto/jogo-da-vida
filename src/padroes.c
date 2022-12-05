@@ -13,7 +13,7 @@
 void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
-  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
+  char string[TAM], **padrao, endereco[TAM] = PATH_PADROES;
   int i, j, colCelulaPadrao, celulasNaColuna;
 
   assert(xInic >= -1 && xInic < nc);
@@ -68,7 +68,7 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 
   i = 0;
 
-  while (fgets(string, MAX_CHARS, arquivo))
+  while (fgets(string, TAM, arquivo))
   {
     padrao = split(string, ",", &celulasNaColuna);
 
