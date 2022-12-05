@@ -44,6 +44,9 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
   case FIREWORK:
     strcat(endereco, "firework");
     break;
+  case FIREWORKS:
+    strcat(endereco, "fireworks");
+    break;
   }
 
   strcat(endereco, EXT_PADROES);

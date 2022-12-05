@@ -84,10 +84,8 @@ void jogaJogoVida(char **mAtual, Game_Settings *settings)
   char **mAnt;
   HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
-  // imprimindo na tela a matriz inicial
   ClearScreen();
   imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
-  // getchar();
   Sleep(settings->velocidade_atualizacao);
 
   mAnt = alocaMatriz(nL, nC);
@@ -99,7 +97,7 @@ void jogaJogoVida(char **mAtual, Game_Settings *settings)
     atualizaMat(mAnt, mAtual, nL, nC, settings->chance_invasores, settings->numero_invasores);
     SetConsoleCursorPosition(h, (COORD){0, 0});
     imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
-    // getchar();
+
     Sleep(settings->velocidade_atualizacao);
   }
 
