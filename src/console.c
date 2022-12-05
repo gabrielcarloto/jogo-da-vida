@@ -47,7 +47,7 @@ void ClearScreen()
 
 void toggleCursor(int show)
 {
-  assert(show == 0 || show == 1);
+  assert(show == FALSE || show == TRUE);
 
   HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
   CONSOLE_CURSOR_INFO cci;

@@ -1,6 +1,9 @@
 #ifndef _UTEIS_H_
 #define _UTEIS_H_
 
+#define TRUE 1
+#define FALSE 0
+
 #define TAM 101
 
 /**

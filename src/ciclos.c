@@ -3,13 +3,14 @@
 #include "ciclos.h"
 #include "celulas.h"
 #include "padroes.h"
+#include "uteis.h"
 
 int verificaCelula(const char celula)
 {
   if (celula == ORG)
-    return 1;
+    return TRUE;
 
-  return 0;
+  return FALSE;
 }
 
 int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc)

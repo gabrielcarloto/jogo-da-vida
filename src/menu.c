@@ -353,7 +353,7 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas, int *indiceSeta)
 {
   int opcaoAnt, opcao = 0;
-  INPUTS input = inputUsuario(1);
+  INPUTS input = inputUsuario(TRUE);
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
   while (input != TECLA_ENTER)
