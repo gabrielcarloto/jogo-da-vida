@@ -26,7 +26,6 @@ char **alocaMatriz(int nl, int nc)
 
     if (matriz[i] == NULL)
     {
-
       fprintf(stderr, "Erro ao alocar matriz.\n");
       exit(1);
     }
