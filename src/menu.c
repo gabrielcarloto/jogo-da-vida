@@ -123,18 +123,11 @@ void menuInicial(Game_Settings *settings)
   opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2, NULL);
 
   if (opcao == MAIS)
-  {
     return maisPadroes(settings);
-  }
   else if (opcao == CONFIG)
-  {
-    configJogo(settings);
-    return;
-  }
+    return configJogo(settings);
   else if (opcao == SAIR)
-  {
     exit(0);
-  }
 
   settings->padrao = opcao;
 }
