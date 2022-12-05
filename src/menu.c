@@ -15,12 +15,13 @@
  * @param placeholder Texto em cinza que aparecerá como dica ao selecionar uma configuração
  * @param maxChars Número máximo de caracteres que o usuário pode digitar durante a configuração
  * @param indiceOpcao Índice da opção escolhida pelo usuário
+ * @param indiceSeta Índice da opção onde está a seta
  * @param inicioOpcoes Número da linha onde as opções começam no console
  * @param configAnterior Configuração anterior à do usuário
  * @param stdoutHandle Handle para o console
  * @return (int) Configuração digitada pelo usuário convertida pra números
  */
-int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle);
+int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int indiceSeta, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle);
 
 /**
  * @brief Lida com a navegação e escolha de opções em um menu
@@ -29,9 +30,10 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
  * @param inicioOpcoes Número da linha onde se encontra a primeira opção no terminal
  * @param numOpcoes Número de opções disponíveis
  * @param numSeparadas Número de opções separadas das demais, como "Voltar", "Sair" ou "Configurações"
+ * @param indiceSeta Ponteiro que receberá o índice onde está a seta de seleção
  * @return (int) Opção selecionada
  */
-int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas);
+int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas, int *indiceSeta);
 
 /**
  * @brief Faz das opções uma lista ordenada (Ex.: ["opcao1", "opcao2"] -> ["1. opcao1", "2. opcao2"])
@@ -111,7 +113,7 @@ void menuInicial(Game_Settings *settings)
       opcoes[CONFIG],
       opcoes[SAIR]);
 
-  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2);
+  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 2, NULL);
 
   if (opcao == CONFIG)
   {
@@ -137,7 +139,7 @@ void configJogo(Game_Settings *settings)
   } Opcoes_Config;
 
   char opcoes[][TAM] = {"Tempo de Atualizacao <", "Ciclos", "Linhas", "Colunas", "Cor", "Voltar"}, placeholder[TAM];
-  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+  int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]), indiceSeta;
   HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
   Sign_Settings signSettings;
   Opcoes_Config opcao;
@@ -164,21 +166,21 @@ void configJogo(Game_Settings *settings)
       " ",
       opcoes[VOLTAR]);
 
-  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1);
+  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1, &indiceSeta);
 
   switch (opcao)
   {
   case ATUALIZACAO:
     snprintf(placeholder, TAM, "%dms", settings->velocidade_atualizacao);
-    settings->velocidade_atualizacao = coletaConfig(opcoes, placeholder, 4, ATUALIZACAO, inicioOpcoes, settings->velocidade_atualizacao, stdoutHandle);
+    settings->velocidade_atualizacao = coletaConfig(opcoes, placeholder, 4, ATUALIZACAO, indiceSeta, inicioOpcoes, settings->velocidade_atualizacao, stdoutHandle);
     break;
   case CICLOS:
     snprintf(placeholder, TAM, "%d", settings->ciclos);
-    settings->ciclos = coletaConfig(opcoes, placeholder, 4, CICLOS, inicioOpcoes, settings->ciclos, stdoutHandle);
+    settings->ciclos = coletaConfig(opcoes, placeholder, 4, CICLOS, indiceSeta, inicioOpcoes, settings->ciclos, stdoutHandle);
     break;
   case LINHAS:
     snprintf(placeholder, TAM, "%d", settings->linhas);
-    int linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, inicioOpcoes, settings->linhas, stdoutHandle);
+    int linhas = coletaConfig(opcoes, placeholder, 3, LINHAS, indiceSeta, inicioOpcoes, settings->linhas, stdoutHandle);
     DWORD scrHeight = GetSystemMetrics(SM_CYSCREEN);
 
     linhas = linhas < scrHeight / 18 ? linhas : scrHeight / 18;
@@ -187,7 +189,7 @@ void configJogo(Game_Settings *settings)
     break;
   case COLUNAS:
     snprintf(placeholder, TAM, "%d", settings->colunas);
-    int colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, inicioOpcoes, settings->colunas, stdoutHandle);
+    int colunas = coletaConfig(opcoes, placeholder, 3, COLUNAS, indiceSeta, inicioOpcoes, settings->colunas, stdoutHandle);
     DWORD scrWidth = GetSystemMetrics(SM_CXSCREEN);
 
     colunas = colunas < scrWidth / 17 ? colunas : scrWidth / 17;
@@ -232,7 +234,7 @@ Cores configCor(Game_Settings *settings)
       " ",
       opcoes[numOpcoes - 1]);
 
-  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1);
+  opcao = handleMenuOptions(opcoes, inicioOpcoes, numOpcoes, 1, NULL);
 
   if (opcao == numOpcoes - 1)
   {
@@ -243,15 +245,23 @@ Cores configCor(Game_Settings *settings)
   return opcao;
 }
 
-int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle)
+int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int indiceSeta, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle)
 {
   char input[TAM];
-  int i, baseY, baseX, flag = 1;
+  int i, baseY, baseX, setaMesmoIndice, flag = 1;
 
-  baseX = inicioOpcoes + indiceOpcao - 1;
-  baseY = MIN_ESPACO_LATERAL + strlen(opcoes[indiceOpcao]);
+  baseX = MIN_ESPACO_LATERAL + strlen(opcoes[indiceOpcao]);
+  baseY = inicioOpcoes + indiceOpcao - 1;
 
-  SetConsoleCursorPosition(stdoutHandle, (COORD){baseY - 2, baseX});
+  setaMesmoIndice = indiceSeta == indiceOpcao;
+
+  if (!setaMesmoIndice)
+  {
+    SetConsoleCursorPosition(stdoutHandle, (COORD){strlen(opcoes[indiceSeta]), inicioOpcoes + indiceSeta - 1});
+    printf("  ");
+  }
+
+  SetConsoleCursorPosition(stdoutHandle, (COORD){baseX - (setaMesmoIndice ? 2 : 0), baseY});
   printf(": %s%s%s", COR_CINZA, placeholder, RESET);
 
   for (i = 0; i < maxChars && flag; i++)
@@ -262,12 +272,12 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
 
     if (i == 0)
     {
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY - 2, baseX});
+      SetConsoleCursorPosition(stdoutHandle, (COORD){baseX, baseY});
       printf(": %*s", maxChars + 2, "");
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY, baseX});
+      SetConsoleCursorPosition(stdoutHandle, (COORD){baseX + (!setaMesmoIndice ? 2 : 0), baseY});
     }
     else
-      SetConsoleCursorPosition(stdoutHandle, (COORD){baseY + i, baseX});
+      SetConsoleCursorPosition(stdoutHandle, (COORD){baseX + (!setaMesmoIndice ? 2 : 0) + i, baseY});
     printf("%c", input[i]);
   }
 
@@ -277,7 +287,7 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
   return atoi(input);
 }
 
-int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas)
+int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int numSeparadas, int *indiceSeta)
 {
   int opcaoAnt, opcao = 0;
   INPUTS input = inputUsuario(numOpcoes, 1);
@@ -293,7 +303,11 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
       opcao -= (opcao != 0);
 
     if (input - NUM_ZERO > 0 && input - NUM_ZERO <= numOpcoes)
-      opcao = input - NUM_ZERO - 1;
+    {
+      if (indiceSeta != NULL)
+        *indiceSeta = opcao;
+      return input - NUM_ZERO - 1;
+    }
 
     if (opcao != opcaoAnt)
     {
@@ -309,6 +323,9 @@ int handleMenuOptions(char opcoes[][TAM], int inicioOpcoes, int numOpcoes, int n
 
     input = inputUsuario(numOpcoes, 1);
   }
+
+  if (indiceSeta != NULL)
+    *indiceSeta = opcao;
 
   return opcao;
 }
