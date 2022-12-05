@@ -2,7 +2,7 @@
 #define _INTERFACE_H_
 
 #define RESET "\033[0m"
-#define COR_AZUL "\033[34m"
+#define COR_AZUL "\033[94m"
 #define COR_VERDE "\033[92m"
 #define COR_CINZA "\033[90m"
 #define COR_AMARELO "\033[93m"
