@@ -141,10 +141,11 @@ void maisPadroes(Game_Settings *settings)
     FIREWORKS,
     EXPLOSAO,
     CRESCIMENTO_INFINITO,
+    BIG_A,
     VOLTAR
   } Opcoes;
 
-  char opcoes[][TAM] = {"Pulsar <", "Fogo de Artificio", "Fogos de Artificio", "Explosao", "Crescimento Infinito", "Voltar"};
+  char opcoes[][TAM] = {"Pulsar <", "Fogo de Artificio", "Fogos de Artificio", "Explosao", "Crescimento Infinito", "Big A (A-lado)", "Voltar"};
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
   Opcoes opcao;
@@ -164,6 +165,7 @@ void maisPadroes(Game_Settings *settings)
       opcoes[FIREWORKS],
       opcoes[EXPLOSAO],
       opcoes[CRESCIMENTO_INFINITO],
+      opcoes[BIG_A],
       " ",
       opcoes[VOLTAR]);
 

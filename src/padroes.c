@@ -55,6 +55,8 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     break;
   case CRESCIMENTO_INFINITO:
     strcat(endereco, "crescimento_infinito");
+  case BIG_A:
+    strcat(endereco, "big_a");
     break;
   }
 
@@ -70,11 +72,14 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 
     for (j = 0; j < celulasNaColuna; j++)
     {
-      colCelulaPadrao = atoi(padrao[j]);
-      int linha = yInic + i, coluna = xInic + colCelulaPadrao;
+      if (padrao[j][0] != '\n')
+      {
+        colCelulaPadrao = atoi(padrao[j]);
+        int linha = yInic + i, coluna = xInic + colCelulaPadrao;
 
-      if (linha < nl && coluna < nc)
-        ciclo[linha][coluna] = ORG;
+        if (linha < nl && coluna < nc)
+          ciclo[linha][coluna] = ORG;
+      }
     }
 
     i++;
