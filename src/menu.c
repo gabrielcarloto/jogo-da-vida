@@ -85,11 +85,12 @@ void menuInicial(Game_Settings *settings)
     LWSS,
     FIREWORK,
     FIREWORKS,
+    EXPLOSAO,
     CONFIG,
     SAIR
   } Opcoes;
 
-  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Fogo de Artificio", "Fogos de Artificio", "Configuracoes", "Sair do jogo"};
+  char opcoes[][TAM] = {"Bloco <", "Blinker", "Sapo", "Glider", "LWSS", "Fogo de Artificio", "Fogos de Artificio", "Explosao", "Configuracoes", "Sair do jogo"};
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
   Sign_Settings signSettings;
   Opcoes opcao;
@@ -113,6 +114,7 @@ void menuInicial(Game_Settings *settings)
       opcoes[LWSS],
       opcoes[FIREWORK],
       opcoes[FIREWORKS],
+      opcoes[EXPLOSAO],
       " ",
       opcoes[CONFIG],
       opcoes[SAIR]);
