@@ -342,6 +342,9 @@ int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indic
     else
       SetConsoleCursorPosition(stdoutHandle, (COORD){baseX + (!setaMesmoIndice ? 2 : 0) + i, baseY});
     printf("%c", input[i]);
+
+    if (i == maxChars - 1 && flag)
+      Sleep(80); // mostra para o usuário o último input
   }
 
   if (!(input[0] >= NUM_ZERO && input[0] <= NUM_NOVE) || input[0] == TECLA_ENTER || input[0] == TECLA_ESC)
