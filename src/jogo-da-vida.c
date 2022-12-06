@@ -58,7 +58,7 @@ int main()
     }
     else
     {
-      resizeWindow(gameSettings.colunas * 20, gameSettings.linhas * 20);
+      resizeWindow((gameSettings.colunas) * 8 * 2 + 40, (gameSettings.linhas + 4) * 16);
     }
 
     mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
