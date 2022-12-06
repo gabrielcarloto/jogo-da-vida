@@ -87,6 +87,8 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     i++;
     desalocaMatriz(padrao, celulasNaColuna);
   }
+
+  fclose(arquivo);
 }
 
 void inicBlinker(char **m, int nL, int nC)
