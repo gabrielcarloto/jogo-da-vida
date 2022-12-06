@@ -12,34 +12,42 @@
 #define CHAR_CELULA_MORTA '.'
 #define CHAR_CELULA_VIVA 'O'
 
-void imprimeMatriz(char **matriz, int nl, int nc, Cores cor)
+char *corEscolhida(Cores cor)
 {
-  int i, j;
-  char corUsada[10];
+  char *codeCor;
 
   assert(cor >= 0 && cor <= 3);
+
+  codeCor = alocaVetor(10);
 
   switch (cor)
   {
   case AZUL:
-    strcpy(corUsada, COR_AZUL);
+    strcpy(codeCor, COR_AZUL);
     break;
   case VERDE:
-    strcpy(corUsada, COR_VERDE);
+    strcpy(codeCor, COR_VERDE);
     break;
   case AMARELO:
-    strcpy(corUsada, COR_AMARELO);
+    strcpy(codeCor, COR_AMARELO);
     break;
   case VERMELHO:
-    strcpy(corUsada, COR_VERMELHO);
+    strcpy(codeCor, COR_VERMELHO);
     break;
   }
+
+  return codeCor;
+}
+
+void imprimeMatriz(char **matriz, int nl, int nc, char cor[])
+{
+  int i, j;
 
   for (i = 0; i < nl; i++)
   {
     for (j = 0; j < nc; j++)
       if (matriz[i][j] == ORG)
-        printf("%s%c ", corUsada, CHAR_CELULA_VIVA);
+        printf("%s%c ", cor, CHAR_CELULA_VIVA);
       else
         printf("%s%c ", COR_CINZA, CHAR_CELULA_MORTA);
 

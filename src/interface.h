@@ -40,6 +40,15 @@ typedef struct
 } Sign_Settings;
 
 /**
+ * @brief Converte uma cor do tipo Cores para uma string contendo o
+ * escape code usado para imprimir a cor.
+ *
+ * @param cor Número correspondente à cor no enum Cores
+ * @return (char *) String com o escape correspondente à cor
+ */
+char *corEscolhida(Cores cor);
+
+/**
  * @brief Imprime o ciclo representando células mortas como um ponto cinza
  * e células vivas como um "O" da cor escolhida pelo usuário (por padrão, é verde)
  *
@@ -47,7 +56,7 @@ typedef struct
  * @param nl Número de linhas da matriz
  * @param nc Número de colunas da matriz
  */
-void imprimeMatriz(char **matriz, int nl, int nc, Cores cor);
+void imprimeMatriz(char **matriz, int nl, int nc, char cor[]);
 
 /**
  * Imprime uma "placa", ocupando todo o espaço disponível no terminal.

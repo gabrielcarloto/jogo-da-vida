@@ -29,12 +29,12 @@ int main()
   srand(time(NULL));
 
   gameSettings.velocidade_atualizacao = 150;
-  gameSettings.cor_tema = VERDE;
   gameSettings.ciclos = 50;
   gameSettings.linhas = 20;
   gameSettings.colunas = 20;
   gameSettings.chance_invasores = 15;
   gameSettings.numero_invasores = 10;
+  strcpy(gameSettings.cor_tema, COR_VERDE);
 
   signSettings.alignment = CENTER;
   signSettings.maxHeight = 20;

@@ -36,7 +36,7 @@ typedef struct
   int ciclos;
   int linhas;
   int colunas;
-  int cor_tema;
+  char cor_tema[10];
   int velocidade_atualizacao;
   int chance_invasores;
   int numero_invasores;

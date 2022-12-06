@@ -74,9 +74,9 @@ void configJogo(Game_Settings *settings);
  * @brief Mostra o menu de seleção de cores e retorna a cor escolhida
  *
  * @param settings Ponteiro para as configurações do jogo
- * @return Cores
+ * @return (char *) String com o escape correspondente à cor
  */
-Cores configCor(Game_Settings *settings);
+char *configCor(Game_Settings *settings);
 
 void menuInicial(Game_Settings *settings)
 {
@@ -260,7 +260,7 @@ void configJogo(Game_Settings *settings)
     settings->chance_invasores = coletaConfig(opcoes, placeholder, 3, NUMERO_INVASORES, indiceSeta, inicioOpcoes, settings->numero_invasores, stdoutHandle);
     break;
   case COR:
-    settings->cor_tema = configCor(settings);
+    strcpy(settings->cor_tema, configCor(settings));
     break;
   case VOLTAR:
     menuInicial(settings);
@@ -270,7 +270,7 @@ void configJogo(Game_Settings *settings)
   configJogo(settings);
 }
 
-Cores configCor(Game_Settings *settings)
+char *configCor(Game_Settings *settings)
 {
   char opcoes[][TAM] = {"Azul <", "Verde", "Amarelo", "Vermelho", "Voltar"}, opcao;
   int inicioOpcoes, numOpcoes = sizeof(opcoes) / sizeof(opcoes[0]);
@@ -302,10 +302,10 @@ Cores configCor(Game_Settings *settings)
   if (opcao == numOpcoes - 1)
   {
     configJogo(settings);
-    return VERDE;
+    return settings->cor_tema;
   }
 
-  return opcao;
+  return corEscolhida(opcao);
 }
 
 int coletaConfig(char opcoes[][TAM], char placeholder[], int maxChars, int indiceOpcao, int indiceSeta, int inicioOpcoes, int configAnterior, HANDLE stdoutHandle)
