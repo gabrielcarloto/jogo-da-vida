@@ -10,10 +10,18 @@
 #define PATH_PADROES "./padroes/"
 #define EXT_PADROES ".csv"
 
+/**
+ * @brief Retorna uma string contendo o caminho para o padrão escolhido.
+ *
+ * @param pattern Padrão escolhido
+ * @return char *
+ */
+char *patternPath(Padroes pattern);
+
 void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
-  char string[TAM], **padrao, endereco[TAM] = PATH_PADROES;
+  char string[TAM], **padrao, *endereco = patternPath(opcao);
   int i, j, colCelulaPadrao, celulasNaColuna;
 
   assert(xInic >= -1 && xInic < nc);
@@ -24,45 +32,6 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     xInic = (nc / 2) - 1;
     yInic = (nl / 2) - 1;
   }
-
-  switch (opcao)
-  {
-  case BLOCO:
-    strcat(endereco, "bloco");
-    break;
-  case BLINKER:
-    strcat(endereco, "blinker");
-    break;
-  case SAPO:
-    strcat(endereco, "sapo");
-    break;
-  case GLIDER:
-    strcat(endereco, "glider");
-    break;
-  case LWSS:
-    strcat(endereco, "LWSS");
-    break;
-  case PULSAR:
-    strcat(endereco, "pulsar");
-    break;
-  case FIREWORK:
-    strcat(endereco, "firework");
-    break;
-  case FIREWORKS:
-    strcat(endereco, "fireworks");
-    break;
-  case EXPLOSAO:
-    strcat(endereco, "explosao");
-    break;
-  case CRESCIMENTO_INFINITO:
-    strcat(endereco, "crescimento_infinito");
-    break;
-  case BIG_A:
-    strcat(endereco, "big_a");
-    break;
-  }
-
-  strcat(endereco, EXT_PADROES);
 
   arquivo = fopen(endereco, "r");
 
@@ -88,7 +57,60 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     desalocaMatriz(padrao, celulasNaColuna);
   }
 
+  free(endereco);
   fclose(arquivo);
+}
+
+char *patternPath(Padroes pattern)
+{
+  char *path;
+
+  assert(pattern >= 0 && pattern <= NUM_PADROES);
+
+  path = alocaVetor(TAM);
+
+  strcpy(path, PATH_PADROES);
+
+  switch (pattern)
+  {
+  case BLOCO:
+    strcat(path, "bloco");
+    break;
+  case BLINKER:
+    strcat(path, "blinker");
+    break;
+  case SAPO:
+    strcat(path, "sapo");
+    break;
+  case GLIDER:
+    strcat(path, "glider");
+    break;
+  case LWSS:
+    strcat(path, "LWSS");
+    break;
+  case PULSAR:
+    strcat(path, "pulsar");
+    break;
+  case FIREWORK:
+    strcat(path, "firework");
+    break;
+  case FIREWORKS:
+    strcat(path, "fireworks");
+    break;
+  case EXPLOSAO:
+    strcat(path, "explosao");
+    break;
+  case CRESCIMENTO_INFINITO:
+    strcat(path, "crescimento_infinito");
+    break;
+  case BIG_A:
+    strcat(path, "big_a");
+    break;
+  }
+
+  strcat(path, EXT_PADROES);
+
+  return path;
 }
 
 void inicBlinker(char **m, int nL, int nC)
