@@ -1,9 +1,29 @@
 {
-  "c-cpp-compile-run.c-flags": "-Wall -Wextra uteis.c padroes.c ciclos.c",
+  "c-cpp-compile-run.c-flags": "-Wall uteis.c padroes.c ciclos.c interface.c console.c menu.c",
   "files.associations": {
     "padroes.h": "c",
     "uteis.h": "c",
     "string.h": "c",
-    "ciclos.h": "c"
+    "ciclos.h": "c",
+    "windows.h": "c",
+    "stdio.h": "c",
+    "cstdio": "c",
+    "_mingw.h": "c",
+    "conio.h": "c",
+    "winuser.h": "c",
+    "celulas.h": "c",
+    "interface.h": "c",
+    "menu.h": "c",
+    "console.h": "c",
+    "cmath": "c",
+    "cstdarg": "c",
+    "cstdlib": "c",
+    "cwchar": "c",
+    "cwctype": "c",
+    "exception": "c",
+    "limits": "c",
+    "*.tcc": "c",
+    "type_traits": "c",
+    "typeinfo": "c"
   }
 }

@@ -9,6 +9,7 @@
  * @param ciclo A matriz que receberá o padrão
  * @param nl Número de linhas da matriz
  * @param nc Número de colunas da matriz
+ * @deprecated Use a função lePadrao
  */
 void iniciaPadrao(Padroes padrao, char **ciclo, int nl, int nc);
 
@@ -37,7 +38,7 @@ int verificaVizinhas(const char **ciclo, int linha, int coluna, int nl, int nc);
  * @param nl Número de linhas na matriz do ciclo
  * @param nc Número de colunas na matriz do ciclo
  */
-void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtual, int nl, int nc);
+void adicionaInvasores(int chance, int maxInvasores, char **cicloAtual, int nl, int nc);
 
 /**
  * @brief Atualiza o ciclo atual com base nos dados do ciclo anterior
@@ -46,6 +47,7 @@ void adicionaInvasores(const int chance, const int maxInvasores, char **cicloAtu
  * @param cicloAtual Matriz (do ciclo atual) que será atualizada
  * @param nl Número de linhas
  * @param nc Número de colunas
+ * @param chanceInvasores Chance dos invasores aparecerem em um ciclo
  */
-void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc);
+void atualizaMat(const char **cicloAnt, char **cicloAtual, int nl, int nc, int chanceInvasores, int numInvasores);
 #endif

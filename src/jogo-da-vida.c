@@ -2,92 +2,105 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+#include <conio.h>
 
+#include "interface.h"
+#include "console.h"
 #include "uteis.h"
 #include "padroes.h"
 #include "ciclos.h"
 #include "celulas.h"
+#include "menu.h"
 
-#define TAM 101
-
-void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos);
-void imprimeMatriz(char **matriz, int nl, int nc);
-void menuInicJogo(char **mat, int nL, int nC);
+void jogaJogoVida(char **mAtual, Game_Settings *settings);
+void menuInicial(Game_Settings *settings);
+int inputUsuario(int numOpcoes, int saiComEsc);
 
 int main()
 {
-  int nL = 20, nC = 20, nCiclos = 50, jogando = 1; // ou fornecidos pelo usuario
+  Sign_Settings signSettings;
+  Game_Settings gameSettings;
+  Terminal_Size tsize;
+  int jogando = 1;
   char **mat;
 
+  atexit(resetaConsole);
+  setupConsole();
   srand(time(NULL));
 
-  mat = alocaMatriz(nL, nC);
+  gameSettings.velocidade_atualizacao = 150;
+  gameSettings.ciclos = 50;
+  gameSettings.linhas = 20;
+  gameSettings.colunas = 20;
+  gameSettings.chance_invasores = 15;
+  gameSettings.numero_invasores = 10;
+  strcpy(gameSettings.cor_tema, COR_VERDE);
+
+  signSettings.alignment = CENTER;
+  signSettings.maxHeight = 20;
+  signSettings.maxWidth = 75;
+
+  imprimePlaca(signSettings, "INSTRUCOES", "Navegue com as setas ou numeros do teclado", "Pressione enter para continuar");
+  getch();
 
   while (jogando)
   {
-    menuInicJogo(mat, nL, nC);
-    jogaJogoVida(mat, nL, nC, nCiclos);
-    // fim do jogo
+    resizeWindow(MIN_LARGURA_TELA, MIN_ALTURA_TELA);
+    menuInicial(&gameSettings);
+
+    if (!gameSettings.linhas || !gameSettings.colunas)
+    {
+      resizeWindow(0, 0);
+      tamanhoTerminal(&tsize);
+
+      gameSettings.linhas = tsize.height - 4;
+      gameSettings.colunas = tsize.width / 2;
+    }
+    else
+    {
+      resizeWindow((gameSettings.colunas) * 8 * 2 + 40, (gameSettings.linhas + 4) * 16);
+    }
+
+    mat = alocaMatriz(gameSettings.linhas, gameSettings.colunas);
+    limpaMatriz(mat, gameSettings.linhas, gameSettings.colunas);
+    lePadrao(gameSettings.padrao, mat, gameSettings.linhas, gameSettings.colunas, -1, -1);
+    ClearScreen();
+    imprimeMatriz(mat, gameSettings.linhas, gameSettings.colunas, gameSettings.cor_tema);
+
+    printf("%sPressione qualquer tecla para iniciar...", RESET);
+    getch();
+
+    jogaJogoVida(mat, &gameSettings);
     printf("Digite 1 para jogar novamente, 0 para parar: ");
     scanf("%d", &jogando); // depois eu penso numa UI melhor pra isso
   }
 
-  desalocaMatriz(mat, nL);
+  desalocaMatriz(mat, gameSettings.linhas);
 }
 
-void jogaJogoVida(char **mAtual, int nL, int nC, int nCiclos)
+void jogaJogoVida(char **mAtual, Game_Settings *settings)
 {
+  int c, nL = settings->linhas, nC = settings->colunas;
   char **mAnt;
-  int c;
+  HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
-  // imprimindo na tela a matriz inicial
-  system("cls");
-  imprimeMatriz(mAtual, nL, nC);
-  // getchar();
-  Sleep(100);
+  ClearScreen();
+  imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
+  Sleep(settings->velocidade_atualizacao);
 
   mAnt = alocaMatriz(nL, nC);
 
-  for (c = 1; c <= nCiclos; c++)
+  for (c = 1; c <= settings->ciclos; c++)
   {
     copiaMatriz(mAtual, mAnt, nL, nC);
 
-    atualizaMat(mAnt, mAtual, nL, nC);
-    system("cls");
-    imprimeMatriz(mAtual, nL, nC);
-    // getchar();
-    Sleep(100);
+    atualizaMat(mAnt, mAtual, nL, nC, settings->chance_invasores, settings->numero_invasores);
+    SetConsoleCursorPosition(h, (COORD){0, 0});
+    imprimeMatriz(mAtual, nL, nC, settings->cor_tema);
+
+    Sleep(settings->velocidade_atualizacao);
   }
+
   desalocaMatriz(mAnt, nL);
-}
-
-/* A função ainda é bem simples, por enquanto está aqui apenas para testarmos o resto */
-void imprimeMatriz(char **matriz, int nl, int nc)
-{
-  int i, j;
-
-  for (i = 0; i < nl; i++)
-  {
-    for (j = 0; j < nc; j++)
-      printf("%c ", matriz[i][j]);
-
-    printf("\n");
-  }
-}
-
-void menuInicJogo(char **mat, int nL, int nC)
-{
-  int opcao;
-
-  printf("(1)Bloco\n(2)Blinker\n(3)Sapo\n(4)Glider\n(5)LWSS\nEntre com a opcao: ");
-  scanf("%d", &opcao);
-
-  limpaMatriz(mat, nL, nC);
-  lePadrao(opcao - 1, mat, nL, nC, -1, -1);
-  imprimeMatriz(mat, nL, nC);
-
-  printf("Se inicializacao correta digite qualquer tecla para iniciar o jogo...");
-  while (getchar() != '\n')
-    ;
-  getchar();
+  resetaConsole();
 }

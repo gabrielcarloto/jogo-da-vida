@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -5,6 +6,21 @@
 
 #include "uteis.h"
 #include "celulas.h"
+
+char *alocaVetor(const int indices)
+{
+  char *vetor;
+
+  vetor = (char *)malloc(indices * sizeof(char));
+
+  if (vetor == NULL)
+  {
+    fprintf(stderr, "Erro ao alocar vetor.\n");
+    exit(1);
+  }
+
+  return vetor;
+}
 
 char **alocaMatriz(int nl, int nc)
 {
@@ -20,16 +36,7 @@ char **alocaMatriz(int nl, int nc)
   }
 
   for (i = 0; i < nl; i++)
-  {
-    matriz[i] = (char *)malloc(nl * sizeof(char));
-
-    if (matriz[i] == NULL)
-    {
-
-      fprintf(stderr, "Erro ao alocar matriz.\n");
-      exit(1);
-    }
-  }
+    matriz[i] = alocaVetor(nc);
 
   return matriz;
 }
@@ -63,22 +70,43 @@ void copiaMatriz(char **matrizOriginal, char **novaMatriz, int nl, int nc)
 
 char **split(char *str, char *separador, int *contPalavras)
 {
-  char **palavras, *palavra;
-  int i, linhas = TAM_LINHA;
+  char **retorno;
+  int i, linhas;
 
-  palavras = alocaMatriz(linhas, TAM_LINHA);
-  palavra = strtok(str, separador);
-
-  for (i = 0; i < linhas && palavra != NULL; i++)
+  if (separador == "")
   {
-    strcpy(palavras[i], palavra);
-    palavra = strtok(NULL, separador);
+    linhas = strlen(str);
+
+    char **letras = alocaMatriz(linhas, 2);
+
+    for (i = 0; i < linhas; i++)
+    {
+      letras[i][0] = str[i];
+      letras[i][1] = '\0';
+    }
+
+    retorno = letras;
+    *contPalavras = linhas;
+  }
+  else
+  {
+    linhas = TAM;
+
+    char **palavras = alocaMatriz(linhas, TAM);
+    char *palavra = strtok(str, separador);
+
+    for (i = 0; i < linhas && palavra != NULL; i++)
+    {
+      strcpy(palavras[i], palavra);
+      palavra = strtok(NULL, separador);
+    }
+
+    if (i < linhas)
+      palavras = realloc(palavras, i * sizeof(char **));
+
+    retorno = palavras;
+    *contPalavras = i;
   }
 
-  if (i < linhas)
-    palavras = realloc(palavras, i * sizeof(char **));
-
-  *contPalavras = i;
-
-  return palavras;
+  return retorno;
 }

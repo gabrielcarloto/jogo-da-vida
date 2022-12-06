@@ -1,6 +1,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "padroes.h"
 #include "celulas.h"
@@ -9,10 +10,18 @@
 #define PATH_PADROES "./padroes/"
 #define EXT_PADROES ".csv"
 
+/**
+ * @brief Retorna uma string contendo o caminho para o padrão escolhido.
+ *
+ * @param pattern Padrão escolhido
+ * @return char *
+ */
+char *patternPath(Padroes pattern);
+
 void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
 {
   FILE *arquivo;
-  char string[MAX_CHARS], **padrao, endereco[MAX_CHARS] = PATH_PADROES;
+  char string[TAM], **padrao, *endereco = patternPath(opcao);
   int i, j, colCelulaPadrao, celulasNaColuna;
 
   assert(xInic >= -1 && xInic < nc);
@@ -24,47 +33,84 @@ void lePadrao(Padroes opcao, char **ciclo, int nl, int nc, int xInic, int yInic)
     yInic = (nl / 2) - 1;
   }
 
-  switch (opcao)
-  {
-  case BLOCO:
-    strcat(endereco, "bloco");
-    break;
-  case BLINKER:
-    strcat(endereco, "blinker");
-    break;
-  case SAPO:
-    strcat(endereco, "sapo");
-    break;
-  case GLIDER:
-    strcat(endereco, "glider");
-    break;
-  case LWSS:
-    strcat(endereco, "LWSS");
-    break;
-  }
-
-  strcat(endereco, EXT_PADROES);
-
   arquivo = fopen(endereco, "r");
 
   i = 0;
 
-  while (fgets(string, MAX_CHARS, arquivo))
+  while (fgets(string, TAM, arquivo))
   {
     padrao = split(string, ",", &celulasNaColuna);
 
     for (j = 0; j < celulasNaColuna; j++)
     {
-      colCelulaPadrao = atoi(padrao[j]);
-      int linha = yInic + i, coluna = xInic + colCelulaPadrao;
+      if (padrao[j][0] != '\n')
+      {
+        colCelulaPadrao = atoi(padrao[j]);
+        int linha = yInic + i, coluna = xInic + colCelulaPadrao;
 
-      if (linha < nl && coluna < nc)
-        ciclo[linha][coluna] = ORG;
+        if (linha < nl && coluna < nc)
+          ciclo[linha][coluna] = ORG;
+      }
     }
 
     i++;
     desalocaMatriz(padrao, celulasNaColuna);
   }
+
+  free(endereco);
+  fclose(arquivo);
+}
+
+char *patternPath(Padroes pattern)
+{
+  char *path;
+
+  assert(pattern >= 0 && pattern <= NUM_PADROES);
+
+  path = alocaVetor(TAM);
+
+  strcpy(path, PATH_PADROES);
+
+  switch (pattern)
+  {
+  case BLOCO:
+    strcat(path, "bloco");
+    break;
+  case BLINKER:
+    strcat(path, "blinker");
+    break;
+  case SAPO:
+    strcat(path, "sapo");
+    break;
+  case GLIDER:
+    strcat(path, "glider");
+    break;
+  case LWSS:
+    strcat(path, "LWSS");
+    break;
+  case PULSAR:
+    strcat(path, "pulsar");
+    break;
+  case FIREWORK:
+    strcat(path, "firework");
+    break;
+  case FIREWORKS:
+    strcat(path, "fireworks");
+    break;
+  case EXPLOSAO:
+    strcat(path, "explosao");
+    break;
+  case CRESCIMENTO_INFINITO:
+    strcat(path, "crescimento_infinito");
+    break;
+  case BIG_A:
+    strcat(path, "big_a");
+    break;
+  }
+
+  strcat(path, EXT_PADROES);
+
+  return path;
 }
 
 void inicBlinker(char **m, int nL, int nC)
