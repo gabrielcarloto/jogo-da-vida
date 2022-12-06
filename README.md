@@ -1,5 +1,9 @@
 # Jogo da Vida
 
+Este é o projeto final da disciplina [Fundamentos de Programação](https://github.com/gabrielcarloto/faculdade/tree/main/Fundamentos%20de%20Programa%C3%A7%C3%A3o), feito com o [André](https://github.com/andrelrv). Além de aplicar as [regras](#regras), fizemos uma interface interativa.
+
+O programa funciona apenas em plataformas Windows. O ideal é abrir o programa compilado (aka o `.exe`) diretamente, sem usar um emulador de terminal, pois algumas features (como a janela que se ajusta ao tamanho do jogo) podem não funcionar.
+
 ## Como funciona o jogo
 
 ### O que é?
