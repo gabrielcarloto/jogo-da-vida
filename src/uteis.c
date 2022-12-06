@@ -7,6 +7,21 @@
 #include "uteis.h"
 #include "celulas.h"
 
+char *alocaVetor(const int indices)
+{
+  char *vetor;
+
+  vetor = (char *)malloc(indices * sizeof(char));
+
+  if (vetor == NULL)
+  {
+    fprintf(stderr, "Erro ao alocar vetor.\n");
+    exit(1);
+  }
+
+  return vetor;
+}
+
 char **alocaMatriz(int nl, int nc)
 {
   int i;
@@ -21,15 +36,7 @@ char **alocaMatriz(int nl, int nc)
   }
 
   for (i = 0; i < nl; i++)
-  {
-    matriz[i] = (char *)malloc(nc * sizeof(char));
-
-    if (matriz[i] == NULL)
-    {
-      fprintf(stderr, "Erro ao alocar matriz.\n");
-      exit(1);
-    }
-  }
+    matriz[i] = alocaVetor(nc);
 
   return matriz;
 }

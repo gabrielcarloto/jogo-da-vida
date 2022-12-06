@@ -44,6 +44,14 @@
 char **alocaMatriz(int nl, int nc);
 
 /**
+ * @brief Aloca um vetor de `indices`
+ *
+ * @param indices Número de índices do vetor
+ * @return char *
+ */
+char *alocaVetor(const int indices);
+
+/**
  * @brief Libera memória alocada pela função alocaMatriz
  *
  * @param matriz Matriz a ser liberada
